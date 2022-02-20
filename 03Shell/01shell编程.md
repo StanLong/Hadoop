@@ -74,45 +74,6 @@ shell是一个程序，采用C语言编写，是用户和Linux内核沟通的桥
 0
 ```
 
-## 字符串操作
-
-```shell
-# 字符串准备
-[root@node01 ~]# a="hello"
-[root@node01 ~]# b="world"
-
-# 字符串拼接
-[root@node01 ~]# c=$a$b
-[root@node01 ~]# echo $c
-helloworld
-[root@node01 ~]# c=$a" "$b
-[root@node01 ~]# echo $c
-hello world
-
-# 取字符串的长度
-# echo ${#string}
-[root@node01 ~]# echo ${#a}
-5
-
-# 左边截取字符串
-# ${string: start :length}， 从0开始数
-[root@node01 ~]# echo ${a:0} # 从 0 截取到最后
-hello
-[root@node01 ~]# echo ${a:0:1} # 从0开始截取一个字符
-h
-
-# 右边截取字符串
-# ${string: 0-start :length} 从1开始数
-[root@node01 ~]# echo ${a:0-1} # 从右边截一个
-o
-[root@node01 ~]# echo ${a:0-2} # 从右边截两个
-lo
-[root@node01 ~]# echo ${a:0-2:1} # 截取的字符串保留一个
-l
-[root@node01 ~]# echo ${a:0-2:2} # 截取的字符串保留两个
-lo
-```
-
 ## 退出脚本
 
 ```shell
