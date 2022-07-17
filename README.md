@@ -32,7 +32,7 @@ https://zaixianwangyebianji.bmcx.com/
 		</tr>
 		<tr>
 			<td rowspan="7">
-				<span><span><span><span><span><span>hadoop2.9.2<br />
+				<span><span><span><span><span><span>hadoop2.10.2<br />
 </span> </span> </span> </span> </span> </span> 
 			</td>
 			<td>
@@ -40,7 +40,7 @@ https://zaixianwangyebianji.bmcx.com/
 </span> </span> </span> </span> </span> </span> 
 			</td>
 			<td>
-				<span><span><span><span><span><span><br />
+				<span><span><span><span><span><span><span>N</span><span>N</span><span>(</span><span>备</span><span>)</span><br />
 </span> </span> </span> </span> </span> </span> 
 			</td>
 			<td>
@@ -48,13 +48,13 @@ https://zaixianwangyebianji.bmcx.com/
 </span> </span> </span> </span> </span> </span> 
 			</td>
 			<td>
-				<span><span><span><span><span><span>NN(备)<br />
+				<span><span><span><span><span><span><br />
 </span> </span> </span> </span> </span> </span> 
 			</td>
 		</tr>
 		<tr>
 			<td>
-				<span><span><span><span><span><span><br />
+				<span><span><span><span><span><span><span>D</span><span>N</span><br />
 </span> </span> </span> </span> </span> </span> 
 			</td>
 			<td>
@@ -66,25 +66,25 @@ https://zaixianwangyebianji.bmcx.com/
 </span> </span> </span> </span> </span> </span> 
 			</td>
 			<td>
-				<span><span><span><span><span><span>DN<br />
+				<span><span><span><span><span><span><span>D</span><span>N</span><br />
 </span> </span> </span> </span> </span> </span> 
 			</td>
 		</tr>
 		<tr>
 			<td>
+				<span><span><span><span><span><span><span>Z</span><span>K</span><br />
+</span> </span> </span> </span> </span> </span> 
+			</td>
+			<td>
+				<span><span><span><span><span><span>ZK<br />
+</span> </span> </span> </span> </span> </span> 
+			</td>
+			<td>
+				<span><span><span><span><span><span><span>Z</span><span>K</span><br />
+</span> </span> </span> </span> </span> </span> 
+			</td>
+			<td>
 				<span><span><span><span><span><span><br />
-</span> </span> </span> </span> </span> </span> 
-			</td>
-			<td>
-				<span><span><span><span><span><span>ZK<br />
-</span> </span> </span> </span> </span> </span> 
-			</td>
-			<td>
-				<span><span><span><span><span><span>ZK<br />
-</span> </span> </span> </span> </span> </span> 
-			</td>
-			<td>
-				<span><span><span><span><span><span>ZK<br />
 </span> </span> </span> </span> </span> </span> 
 			</td>
 		</tr>
@@ -94,7 +94,7 @@ https://zaixianwangyebianji.bmcx.com/
 </span> </span> </span> </span> </span> </span> 
 			</td>
 			<td>
-				<span><span><span><span><span><span><br />
+				<span><span><span><span><span><span><span>Z</span><span>K</span><span>F</span><span>C</span><br />
 </span> </span> </span> </span> </span> </span> 
 			</td>
 			<td>
@@ -102,31 +102,31 @@ https://zaixianwangyebianji.bmcx.com/
 </span> </span> </span> </span> </span> </span> 
 			</td>
 			<td>
-				<span><span><span><span><span><span>ZKFC<br />
+				<span><span><span><span><span><span><br />
 </span> </span> </span> </span> </span> </span> 
 			</td>
 		</tr>
 		<tr>
 			<td>
+				<span><span><span><span><span><span><span>J</span><span>N</span><span>N</span><br />
+</span> </span> </span> </span> </span> </span> 
+			</td>
+			<td>
+				<span><span><span><span><span><span>JNN<br />
+</span> </span> </span> </span> </span> </span> 
+			</td>
+			<td>
+				<span><span><span><span><span><span>JNN<br />
+</span> </span> </span> </span> </span> </span> 
+			</td>
+			<td>
 				<span><span><span><span><span><span><br />
-</span> </span> </span> </span> </span> </span> 
-			</td>
-			<td>
-				<span><span><span><span><span><span>JNN<br />
-</span> </span> </span> </span> </span> </span> 
-			</td>
-			<td>
-				<span><span><span><span><span><span>JNN<br />
-</span> </span> </span> </span> </span> </span> 
-			</td>
-			<td>
-				<span><span><span><span><span><span>JNN<br />
 </span> </span> </span> </span> </span> </span> 
 			</td>
 		</tr>
 		<tr>
 			<td>
-				<span><span><span><span><span><span><br />
+				<span><span><span><span><span><span><span>R</span><span>S</span><br />
 </span> </span> </span> </span> </span> </span> 
 			</td>
 			<td>
@@ -134,7 +134,7 @@ https://zaixianwangyebianji.bmcx.com/
 </span> </span> </span> </span> </span> </span> 
 			</td>
 			<td>
-				<span><span><span><span><span><span>RS<br />
+				<span><span><span><span><span><span><br />
 </span> </span> </span> </span> </span> </span> 
 			</td>
 			<td>
@@ -144,19 +144,19 @@ https://zaixianwangyebianji.bmcx.com/
 		</tr>
 		<tr>
 			<td>
+				<span><span><span><span><span><span><span>NM</span><br />
+</span> </span> </span> </span> </span> </span> 
+			</td>
+			<td>
+				<span><span><span><span><span><span>NM<br />
+</span> </span> </span> </span> </span> </span> 
+			</td>
+			<td>
+				<span><span><span><span><span><span>NM<br />
+</span> </span> </span> </span> </span> </span> 
+			</td>
+			<td>
 				<span><span><span><span><span><span><br />
-</span> </span> </span> </span> </span> </span> 
-			</td>
-			<td>
-				<span><span><span><span><span><span>NM<br />
-</span> </span> </span> </span> </span> </span> 
-			</td>
-			<td>
-				<span><span><span><span><span><span>NM<br />
-</span> </span> </span> </span> </span> </span> 
-			</td>
-			<td>
-				<span><span><span><span><span><span>NM<br />
 </span> </span> </span> </span> </span> </span> 
 			</td>
 		</tr>
@@ -172,11 +172,11 @@ https://zaixianwangyebianji.bmcx.com/
 				<span><span><span><span><span><span>客户端</span> </span> </span> </span> </span> </span> 
 			</td>
 			<td>
-				<span><span><span><span><span><span><span>客户端</span><br />
+				<span><span><span><span><span><span><br />
 </span> </span> </span> </span> </span> </span> 
 			</td>
 			<td>
-				<span><span><span><span><span><span><span>客户端</span><br />
+				<span><span><span><span><span><span><br />
 </span> </span> </span> </span> </span> </span> 
 			</td>
 		</tr>
@@ -194,11 +194,11 @@ https://zaixianwangyebianji.bmcx.com/
 </span> </span> </span> </span> </span> </span> 
 			</td>
 			<td>
-				<span><span><span><span><span><span>kafka<br />
+				<span><span><span><span><span><span><br />
 </span> </span> </span> </span> </span> </span> 
 			</td>
 			<td>
-				<span><span><span><span><span><span>kafka<br />
+				<span><span><span><span><span><span><br />
 </span> </span> </span> </span> </span> </span> 
 			</td>
 		</tr>
@@ -207,7 +207,7 @@ https://zaixianwangyebianji.bmcx.com/
 				<span><span><span><span><span>spark-3.0.0<span id="__kindeditor_bookmark_start_22__"></span></span> </span> </span> </span> </span> 
 			</td>
 			<td>
-				<span><span><span><span><span>local模式，YARN模式</span> </span> </span> </span> </span> 
+				<span><span><span><span><span>YARN模式</span> </span> </span> </span> </span> 
 			</td>
 			<td>
 				<span><span><span><span><span><span><br />
@@ -224,7 +224,7 @@ https://zaixianwangyebianji.bmcx.com/
 		</tr>
 		<tr>
 			<td>
-				<span><span><span><span><span>Java&nbsp;1.8.0_321</span> </span> </span> </span> </span> 
+				<span><span><span><span><span>Java&nbsp;1.8.0_331</span> </span> </span> </span> </span> 
 			</td>
 			<td>
 				<span><span><span><span><span>java</span></span> </span> </span> </span> 
@@ -244,7 +244,7 @@ https://zaixianwangyebianji.bmcx.com/
 		</tr>
 		<tr>
 			<td>
-				<span><span><span><span><span><span>mysql 5.6</span></span> </span> </span> </span> </span> 
+				<span><span><span><span><span><span>mysql 5.7</span></span></span></span></span></span>
 			</td>
 			<td>
 				<span><span><span><span><span><span>Server/Client</span></span> </span> </span> </span> </span> 
@@ -288,8 +288,7 @@ https://zaixianwangyebianji.bmcx.com/
 </span> </span> </span> </span> </span> </span> 
 			</td>
 			<td>
-				<span><span><span><span><span><span><br />
-</span> </span> </span> </span> </span> </span> 
+				zk
 			</td>
 			<td>
 				<span><span><span><span><span><span>zk</span></span></span> </span> </span> </span> 
@@ -299,7 +298,7 @@ https://zaixianwangyebianji.bmcx.com/
 </span> </span> </span> </span> </span> </span> 
 			</td>
 			<td>
-				<span><span><span><span><span><span>zk<br />
+				<span><span><span><span><span><span><br />
 </span> </span> </span> </span> </span> </span> 
 			</td>
 		</tr>
@@ -309,19 +308,19 @@ https://zaixianwangyebianji.bmcx.com/
 </span> </span> </span> </span> </span> </span> 
 			</td>
 			<td>
-				<span><span><span><span><span><span>flume 采集<br />
+				<span><span><span><span><span><span><span id="__kindeditor_bookmark_start_134__"></span>flume 采集<span id="__kindeditor_bookmark_end_135__"></span><br />
 </span> </span> </span> </span> </span> </span> 
 			</td>
 			<td>
-				<span><span><span><span><span><span>flume 采集<br />
+				<span><span><span><span><span><span><span>flume消费</span><br />
 </span> </span> </span> </span> </span> </span> 
 			</td>
 			<td>
-				<span><span><span><span><span><span>flume消费<br />
+				<span><span><span><span><span><span><br />
 </span> </span> </span> </span> </span> </span> 
 			</td>
 			<td>
-				<span><span><span><span><span><span>flume消费<br />
+				<span><span><span><span><span><span><br />
 </span> </span> </span> </span> </span> </span> 
 			</td>
 		</tr>
@@ -331,7 +330,7 @@ https://zaixianwangyebianji.bmcx.com/
 </span> </span> </span> </span> </span> </span> 
 			</td>
 			<td>
-				<span><span><span><span><span><span><br />
+				<span><span><span><span><span><span><span>sqoop</span><br />
 </span> </span> </span> </span> </span> </span> 
 			</td>
 			<td>
@@ -343,7 +342,7 @@ https://zaixianwangyebianji.bmcx.com/
 </span> </span> </span> </span> </span> </span> 
 			</td>
 			<td>
-				<span><span><span><span><span>sqoop</span></span></span></span> </span> 
+				<br />
 			</td>
 		</tr>
 		<tr>
@@ -356,7 +355,7 @@ https://zaixianwangyebianji.bmcx.com/
 </span> </span> </span> </span> </span> </span> 
 			</td>
 			<td>
-				<span><span><span><span><span><span><span style="color:#333333;font-family:&quot;font-size:16px;background-color:#F8F8F8;">HRegionServer</span><br />
+				<span><span><span><span><span><span><span style="color:#333333;font-family:&quot;font-size:16px;background-color:#F8F8F8;"><span style="color:#333333;font-family:&quot;font-size:16px;background-color:#FFFFFF;">H</span><span style="color:#333333;font-family:&quot;font-size:16px;background-color:#FFFFFF;">Master(主)</span></span><br />
 </span> </span> </span> </span> </span> </span> 
 			</td>
 			<td>
@@ -364,7 +363,7 @@ https://zaixianwangyebianji.bmcx.com/
 </span> </span> </span> </span> </span> </span> 
 			</td>
 			<td>
-				<span><span><span><span><span><span><span style="color:#333333;font-family:&quot;font-size:16px;background-color:#FFFFFF;">HMaster(主)</span><br />
+				<span><span><span><span><span><span><span style="color:#333333;font-family:&quot;font-size:16px;background-color:#F8F8F8;"></span><span style="color:#333333;font-family:&quot;font-size:16px;background-color:#F8F8F8;">HRegio</span><span style="color:#333333;font-family:&quot;font-size:16px;background-color:#F8F8F8;">n</span><span style="color:#333333;font-family:&quot;font-size:16px;background-color:#F8F8F8;">S</span><span style="color:#333333;font-family:&quot;font-size:16px;background-color:#F8F8F8;">e</span><span style="color:#333333;font-family:&quot;font-size:16px;background-color:#F8F8F8;">r</span><span style="color:#333333;font-family:&quot;font-size:16px;background-color:#F8F8F8;">v</span><span style="color:#333333;font-family:&quot;font-size:16px;background-color:#F8F8F8;">e</span><span style="color:#333333;font-family:&quot;font-size:16px;background-color:#F8F8F8;">r</span><br />
 </span> </span> </span> </span> </span> </span> 
 			</td>
 		</tr>
