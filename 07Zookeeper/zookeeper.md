@@ -21,21 +21,21 @@
 ### 解压
 
 ```shell
-[root@node02 ~]# tar -zxf zookeeper-3.4.11.tar.gz -C /opt/stanlong/
+[root@node01 ~]# tar -zxf zookeeper-3.4.11.tar.gz -C /opt/stanlong/
 ```
 
 ### 配置环境变量
 
 ```shell
-[root@node02 zookeeper-3.4.11]# pwd
+[root@node01 zookeeper-3.4.11]# pwd
 /opt/stanlong/zookeeper-3.4.11
-[root@node02 zookeeper-3.4.11]# vi /etc/profile
+[root@node01 zookeeper-3.4.11]# vi /etc/profile
 
 export ZOOKEEPER_HOME=/opt/stanlong/zookeeper-3.4.11
 export PATH=$PATH:$JAVA_HOME/bin:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$ZOOKEEPER_HOME/bin
 
-[root@node02 zookeeper-3.4.11]# source /etc/profile
-[root@node02 zookeeper-3.4.11]# zk # 命令能自动补全zookeeper环境变量生效
+[root@node01 zookeeper-3.4.11]# source /etc/profile
+[root@node01 zookeeper-3.4.11]# zk # 命令能自动补全zookeeper环境变量生效
 zkCleanup.sh  zkCli.cmd     zkCli.sh      zkEnv.cmd     zkEnv.sh      zkServer.cmd  zkServer.sh 
 ```
 
@@ -44,15 +44,10 @@ zkCleanup.sh  zkCli.cmd     zkCli.sh      zkEnv.cmd     zkEnv.sh      zkServer.c
 注意所有的注释都不要写在键值对后面
 
 ```shell
-[root@node02 conf]# pwd
+[root@node01 conf]# pwd
 /opt/stanlong/zookeeper-3.4.11/conf
-[root@node02 conf]# ll
-total 12
--rw-r--r-- 1 502 games  535 Nov  2  2017 configuration.xsl
--rw-r--r-- 1 502 games 2161 Nov  2  2017 log4j.properties
--rw-r--r-- 1 502 games  922 Nov  2  2017 zoo_sample.cfg
-[root@node02 conf]# cp zoo_sample.cfg zoo.cfg
-[root@node02 conf]# vi zoo.cfg 
+[root@node01 conf]# cp zoo_sample.cfg zoo.cfg
+[root@node01 conf]# vi zoo.cfg 
 ```
 
 ```properties
@@ -93,10 +88,65 @@ server.2=192.168.235.12:2888:3888
 server.3=192.168.235.13:2888:3888
 ```
 
+### 配置myid文件
+
 ```shell
+[root@node01 ~]# mkdir -p /var/data/zk
+[root@node02 ~]# mkdir -p /var/data/zk
+[root@node03 ~]# mkdir -p /var/data/zk
+
+[root@node01 ~]# echo 1 > /var/data/zk/myid # 把配置的server数字覆盖到数据目录myid这个文件
 [root@node02 ~]# echo 2 > /var/data/zk/myid # 把配置的server数字覆盖到数据目录myid这个文件
 [root@node03 ~]# echo 3 > /var/data/zk/myid # 把配置的server数字覆盖到数据目录myid这个文件
-[root@node04 ~]# echo 4 > /var/data/zk/myid # 把配置的server数字覆盖到数据目录myid这个文件
+```
+
+### 配置日志路径
+
+```shell
+# 新建日志目录
+[root@node01 zookeeper-3.4.11]# pwd
+/opt/stanlong/zookeeper/zookeeper-3.4.11
+[root@node01 zookeeper-3.4.11]# mkdir logs
+
+----------------------------------------------------------------------------------
+# 修改log4j.properties
+[root@node01 conf]# pwd
+/opt/stanlong/zookeeper/zookeeper-3.4.11/conf
+[root@node01 conf]# vi log4j.properties 
+
+# 原配置
+zookeeper.root.logger=INFO, CONSOLE
+ 
+# 修改后的配置
+zookeeper.root.logger=INFO, ROLLINGFILE
+----------------------------------------------------------------------------------
+# 修改bin/zkEnv.sh
+[root@node01 bin]# pwd
+/opt/stanlong/zookeeper/zookeeper-3.4.11/bin
+[root@node01 bin]# vi zkEnv.sh 
+
+# 以下是原配置
+if [ "x${ZOO_LOG_DIR}" = "x" ]
+then
+    ZOO_LOG_DIR="."
+fi
+ 
+if [ "x${ZOO_LOG4J_PROP}" = "x" ]
+then
+    ZOO_LOG4J_PROP="INFO,CONSOLE"
+fi
+ 
+ 
+# 以下是修改后配置
+if [ "x${ZOO_LOG_DIR}" = "x" ]
+then
+    ZOO_LOG_DIR="/opt/stanlong/zookeeper/zookeeper-3.4.11/logs"
+fi
+ 
+if [ "x${ZOO_LOG4J_PROP}" = "x" ]
+then
+    ZOO_LOG4J_PROP="INFO,ROLLINGFILE"
+fi
 ```
 
 ### 分发zookeeper
@@ -104,17 +154,10 @@ server.3=192.168.235.13:2888:3888
 分发脚本参考 23自定义集群脚本/分发脚本
 
 ```shell
-[root@node02 myshell]# ./rsyncd.sh /opt/stanlong/zookeeper-3.4.11/
+[root@node01 myshell]# ./rsyncd.sh /opt/stanlong/zookeeper-3.4.11/
 ```
 
-**配置node02，03，04上的zookeeper数据目录和myid文件**
-
-```shell
-[root@node02 ~]# mkdir -p /var/data/zk
-[root@node02 ~]# echo 2 > /var/data/zk/myid
-```
-
-**配置node02，03，04上的环境变量**
+**配置node02，03上的环境变量**
 
 ```shell
 [root@node02 ~]# vi /etc/profile
@@ -122,7 +165,7 @@ server.3=192.168.235.13:2888:3888
 81 export PATH=$PATH:$JAVA_HOME/bin:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$ZOOKEEPER_HOME/bin
 ```
 
-**使node02，03，04上的环境变量生效**
+**使node02，03上的环境变量生效**
 
 ```shell
 [root@node02 ~]# source /etc/profile
@@ -134,9 +177,18 @@ zkCleanup.sh  zkCli.cmd     zkCli.sh      zkEnv.cmd     zkEnv.sh      zkServer.c
 
 ### 启动zookeeper
 
-按node02，node03，node04的顺序启动(其实顺序无所谓)
+按node01,  node02，node03的顺序启动(其实顺序无所谓)
 
 ```shell
+[root@node01 ~]# zkServer.sh start
+ZooKeeper JMX enabled by default
+Using config: /opt/stanlong/zookeeper-3.4.11/bin/../conf/zoo.cfg
+Starting zookeeper ... STARTED
+[root@node01 ~]# zkServer.sh status
+ZooKeeper JMX enabled by default
+Using config: /opt/stanlong/zookeeper-3.4.11/bin/../conf/zoo.cfg
+Error contacting service. It is probably not running. # 说明zookeeper 启动数量未过半
+
 [root@node02 ~]# zkServer.sh start
 ZooKeeper JMX enabled by default
 Using config: /opt/stanlong/zookeeper-3.4.11/bin/../conf/zoo.cfg
@@ -144,22 +196,13 @@ Starting zookeeper ... STARTED
 [root@node02 ~]# zkServer.sh status
 ZooKeeper JMX enabled by default
 Using config: /opt/stanlong/zookeeper-3.4.11/bin/../conf/zoo.cfg
-Error contacting service. It is probably not running. # 说明zookeeper 启动数量未过半
+Mode: leader # zookeeper节点启动数量过半， node03 被选为leader
 
 [root@node03 ~]# zkServer.sh start
 ZooKeeper JMX enabled by default
 Using config: /opt/stanlong/zookeeper-3.4.11/bin/../conf/zoo.cfg
 Starting zookeeper ... STARTED
 [root@node03 ~]# zkServer.sh status
-ZooKeeper JMX enabled by default
-Using config: /opt/stanlong/zookeeper-3.4.11/bin/../conf/zoo.cfg
-Mode: leader # zookeeper节点启动数量过半， node03 被选为leader
-
-[root@node04 ~]# zkServer.sh start
-ZooKeeper JMX enabled by default
-Using config: /opt/stanlong/zookeeper-3.4.11/bin/../conf/zoo.cfg
-Starting zookeeper ... STARTED
-[root@node04 ~]# zkServer.sh status
 ZooKeeper JMX enabled by default
 Using config: /opt/stanlong/zookeeper-3.4.11/bin/../conf/zoo.cfg
 Mode: follower # 其他节点都被选为 follower

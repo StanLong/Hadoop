@@ -16,9 +16,9 @@ Hive中搭建分为三种方式 `内嵌Derby方式` 、`Local方式`、 `Remote�
 
 ## 节点规划
 
-| 服务器端(apache-hive-2.3.9-bin.tar.gz) | 客户端(apache-hive-2.3.9-bin.tar.gz) |
+| 服务器端(apache-hive-1.2.2-bin.tar.gz) | 客户端(apache-hive-1.2.2-bin.tar.gz) |
 | -------------------------------------- | ------------------------------------ |
-| node01                                 | node02, node03, node04               |
+| node01                                 | node02                               |
 
 ## Hive安装部署
 
@@ -36,7 +36,7 @@ Hive中搭建分为三种方式 `内嵌Derby方式` 、`Local方式`、 `Remote�
 
 ```shell
 [root@node01 bin]# pwd
-/opt/stanlong/hive/apache-hive-2.3.9-bin
+/opt/stanlong/hive/apache-hive-1.2.1-bin
 [root@node01 bin]# vi /etc/profile # 在文件最后添加
 export HIVE_HOME=/opt/stanlong/hive/apache-hive-2.3.9-bin  # HIVE环境变量
 export PATH=$PATH:$JAVA_HOME/bin:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$HIVE_HOME/bin
@@ -76,10 +76,10 @@ history         hive            hive-config.sh  hiveserver2
 ... 省略掉文件中的注释
 
 # 配置hive需要的第三方jar包路径，这里引入配置了lzo
-export HIVE_AUX_JARS_PATH=/opt/stanlong/hadoop-ha/hadoop-2.9.2/share/hadoop/common
+export HIVE_AUX_JARS_PATH=/opt/stanlong/hadoop-ha/hadoop-2.10.2/share/hadoop/common
 
 # 配置Hadoop环境变量，在/etc/profile里配置过的话，这里也可以不用再配置
-export HADOOP_HOME=/opt/stanlong/hadoop-ha/hadoop-2.9.2
+export HADOOP_HOME=/opt/stanlong/hadoop/hadoop-2.10.2
 
 # 配置Hive配置文件的路径
 export HIVE_CONF_DIR=/opt/stanlong/hive/apache-hive-1.2.2-bin/conf
@@ -233,7 +233,7 @@ mysql> select * from DBS;
 
 ### Remote方式
 
-采取服务端和客户端分离的方式安装，按节点规划，服务端在node01，客户端在node02，node03, node04上. 客户端与服务端之间通过 thrift 协议通信，端口号9083
+采取服务端和客户端分离的方式安装，按节点规划，服务端在node01，客户端在node02上. 客户端与服务端之间通过 thrift 协议通信，端口号9083
 
 1. 分发node01上的hive目录到客户端节点
 
@@ -241,26 +241,17 @@ mysql> select * from DBS;
    [root@node01 stanlong]# pwd
    /opt/stanlong
    [root@node01 stanlong]# scp -r hive/ node02:`pwd`
-   [root@node01 stanlong]# scp -r hive/ node03:`pwd`
-   [root@node01 stanlong]# scp -r hive/ node04:`pwd`
    ```
-
+   
 2. 分发 node01 上的 /etc/profile 文件到客户端节点. 并使文件生效
 
    ```shell
    [root@node01 ~]# scp /etc/profile node02:/etc/profile
-   [root@node01 ~]# scp /etc/profile node03:/etc/profile
-   [root@node01 ~]# scp /etc/profile node04:/etc/profile
    [root@node02 stanlong]# source /etc/profile
    [root@node02 stanlong]# hi
    history         hive/           hive-config.sh  hiveserver2 
-   [root@node03 stanlong]# source /etc/profile
-   [root@node03 stanlong]# hi
-   history         hive/           hive-config.sh  hiveserver2 
-   [root@node04 stanlong]# hi
-   history         hive/           hive-config.sh  hiveserver2 
    ```
-
+   
 3. node01 后台启动
 
    ```shell
@@ -324,7 +315,7 @@ Beeline version 2.3.9 by Apache Hive
 0: jdbc:hive2://node01:10000> 
 ```
 
-配置beeline别名, 配置好之后，分发到node03，node04上去
+配置beeline别名
 
 ```shell
 [root@node02 etc]# vi /etc/bashrc
