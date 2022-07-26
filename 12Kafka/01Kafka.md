@@ -56,9 +56,9 @@ Follower跟随Leader，所有写请求都通过Leader路由，数据变更会广
 
 2.13是scala的版本号，2.5.0是kafka的版本号
 
-| kafka_2.13-2.5.0 | node01 | node02 | node03 | node04 |
-| ---------------- | ------ | ------ | ------ | ------ |
-| kafka            | kafka  | kafka  | kafka  | kafka  |
+| kafka_2.13-2.5.0 | node01 | node02 | node03 |
+| ---------------- | ------ | ------ | ------ |
+| kafka            | kafka  | kafka  | kafka  |
 
 ## 安装
 
@@ -157,7 +157,7 @@ log.retention.check.interval.ms=300000
 # You can also append an optional chroot string to the urls to specify the
 # root directory for all kafka znodes.
 # 配置zookeeper地址
-zookeeper.connect=node02:2181,node03:2181,node04:2181
+zookeeper.connect=node01:2181,node02:2181,node03:2181
 
 # Timeout in ms for connecting to zookeeper
 zookeeper.connection.timeout.ms=18000
@@ -180,7 +180,7 @@ group.initial.rebalance.delay.ms=0
 [root@node01 kafka]# ~/myshell/rsyncd.sh kafka/
 ```
 
-分发完成后到`node02，node03，node04`上去，改 `server.properties` 里`broker.id`的值分别为` 2，3，4`
+分发完成后到`node02，node03`上去，改 `server.properties` 里`broker.id`的值分别为` 2，3`
 
 ## 启动kafka
 

@@ -29,7 +29,7 @@ Hive中搭建分为三种方式 `内嵌Derby方式` 、`Local方式`、 `Remote�
 ### 解压
 
 ```shell
-[root@node01 ~]# tar -zxf apache-hive-2.3.9-bin.tar.gz -C /opt/stanlong/hive
+[root@node01 ~]# tar -zxf apache-hive-1.2.1-bin.tar.gz -C /opt/stanlong/hive
 ```
 
 ### 配置hive环境变量
@@ -38,7 +38,7 @@ Hive中搭建分为三种方式 `内嵌Derby方式` 、`Local方式`、 `Remote�
 [root@node01 bin]# pwd
 /opt/stanlong/hive/apache-hive-1.2.1-bin
 [root@node01 bin]# vi /etc/profile # 在文件最后添加
-export HIVE_HOME=/opt/stanlong/hive/apache-hive-2.3.9-bin  # HIVE环境变量
+export HIVE_HOME=/opt/stanlong/hive/apache-hive-1.2.1-bin  # HIVE环境变量
 export PATH=$PATH:$JAVA_HOME/bin:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$HIVE_HOME/bin
 [root@node01 bin]# source /etc/profile # 使配置文件生效
 [root@node01 bin]# hi # 命令提示
@@ -59,7 +59,7 @@ history         hive            hive-config.sh  hiveserver2
 
 ```shell
 [root@node01 lib]# pwd
-/opt/stanlong/hive/apache-hive-2.3.9-bin/lib
+/opt/stanlong/hive/apache-hive-1.2.2-bin/lib
 [root@node01 lib]# mv ~/mysql-connector-java-5.1.37.jar .
 ```
 
@@ -67,7 +67,7 @@ history         hive            hive-config.sh  hiveserver2
 
 ```shell
 [root@node01 conf]# pwd
-/opt/stanlong/hive/apache-hive-2.3.9-bin/conf
+/opt/stanlong/hive/apache-hive-1.2.2-bin/conf
 [root@node01 conf]# cp hive-env.sh.template hive-env.sh
 [root@node01 conf]# vi hive-env.sh
 ```
@@ -75,7 +75,7 @@ history         hive            hive-config.sh  hiveserver2
 ```properties
 ... 省略掉文件中的注释
 
-# 配置hive需要的第三方jar包路径，这里引入配置了lzo
+# 配置hive需要的第三方jar包路径，不然启动hive可能会报错
 export HIVE_AUX_JARS_PATH=/opt/stanlong/hadoop-ha/hadoop-2.10.2/share/hadoop/common
 
 # 配置Hadoop环境变量，在/etc/profile里配置过的话，这里也可以不用再配置
@@ -104,7 +104,7 @@ export HIVE_CONF_DIR=/opt/stanlong/hive/apache-hive-1.2.2-bin/conf
 
    ```shell
 [root@node01 conf]# pwd
-/opt/stanlong/hive/apache-hive-2.3.9-bin/conf
+/opt/stanlong/hive/apache-hive-1.2.1-bin/conf
 [root@node01 conf]# vi hive-site.xml
    ```
 
@@ -145,7 +145,7 @@ export HIVE_CONF_DIR=/opt/stanlong/hive/apache-hive-1.2.2-bin/conf
         <name>hive.cli.print.current.db</name>
         <value>true</value>
     </property>
-    <!-- hive 升级到 2.3.9 版本后需要增加如下配置 -->
+    <!-- hive 升级到 1.2.1 版本后需要增加如下配置 -->
     <!-- 关闭metastore版本验证 -->
     <property>
         <name>hive.metastore.schema.verification</name>
@@ -165,6 +165,11 @@ export HIVE_CONF_DIR=/opt/stanlong/hive/apache-hive-1.2.2-bin/conf
     <property>
         <name>hive.server2.thrift.port</name>
         <value>10000</value>
+    </property>
+    <!-- hiveserver2的高可用参数，开启此参数可以提高hiveserver2的启动速度 -->
+    <property>
+        <name>hive.server2.active.passive.ha.enable</name>
+        <value>true</value>
     </property>
 </configuration>
    ```
@@ -190,7 +195,7 @@ schemaTool completed
 [root@node01 ~]# hive
 21/01/23 18:36:46 WARN conf.HiveConf: HiveConf of name hive.metastore.local does not exist
 
-Logging initialized using configuration in jar:file:/opt/stanlong/hive/apache-hive-2.3.9-bin/lib/hive-common-2.3.9.jar!/hive-log4j.properties
+Logging initialized using configuration in jar:file:/opt/stanlong/hive/apache-hive-1.2.1-bin/lib/hive-common-1.2.1.jar!/hive-log4j.properties
 hive (default)> 
 ```
 
@@ -287,7 +292,7 @@ mysql> select * from DBS;
    ```shell
    [root@node02 ~]# hive
    
-   Logging initialized using configuration in jar:file:/opt/stanlong/hive/apache-hive-2.3.9-bin/lib/hive-common-2.3.9.jar!/hive-log4j.properties
+   Logging initialized using configuration in jar:file:/opt/stanlong/hive/apache-hive-1.2.1-bin/lib/hive-common-1.2.1.jar!/hive-log4j.properties
    hive> 
    ```
    
@@ -308,10 +313,10 @@ mysql> select * from DBS;
 ```shell
 [root@node02 conf]# beeline -u "jdbc:hive2://node01:10000"  -n root -p root
 Connecting to jdbc:hive2://node01:10000
-Connected to: Apache Hive (version 2.3.9)
-Driver: Hive JDBC (version 2.3.9)
+Connected to: Apache Hive (version 1.2.1)
+Driver: Hive JDBC (version 1.2.1)
 Transaction isolation: TRANSACTION_REPEATABLE_READ
-Beeline version 2.3.9 by Apache Hive
+Beeline version 1.2.1 by Apache Hive
 0: jdbc:hive2://node01:10000> 
 ```
 
@@ -330,7 +335,7 @@ alias beeline="beeline -u jdbc:hive2://node01:10000  -n root -p root"
 
 ```shell
 [root@node01 conf]# pwd
-/opt/stanlong/hive/apache-hive-2.3.9-bin/conf
+/opt/stanlong/hive/apache-hive-1.2.1-bin/conf
 [root@node01 conf]# vi hive-log4j.properties.template 
 18 hive.log.threshold=ALL
 19 hive.root.logger=INFO,DRFA
@@ -345,4 +350,3 @@ alias beeline="beeline -u jdbc:hive2://node01:10000  -n root -p root"
 [root@node01 root]# ll
 -rw-r--r-- 1 root root 383198 Jan 25 06:06 hive.log
 ```
-

@@ -54,10 +54,10 @@ Sink组件目的地包括hdfs、logger、avro、thrift、ipc、file、null、HBa
 
 ## 节点规划
 
-| flume-1.9.0 | node01     | node02     | node03    | node04    |
-| ----------- | ---------- | ---------- | --------- | --------- |
-| flume 采集  | flume 采集 | flume 采集 |           |           |
-| flume消费   |            |            | flume消费 | flume消费 |
+| flume-1.9.0 | node01     | node02     |
+| ----------- | ---------- | ---------- |
+| flume 采集  | flume 采集 |            |
+| flume消费   |            | flume 消费 |
 
 ## 安装
 
