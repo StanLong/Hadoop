@@ -12,45 +12,45 @@ Kafka 是一个分布式的基于发布/订阅模式的**消息队列**，主要
 
 ## 组件
 
-**Producer** 
+- **Producer** 
 
-生产者即数据的发布者，该角色将消息发布到Kafka的topic中。broker接收到生产者发送的消息后，broker将该消息追加到当前用于追加数据的segment文件中。生产者发送的消息，存储到一个partition中，生产者也可以指定数据存储的partition。
+  生产者即数据的发布者，该角色将消息发布到Kafka的topic中。broker接收到生产者发送的消息后，broker将该消息追加到当前用于追加数据的segment文件中。生产者发送的消息，存储到一个partition中，生产者也可以指定数据存储的partition。
 
-**Consumer** 
+- **Consumer** 
 
-消息消费者，向 kafka broker 取消息的客户端，消费者可以消费多个topic中的数据
+  消息消费者，向 kafka broker 取消息的客户端，消费者可以消费多个topic中的数据
 
-**Topic** 
+- **Topic** 
 
-每条发布到Kafka集群的消息都有一个类别，这个类别被称为Topic；
+  每条发布到Kafka集群的消息都有一个类别，这个类别被称为Topic；
 
-**Consumer Group **
+- **Consumer Group **
 
-消费者组由多个 consumer 组成。消费者组内每个消费者负责消费不同分区的数据，一个分区只能由一个组内消费者消费；消费者组之间互不影响。所有的消费者都属于某个消费者组，即消费者组是逻辑上的一个订阅者。消费者的个数不能超过分区的个数 ，多的消费者会消费不到数据。
+  消费者组由多个 consumer 组成。消费者组内每个消费者负责消费不同分区的数据，一个分区只能由一个组内消费者消费；消费者组之间互不影响。所有的消费者都属于某个消费者组，即消费者组是逻辑上的一个订阅者。消费者的个数不能超过分区的个数 ，多的消费者会消费不到数据。
 
-**Broker** 
+- **Broker** 
 
-一台 kafka 服务器就是一个 broker。一个集群由多个 broker 组成。一个 broker可以容纳多个 topic；
+  一台 kafka 服务器就是一个 broker。一个集群由多个 broker 组成。一个 broker可以容纳多个 topic；
 
-**Partition**
+- **Partition**
 
-为了方便扩展，并提高吞吐量，一个topic分为多个partition。每个 partition 是一个有序的队列。partition 中的每条消息都会被分配一个有序的 id（offset）。kafka 只保证按一个 partition 中的顺序将消息发给consumer，不保证一个 topic 的整体（多个 partition 间）的顺序；
+  为了方便扩展，并提高吞吐量，一个topic分为多个partition。每个 partition 是一个有序的队列。partition 中的每条消息都会被分配一个有序的 id（offset）。kafka 只保证按一个 partition 中的顺序将消息发给consumer，不保证一个 topic 的整体（多个 partition 间）的顺序；
 
-**Replica**
+- **Replica**
 
-副本，为保证集群中的某个节点发送故障时，该节点上的partition数据不丢失，且kafka仍然能够正常工作。一个topic的每个分区都有若干个副本，一个leader和若干个follower
+  副本，为保证集群中的某个节点发送故障时，该节点上的partition数据不丢失，且kafka仍然能够正常工作。一个topic的每个分区都有若干个副本，一个leader和若干个follower
 
-**Offset**
+- **Offset**
 
-kafka 的存储文件都是按照 offset.kafka 来命名，用 offset 做名字的好处是方便查找。例如你想找位于 2049 的位置，只要找到 2048.kafka 的文件即可。当然 the first offset 就是 00000000000.kafka。
+  kafka 的存储文件都是按照 offset.kafka 来命名，用 offset 做名字的好处是方便查找。例如你想找位于 2049 的位置，只要找到 2048.kafka 的文件即可。当然 the first offset 就是 00000000000.kafka。
 
-**Leader**
+- **Leader**
 
-每个partition有多个副本，其中有且仅有一个作为Leader，Leader是当前负责数据的读写的partition
+  每个partition有多个副本，其中有且仅有一个作为Leader，Leader是当前负责数据的读写的partition
 
-**Follower**
+- **Follower**
 
-Follower跟随Leader，所有写请求都通过Leader路由，数据变更会广播给所有Follower，Follower与Leader保持数据同步。如果Leader失效，则从Follower中选举出一个新的Leader。当Follower与Leader挂掉、卡住或者同步太慢，leader会把这个follower从“in sync replicas”（ISR）列表中删除，重新创建一个Follower
+  Follower跟随Leader，所有写请求都通过Leader路由，数据变更会广播给所有Follower，Follower与Leader保持数据同步。如果Leader失效，则从Follower中选举出一个新的Leader。当Follower与Leader挂掉、卡住或者同步太慢，leader会把这个follower从“in sync replicas”（ISR）列表中删除，重新创建一个Follower
 
 ## 节点规划
 
@@ -80,15 +80,45 @@ drwxr-xr-x 6 root root 89 Apr  8  2020 kafka
 ```
 
 ```properties
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# see kafka.server.KafkaConfig for additional details and defaults
 
 ############################# Server Basics #############################
 
 # The id of the broker. This must be set to a unique integer for each broker.
-# broker.id 是唯一的整数，集群里每台机器都不一样
-broker.id=1 
-
+broker.id=1
+advertised.host.name=node01
 ############################# Socket Server Settings #############################
 
+# The address the socket server listens on. It will get the value returned from 
+# java.net.InetAddress.getCanonicalHostName() if not configured.
+#   FORMAT:
+#     listeners = listener_name://host_name:port
+#   EXAMPLE:
+#     listeners = PLAINTEXT://your.host.name:9092
+listeners=PLAINTEXT://:9092
+
+# Hostname and port the broker will advertise to producers and consumers. If not set, 
+# it uses the value for "listeners" if configured.  Otherwise, it will use the value
+# returned from java.net.InetAddress.getCanonicalHostName().
+advertised.listeners=PLAINTEXT://node01:9092
+
+# Maps listener names to security protocols, the default is for them to be the same. See the config documentation for more details
+#listener.security.protocol.map=PLAINTEXT:PLAINTEXT,SSL:SSL,SASL_PLAINTEXT:SASL_PLAINTEXT,SASL_SSL:SASL_SSL
 
 # The number of threads that the server uses for receiving requests from the network and sending responses to the network
 num.network.threads=3
@@ -109,7 +139,6 @@ socket.request.max.bytes=104857600
 ############################# Log Basics #############################
 
 # A comma separated list of directories under which to store log files
-# 定义日志目录
 log.dirs=/var/data/kafka
 
 # The default number of log partitions per topic. More partitions allow greater
@@ -127,6 +156,23 @@ num.recovery.threads.per.data.dir=1
 offsets.topic.replication.factor=1
 transaction.state.log.replication.factor=1
 transaction.state.log.min.isr=1
+
+############################# Log Flush Policy #############################
+
+# Messages are immediately written to the filesystem but by default we only fsync() to sync
+# the OS cache lazily. The following configurations control the flush of data to disk.
+# There are a few important trade-offs here:
+#    1. Durability: Unflushed data may be lost if you are not using replication.
+#    2. Latency: Very large flush intervals may lead to latency spikes when the flush does occur as there will be a lot of data to flush.
+#    3. Throughput: The flush is generally the most expensive operation, and a small flush interval may lead to excessive seeks.
+# The settings below allow one to configure the flush policy to flush data after a period of time or
+# every N messages (or both). This can be done globally and overridden on a per-topic basis.
+
+# The number of messages to accept before forcing a flush of data to disk
+#log.flush.interval.messages=10000
+
+# The maximum amount of time a message can sit in a log before we force a flush
+#log.flush.interval.ms=1000
 
 ############################# Log Retention Policy #############################
 
@@ -156,11 +202,11 @@ log.retention.check.interval.ms=300000
 # server. e.g. "127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002".
 # You can also append an optional chroot string to the urls to specify the
 # root directory for all kafka znodes.
-# 配置zookeeper地址
 zookeeper.connect=node01:2181,node02:2181,node03:2181
 
 # Timeout in ms for connecting to zookeeper
 zookeeper.connection.timeout.ms=18000
+
 
 ############################# Group Coordinator Settings #############################
 
@@ -170,6 +216,8 @@ zookeeper.connection.timeout.ms=18000
 # We override this to 0 here as it makes for a better out-of-the-box experience for development and testing.
 # However, in production environments the default value of 3 seconds is more suitable as this will help to avoid unnecessary, and potentially expensive, rebalances during application startup.
 group.initial.rebalance.delay.ms=0
+# 这个配置好像没多大用，要在zookeeper里删除才行，参考 https://blog.csdn.net/weixin_38846022/article/details/102736580
+delete.topic.enable=true
 ```
 
 ## 分发kafka
