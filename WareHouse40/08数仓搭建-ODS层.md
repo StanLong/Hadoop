@@ -33,7 +33,7 @@ load data inpath '/origin_data/gmall/log/topic-log/2021-06-01' into table ods_lo
 ### 为lzo压缩文件创建索引
 
 ```shell
-hadoop jar /opt/stanlong/hadoop-ha/hadoop-2.9.2/share/hadoop/common/hadoop-lzo-0.4.21.jar com.hadoop.compression.lzo.DistributedLzoIndexer /warehouse/gmall/ods/ods_log/dt=2021-06-01
+hadoop jar /opt/stanlong/hadoop/hadoop-2.9.2/share/hadoop/common/hadoop-lzo-0.4.21.jar com.hadoop.compression.lzo.DistributedLzoIndexer /warehouse/gmall/ods/ods_log/dt=2021-06-01
 ```
 
 ### 日志加载数据脚本
@@ -63,7 +63,7 @@ load data inpath '/origin_data/$APP/log/topic-log/$do_date' into table ${APP}.od
 
 hive -e "$sql"
 
-hadoop jar /opt/stanlong/hadoop-ha/hadoop-2.9.2/share/hadoop/common/hadoop-lzo-0.4.21.jar com.hadoop.compression.lzo.DistributedLzoIndexer /warehouse/gmall/ods/ods_log/dt=$do_date
+hadoop jar /opt/stanlong/hadoop/hadoop-2.9.2/share/hadoop/common/hadoop-lzo-0.4.21.jar com.hadoop.compression.lzo.DistributedLzoIndexer /warehouse/gmall/ods/ods_log/dt=$do_date
 ```
 
 ### 测试

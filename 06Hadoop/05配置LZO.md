@@ -121,7 +121,7 @@ https://www.cnblogs.com/caoshouling/p/14091113.html。 jar包目录 doc/hadoop-l
 
 3. 执行测试命令
 [root@node01 mapreduce]# pwd
-/opt/stanlong/hadoop-ha/hadoop-2.9.2/share/hadoop/mapreduce
+/opt/stanlong/hadoop/hadoop-2.9.2/share/hadoop/mapreduce
 
 [root@node01 mapreduce]# hadoop jar hadoop-mapreduce-examples-2.9.2.jar wordcount -Dmapreduce.output.fileoutputformat.compress=true -Dmapreduce.output.fileoutputformat.compress.codec=com.hadoop.compression.lzo.LzopCodec /input/stu.txt /output
 ```
