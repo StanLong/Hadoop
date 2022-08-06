@@ -74,7 +74,7 @@ hadoop jar /opt/stanlong/hadoop/hadoop-2.9.2/share/hadoop/common/hadoop-lzo-0.4.
 
 ## 业务数据
 
-同步策略：每日全量同步，但是ods_base_province， ods_base_region 数据量变化不大。首日同步一次即可，往后不需要同步
+同步策略：每日全量同步，但是ods_base_province， ods_base_region 数据量变化不大。首日同步一次即可，往后不需要同步。首日数据装载脚本和每日数据装载脚本的区别就在于此。
 
 ### 建表
 
@@ -589,8 +589,8 @@ LOCATION '/warehouse/gmall/ods/ods_user_info/';
 ### 首日数据装载脚本
 
 ```shell
-[root@node01 appmain]# vi hdfs_to_ods_db_init.sh
-[root@node01 appmain]# chmod +x hdfs_to_ods_db_init.sh
+[root@node01 appmain]# vi hdfs_to_ods_service_all.sh
+[root@node01 appmain]# chmod +x hdfs_to_ods_service_all.sh
 ```
 
 ```shell
@@ -777,7 +777,7 @@ esac
 ### 执行
 
 ```shell
-[root@node01 appmain]# ./hdfs_to_ods_db_init.sh all 2021-06-01
+[root@node01 appmain]# ./hdfs_to_ods_service_all.sh all 2021-06-01
 ```
 
 ### 每日数据装载脚本

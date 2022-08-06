@@ -564,7 +564,7 @@ where new_id is not null and old_id is not null;
 
 ```shell
 #!/bin/bash
-
+# DIM 第一次全量同步
 APP=gmall
 
 if [ -n "$2" ] ;then
@@ -576,6 +576,9 @@ fi
 
 dim_user_info="
 set hive.input.format=org.apache.hadoop.hive.ql.io.HiveInputFormat;
+set hive.exec.mode.local.auto=true;  
+set hive.exec.mode.local.auto.inputbytes.max=50000000;
+set hive.exec.mode.local.auto.input.files.max=10;
 insert overwrite table ${APP}.dim_user_info partition(dt='9999-99-99')
 select
     id,
@@ -597,6 +600,9 @@ where dt='$do_date';
 
 dim_sku_info="
 set hive.input.format=org.apache.hadoop.hive.ql.io.HiveInputFormat;
+set hive.exec.mode.local.auto=true;  
+set hive.exec.mode.local.auto.inputbytes.max=50000000;
+set hive.exec.mode.local.auto.input.files.max=10;
 with
 sku as
 (
@@ -708,6 +714,9 @@ left join sale_attr on sku.id=sale_attr.sku_id;
 
 dim_base_province="
 set hive.input.format=org.apache.hadoop.hive.ql.io.HiveInputFormat;
+set hive.exec.mode.local.auto=true;  
+set hive.exec.mode.local.auto.inputbytes.max=50000000;
+set hive.exec.mode.local.auto.input.files.max=10;
 insert overwrite table ${APP}.dim_base_province
 select
     bp.id,
@@ -723,6 +732,9 @@ join ${APP}.ods_base_region br on bp.region_id = br.id;
 
 dim_coupon_info="
 set hive.input.format=org.apache.hadoop.hive.ql.io.HiveInputFormat;
+set hive.exec.mode.local.auto=true;  
+set hive.exec.mode.local.auto.inputbytes.max=50000000;
+set hive.exec.mode.local.auto.input.files.max=10;
 insert overwrite table ${APP}.dim_coupon_info partition(dt='$do_date')
 select
     id,
@@ -747,6 +759,9 @@ where dt='$do_date';
 
 dim_activity_rule_info="
 set hive.input.format=org.apache.hadoop.hive.ql.io.HiveInputFormat;
+set hive.exec.mode.local.auto=true;  
+set hive.exec.mode.local.auto.inputbytes.max=50000000;
+set hive.exec.mode.local.auto.input.files.max=10;
 insert overwrite table ${APP}.dim_activity_rule_info partition(dt='$do_date')
 select
     ar.id,
@@ -809,6 +824,7 @@ case $1 in
     hive -e "$dim_user_info$dim_sku_info$dim_coupon_info$dim_activity_rule_info$dim_base_province"
 };;
 esac
+
 ```
 
 ##  DIM层每日数据装载脚本
@@ -824,6 +840,7 @@ esac
 
 APP=gmall
 
+# ODS到DIM每日装载脚本
 # 如果是输入的日期按照取输入日期；如果没输入日期取当前时间的前一天
 if [ -n "$2" ] ;then
     do_date=$2
@@ -834,6 +851,9 @@ fi
 dim_user_info="
 set hive.exec.dynamic.partition.mode=nonstrict;
 set hive.input.format=org.apache.hadoop.hive.ql.io.HiveInputFormat;
+set hive.exec.mode.local.auto=true;  
+set hive.exec.mode.local.auto.inputbytes.max=50000000;
+set hive.exec.mode.local.auto.input.files.max=10;
 with
 tmp as
 (
@@ -944,6 +964,9 @@ where new_id is not null and old_id is not null;
 
 dim_sku_info="
 set hive.input.format=org.apache.hadoop.hive.ql.io.HiveInputFormat;
+set hive.exec.mode.local.auto=true;  
+set hive.exec.mode.local.auto.inputbytes.max=50000000;
+set hive.exec.mode.local.auto.input.files.max=10;
 with
 sku as
 (
@@ -1055,6 +1078,9 @@ left join sale_attr on sku.id=sale_attr.sku_id;
 
 dim_base_province="
 set hive.input.format=org.apache.hadoop.hive.ql.io.HiveInputFormat;
+set hive.exec.mode.local.auto=true;  
+set hive.exec.mode.local.auto.inputbytes.max=50000000;
+set hive.exec.mode.local.auto.input.files.max=10;
 insert overwrite table ${APP}.dim_base_province
 select
     bp.id,
@@ -1063,13 +1089,16 @@ select
     bp.iso_code,
     bp.iso_3166_2,
     bp.region_id,
-    bp.name
+    br.region_name
 from ${APP}.ods_base_province bp
 join ${APP}.ods_base_region br on bp.region_id = br.id;
 "
 
 dim_coupon_info="
 set hive.input.format=org.apache.hadoop.hive.ql.io.HiveInputFormat;
+set hive.exec.mode.local.auto=true;  
+set hive.exec.mode.local.auto.inputbytes.max=50000000;
+set hive.exec.mode.local.auto.input.files.max=10;
 insert overwrite table ${APP}.dim_coupon_info partition(dt='$do_date')
 select
     id,
@@ -1094,6 +1123,9 @@ where dt='$do_date';
 
 dim_activity_rule_info="
 set hive.input.format=org.apache.hadoop.hive.ql.io.HiveInputFormat;
+set hive.exec.mode.local.auto=true;  
+set hive.exec.mode.local.auto.inputbytes.max=50000000;
+set hive.exec.mode.local.auto.input.files.max=10;
 insert overwrite table ${APP}.dim_activity_rule_info partition(dt='$do_date')
 select
     ar.id,

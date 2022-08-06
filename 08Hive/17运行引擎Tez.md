@@ -10,9 +10,9 @@ Tez可以将多个有依赖的作业转换为一个作业，这样只需写一�
 
 ## 节点规划
 
-| node01, node02, node03, node04 |
-| ------------------------------ |
-| apache-tez-0.9.1               |
+| node01, node02   |
+| ---------------- |
+| apache-tez-0.9.2 |
 
 ## 安装
 
@@ -20,37 +20,67 @@ Tez可以将多个有依赖的作业转换为一个作业，这样只需写一�
 [root@node01 ~]# tar -zxf apache-tez-0.9.2-bin.tar.gz -C /opt/stanlong/hive/
 ```
 
-## 配置 hive-env.sh
+## 一、配置tez-site.xml
 
 ```shell
-[root@node01 apache-tez-0.9.2-bin]# pwd
-/opt/stanlong/hive/apache-tez-0.9.2-bin
+vi $HADOOP_HOME/etc/hadoop/tez-site.xml
+```
 
-[root@node01 conf]# pwd
-/opt/stanlong/hive/apache-hive-2.3.9-bin/conf
-[root@node01 conf]# vi hive-env.sh
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+  <property>
+	    <name>tez.lib.uris</name>
+	    <value>${fs.defaultFS}/tez/tez-0.9.2.tar.gz</value>
+  </property>
+  <property>
+         <name>tez.use.cluster.hadoop-libs</name>
+         <value>true</value>
+  </property>
+  <property>
+         <name>tez.am.resource.memory.mb</name>
+         <value>2048</value>
+  </property>
+  <property> 
+         <name>tez.am.resource.cpu.vcores</name>
+         <value>2</value>
+  </property>
+  <property>
+         <name>tez.container.max.java.heap.fraction</name>
+         <value>0.5</value>
+  </property>
+  <property>
+         <name>tez.task.resource.memory.mb</name>
+         <value>2048</value>
+  </property>
+  <property>
+         <name>tez.task.resource.cpu.vcores</name>
+         <value>2</value>
+  </property>
+</configuration>
+```
+
+## 二、修改Hadoop环境变量
+
+```shell
+vi $HADOOP_HOME/etc/hadoop/shellprofile.d/tez.sh
 ```
 
 ```shell
-# 配置tez引擎
-export TEZ_HOME=/opt/stanlong/hive/apache-tez-0.9.2-bin    #tez的解压目录
-export TEZ_JARS=""
-for jar in `ls $TEZ_HOME |grep jar`; do
-    export TEZ_JARS=$TEZ_JARS:$TEZ_HOME/$jar
-done
-for jar in `ls $TEZ_HOME/lib`; do
-    export TEZ_JARS=$TEZ_JARS:$TEZ_HOME/lib/$jar
-done
-
-export HIVE_AUX_JARS_PATH=/opt/stanlong/hadoop-ha/hadoop-2.9.2/share/hadoop/common/hadoop-lzo-0.4.21.jar$TEZ_JARS
+hadoop_add_profile tez
+function _tez_hadoop_classpath
+{
+    hadoop_add_classpath "$HADOOP_HOME/etc/hadoop" after
+    hadoop_add_classpath "/opt/stanlong/hive/apache-tez-0.9.2-bin/*" after
+    hadoop_add_classpath "/opt/stanlong/hive/apache-tez-0.9.2-bin/lib/*" after
+}
 ```
 
-## 配置hive-site.xml
+## 三、配置hive-site.xml
 
 ```shell
-[root@node01 conf]# pwd
-/opt/stanlong/hive/apache-hive-2.3.-bin/conf
-[root@node01 conf]# vi hive-site.xml
+ vi $HIVE_HOME/conf/hive-site.xml
 ```
 
 ```xml
@@ -58,40 +88,19 @@ export HIVE_AUX_JARS_PATH=/opt/stanlong/hadoop-ha/hadoop-2.9.2/share/hadoop/comm
     <name>hive.execution.engine</name>
     <value>tez</value>
 </property>
+<property>
+    <name>hive.tez.container.size</name>
+    <value>1024</value>
+</property>
 ```
 
-## 配置tez-site.xml
+## 四、解决日志Jar包冲突
 
 ```shell
-[root@node01 conf]# pwd
-/opt/stanlong/hive/apache-hive-2.3.9-bin/conf
-[root@node01 conf]# vi tez-site.xml
+rm /opt/stanlong/hive/apache-tez-0.9.2-bin/lib/slf4j-log4j12-1.7.10.jar
 ```
 
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
-<configuration>
-    <property>
-        <name>tez.lib.uris</name>    
-        <value>${fs.defaultFS}/tez/tez-0.9.2,${fs.defaultFS}/tez/tez-0.9.2/lib</value>
-    </property>
-    <property>
-        <name>tez.lib.uris.classpath</name>    	
-        <value>${fs.defaultFS}/tez/tez-0.9.2,${fs.defaultFS}/tez/tez-0.9.2/lib</value>
-    </property>
-    <property>
-         <name>tez.use.cluster.hadoop-libs</name>
-         <value>true</value>
-    </property>
-    <property>
-         <name>tez.history.logging.service.class</name>        
-         <value>org.apache.tez.dag.history.logging.ats.ATSHistoryLoggingService</value>
-    </property>
-</configuration>
-```
-
-## 上传Tez到集群
+## 五、上传Tez到集群
 
 ```shell
 [root@node01 ~]# hdfs dfs -mkdir /tez
@@ -139,7 +148,7 @@ No rows affected (83.419 seconds)
 
 ## 分发
 
-将 apache-hive-2.3.9-bin 分发到node02，node03， node04 上去
+将 apache-hive-2.3.9-bin 分发到node02上去
 
 ## 小结
 

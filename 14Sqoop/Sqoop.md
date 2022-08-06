@@ -273,7 +273,7 @@ sqoop export --connect jdbc:mysql://node01:3306/gmall --username root --password
 | 7        | --direct                      | 直接导入模式，使用的是关系数据库自带的导入导出工具，以便加快导入导出过程。 |
 | 8        | --direct-split-size           | 在使用上面direct直接导入的基础上，对导入的流按字节分块，即达到该阈值就产生一个新的文件 |
 | 9        | --inline-lob-limit            | 设定大对象数据类型的最大值                                   |
-| 10       | --m或–num-mappers             | 启动N个map来并行导入数据，默认4个。                          |
+| 10       | --m或–num-mappers             | 启动N个map来并行导入数据，默认4个。当-m 设置的值大于1时，split-by 为必须设置字段（需要是 int 类型的字段），如果不是 int类型的字段，则需要加上参数 |
 | 11       | --query或--e                  | 将查询结果的数据导入，使用时必须伴随参--target-dir，--hive-table，如果查询中有where条件，则条件后必须加上$CONDITIONS关键字 |
 | 12       | --split-by                    | 按照某一列来切分表的工作单元，不能与--autoreset-to-one-mapper连用（请参考官方文档） |
 | 13       | --table                       | 关系数据库的表名                                             |

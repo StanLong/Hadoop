@@ -110,7 +110,8 @@ advertised.host.name=node01
 #     listeners = listener_name://host_name:port
 #   EXAMPLE:
 #     listeners = PLAINTEXT://your.host.name:9092
-listeners=PLAINTEXT://:9092
+# 主机名为0.0.0.0表示绑定所有的网卡
+listeners=PLAINTEXT://0.0.0.0:9092
 
 # Hostname and port the broker will advertise to producers and consumers. If not set, 
 # it uses the value for "listeners" if configured.  Otherwise, it will use the value
@@ -216,7 +217,6 @@ zookeeper.connection.timeout.ms=18000
 # We override this to 0 here as it makes for a better out-of-the-box experience for development and testing.
 # However, in production environments the default value of 3 seconds is more suitable as this will help to avoid unnecessary, and potentially expensive, rebalances during application startup.
 group.initial.rebalance.delay.ms=0
-# 这个配置好像没多大用，要在zookeeper里删除才行，参考 https://blog.csdn.net/weixin_38846022/article/details/102736580
 delete.topic.enable=true
 ```
 
