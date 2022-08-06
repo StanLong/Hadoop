@@ -1,5 +1,7 @@
 # 第1章 Zabbix入门
 
+https://www.zabbix.com/download
+
 ## 1.1 Zabbix概述
 
 Zabbix是一款能够监控各种网络参数以及服务器健康性和完整性的软件。Zabbix使用灵活的通知机制，允许用户为几乎任何事件配置基于邮件的告警。这样可以快速反馈服务器的问题。基于已存储的数据，Zabbix提供了出色的报告和数据可视化功能。
@@ -17,7 +19,7 @@ Zabbix是一款能够监控各种网络参数以及服务器健康性和完整�
 | zabbix-agent  | √          | √          | √          |
 | zabbix-server | √          |            |            |
 | MySQL         | √          |            |            |
-| zabbix-web    |            |            | √          |
+| zabbix-web    | √          |            |            |
 ## 2.2 准备工作
 
 ### 2.2.1 关闭集群
@@ -155,7 +157,7 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-ZABBIX-A14FE591
 [zabbix-frontend]
 name=Zabbix Official Repository frontend - $basearch
 baseurl=https://mirrors.aliyun.com/zabbix/zabbix/5.0/rhel/7/$basearch/frontend
-# 这里改成1， 按照规划node03对外提供web服务，因此只改node03即可
+# 这里改成1， 按照规划node01对外提供web服务，因此只改node01即可
 enabled=1
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-ZABBIX-A14FE591
@@ -177,14 +179,14 @@ gpgcheck=1
 
 ## 2.4 安装Zabbix
 
-**在 hadoop102 、 hadoop103 、 hadoop104 三台节点分别执行以下安装命令**
+**在三台节点分别执行以下安装命令**
 
 ```shell
-[root@node01 ~]#  sudo yum install -y zabbix-server-mysql zabbix-agent zabbix-apache-conf-scl
+[root@node01 ~]#  yum install -y zabbix-server-mysql zabbix-agent zabbix-web-mysql-scl zabbix-apache-conf-scl
 
 [root@node02 ~]#  sudo yum install -y zabbix-agent
 
-[root@node03 ~]#  sudo yum install -y zabbix-agent zabbix-web-mysql-scl
+[root@node03 ~]#  sudo yum install -y zabbix-agent
 ```
 
 ## 2.5 配置Zabbix
@@ -221,7 +223,7 @@ DBPassword=root
 ```shell
 [root@node01 ~]# sudo vi /etc/zabbix/zabbix_agentd.conf
 # 修改如下内容, 一个修改，两个注释：
-Server=hadoop102
+Server=node01
 #ServerActive=127.0.0.1
 #Hostname=Zabbix server
 ```
@@ -232,10 +234,10 @@ Server=hadoop102
 
 **修改 /etc/opt/rh/rh-php72/php-fpm.d/zabbix.conf 文件**
 
-注意，是在node03上配置了Web，这个目录只能在node03上改
+注意，是在node01上配置了Web，这个目录只能在node01上改
 
 ``` shell
-[root@node03 ~]#  sudo vi /etc/opt/rh/rh-php72/php-fpm.d/zabbix.conf
+[root@node01 ~]#  sudo vi /etc/opt/rh/rh-php72/php-fpm.d/zabbix.conf
 ```
 
 修改如下内容：
@@ -272,58 +274,50 @@ php_value[date.timezone] = Asia/Shanghai
 ### 2.6.1 启动Zabbix
 
 ```shell
-[root@node01 ~]# sudo systemctl start zabbix-server zabbix-agent  
-
-[root@node01 ~]# sudo systemctl enable zabbix-server zabbix-agent  
+[root@node01 ~]# sudo systemctl start zabbix-server zabbix-agent httpd rh-php72-php-fpm
+[root@node01 ~]# sudo systemctl enable zabbix-server zabbix-agent httpd rh-php72-php-fpm
 
 [root@node02 ~]# sudo systemctl start zabbix-agent
-
 [root@node02 ~]# sudo systemctl enable zabbix-agent
 
-[root@node03 ~]# sudo systemctl start zabbix-agent httpd rh-php72-php-fpm
-
-[root@node03 ~]# sudo systemctl enable zabbix-agent httpd rh-php72-php-fpm
+[root@node03 ~]# sudo systemctl start zabbix-agent
+[root@node03 ~]# sudo systemctl enable zabbix-agent
 ```
 
 ### 2.6.2 停止Zabbix
 
 ```shell
-[root@node01 ~]# sudo systemctl stop zabbix-server zabbix-agent  
-
-[root@node01 ~]# sudo systemctl disable zabbix-server zabbix-agent  
+[root@node01 ~]# sudo systemctl stop zabbix-server zabbix-agent httpd rh-php72-php-fpm
+[root@node01 ~]# sudo systemctl disable zabbix-server zabbix-agent httpd rh-php72-php-fpm
 
 [root@node02 ~]# sudo systemctl stop zabbix-agent
-
 [root@node02 ~]# sudo systemctl disable zabbix-agent
 
-[root@node03 ~]# sudo systemctl stop zabbix-agent httpd rh-php72-php-fpm
-
-[root@node03 ~]# sudo systemctl disable zabbix-agent httpd rh-php72-php-fpm
+[root@node03 ~]# sudo systemctl stop zabbix-agent
+[root@node03 ~]# sudo systemctl disable zabbix-agent
 ```
-
-
-
-
 
 ### 2.6.3 连接Zabbix\_Web数据库
 
-**1**** ）浏览器访问 ****http://hadoop102/zabbix/**
+**1 ）浏览器访问 http://node01/zabbix/**
 
-![](RackMultipart20220806-1-sbbs8l_html_188af92b5bcf39b2.png)
+![](./doc/02.png)
 
-**2**** ）检查配置**
+**2 ）检查配置**
 
-![](RackMultipart20220806-1-sbbs8l_html_95d04818bafe02ba.png)
+![](./doc/03.png)
 
-**3**** ）配置数据库**
+**3 ）配置数据库**
 
-![](RackMultipart20220806-1-sbbs8l_html_5284b917ee3215ba.png)
+![](./doc/04.png)
 
-**4**** ）配置 ****zabbix-server**
+**4 ）配置 zabbix-server**
 
-![](RackMultipart20220806-1-sbbs8l_html_9fa209c59bd4349b.png)
+![](./doc/05.png)
 
-![](RackMultipart20220806-1-sbbs8l_html_b8869a4fc91fb97f.png)
+![](./doc/06.png)
+
+![](./doc/07.png)
 
 ### 2.6.4 登录Zabbix
 
@@ -331,15 +325,15 @@ php_value[date.timezone] = Asia/Shanghai
 
 用户名：Admin 密码：zabbix
 
-![](RackMultipart20220806-1-sbbs8l_html_8a09023881df9844.png)
+![](/doc/08.png)
 
 2）点击User Settings，语言设成中文
 
-![](RackMultipart20220806-1-sbbs8l_html_338bb116526e8253.png)
+![](./doc/09.png)
 
-![](RackMultipart20220806-1-sbbs8l_html_39c95714eb8db8f.png)
+![](./doc/10.png)
 
-![](RackMultipart20220806-1-sbbs8l_html_94d702da5eb98332.png)
+![](./doc/11.png)
 
 # 第3章 Zabbix使用
 
@@ -365,19 +359,19 @@ php_value[date.timezone] = Asia/Shanghai
 
 ### 3.2.1 创建Host
 
-**1**** ）点击配置 ****/**** 主机 ****/**** 创建主机**
+**1 ）点击配置 / 主机 / 创建主机**
 
 ![](RackMultipart20220806-1-sbbs8l_html_1e57a43fc846bd4d.png)
 
-**2**** ）配置主机（ ****Host**** ）**
+**2 ）配置主机（ Host ）**
 
 ![](RackMultipart20220806-1-sbbs8l_html_9c51350318723e21.png)
 
-**3**** ）查看新增（ ****Host**** ）**
+**3 ）查看新增（ Host ）**
 
 ![](RackMultipart20220806-1-sbbs8l_html_f3c6a8fa5b9b0a.png)
 
-**4**** ）重复以上步骤，再创建 ****hadoop103**** 、 ****hadoop104**** 主机。**
+**4 ）重复以上步骤，再创建 hadoop103 、 hadoop104 主机。**
 
 ![](RackMultipart20220806-1-sbbs8l_html_7033558f79119220.png)
 
