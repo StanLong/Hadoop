@@ -361,81 +361,81 @@ php_value[date.timezone] = Asia/Shanghai
 
 **1 ）点击配置 / 主机 / 创建主机**
 
-![](RackMultipart20220806-1-sbbs8l_html_1e57a43fc846bd4d.png)
+![](./doc/12.png)
 
 **2 ）配置主机（ Host ）**
 
-![](RackMultipart20220806-1-sbbs8l_html_9c51350318723e21.png)
+![](./doc/13.png)
 
 **3 ）查看新增（ Host ）**
 
-![](RackMultipart20220806-1-sbbs8l_html_f3c6a8fa5b9b0a.png)
+![](./doc/14.png)
 
-**4 ）重复以上步骤，再创建 hadoop103 、 hadoop104 主机。**
+**4 ）重复以上步骤，再创建 node02、 node03 主机。**
 
-![](RackMultipart20220806-1-sbbs8l_html_7033558f79119220.png)
+![](./doc/15.png)
 
 ### 3.2.2 创建监控项（Items）
 
-**1**** ）点击监控项（ ****Items**** ）**
+**1 ）点击监控项（ Items ）**
 
-![](RackMultipart20220806-1-sbbs8l_html_a80b8b81e43acbbf.png)
+![](./doc/16.png)
 
-**2**** ）点击创建监控项（ ****Create Item**** ）**
+**2 ）点击创建监控项（ Create Item ）**
 
-![](RackMultipart20220806-1-sbbs8l_html_d3c6d93e6f690ab1.png)
+![](./doc/17.png)
 
-**3**** ）配置监控项（ ****Item**** ）**
+**3 ）配置监控项（ Item ）**
 
-![](RackMultipart20220806-1-sbbs8l_html_bc8d88ea4116ff57.png)
+![](./doc/18.png)
 
-**4**** ）查看创建的监控项**
+**4 ）查看创建的监控项**
 
-![](RackMultipart20220806-1-sbbs8l_html_2c6a9f8a609c3a25.png)
+![](./doc/19.png)
 
-**5**** ）查看监控项最新数据**
+**5 ）查看监控项最新数据**
 
-![](RackMultipart20220806-1-sbbs8l_html_2336a8969b6c5872.png)
+![](./doc/20.png)
 
 ### 3.2.3 创建触发器（Trigger）
 
-**1**** ）点击配置 ****/**** 主机 ****/**** 触发器**
+**1 ）点击配置 / 主机 / 触发器**
 
-![](RackMultipart20220806-1-sbbs8l_html_5ff776ef5646705d.png)
+![](./doc/21.png)
 
-**2**** ）点击创建触发器**
+**2 ）点击创建触发器**
 
-![](RackMultipart20220806-1-sbbs8l_html_2e42f5b0f71268d6.png)
+![](./doc/22.png)
 
-**3**** ）编辑触发器**
+**3 ）编辑触发器**
 
-![](RackMultipart20220806-1-sbbs8l_html_c0569a7445c907c.png)
+![](./doc/23.png)
 
-![](RackMultipart20220806-1-sbbs8l_html_213de3baeee690fd.png)
+![](./doc/24.png)
 
-![](RackMultipart20220806-1-sbbs8l_html_79fc821130f9f450.png)
+![](./doc/25.png)
 
 ### 3.2.4 创建动作（Action）
 
-**1**** ）点击配置 ****/**** 动作 ****/**** 创建动作**
+**1 ）点击配置 / 动作 / 创建动作**
 
-![](RackMultipart20220806-1-sbbs8l_html_22418338cbdf8261.png)
+![](./doc/29.png)
 
-**2**** ）编辑动作（ ****Action**** ）**
+**2 ）编辑动作（ Action ）**
 
-![](RackMultipart20220806-1-sbbs8l_html_cd2a0f9392eb6ade.png)
+![](./doc/30.png)
 
-![](RackMultipart20220806-1-sbbs8l_html_ecc03a1bcbc9a9dc.png)
+![](./doc/31.png)
 
-![](RackMultipart20220806-1-sbbs8l_html_3294943ad930ff55.png)
+![](./doc/36.png)
 
-![](RackMultipart20220806-1-sbbs8l_html_230776aef2bf09d3.png)
+![](./doc/32.png)
 
-![](RackMultipart20220806-1-sbbs8l_html_be44350aef3fb515.png)
+![](./doc/33.png)
 
-![](RackMultipart20220806-1-sbbs8l_html_77296f5fc1cdc81f.png)
+![](./doc/34.png)
 
-![](RackMultipart20220806-1-sbbs8l_html_dd1f09521452f623.png)
+![](./doc/35.png)
 
 ### 3.2.5 申请邮箱
 
@@ -457,97 +457,99 @@ php_value[date.timezone] = Asia/Shanghai
 
 ### 3.2.6 创建报警媒介类型（Media type）
 
-**1**** ）点击管理 ****/**** 报警媒介类型 ****/Email**
+**1 ）点击管理 / 报警媒介类型 /Email**
 
-![](RackMultipart20220806-1-sbbs8l_html_13dc1c7ee1b9e960.png)
+![](./doc/26.png)
 
-**2**** ）编辑 ****Email**
+**2 ）编辑 Email**
 
-![](RackMultipart20220806-1-sbbs8l_html_1cda50f7c26fc8dc.png)
+![](./doc/27.png)
 
-**3**** ）测试 ****Email**
+**3 ）测试 Email**
 
-![](RackMultipart20220806-1-sbbs8l_html_d44d6b10615c9b99.png)
+![](./doc/28.png)
 
-**4**** ） ****Email**** 绑定收件人**
+**4 ） Email 绑定收件人**
 
-![](RackMultipart20220806-1-sbbs8l_html_665f292fb7d70b37.png)
+![](./doc/37.png)
 
-![](RackMultipart20220806-1-sbbs8l_html_1c587b83dd6fad07.png)
+![](./doc/38.png)
 
-![](RackMultipart20220806-1-sbbs8l_html_189e07d4d4c1a51c.png)
-
-![](RackMultipart20220806-1-sbbs8l_html_8af8c7f92bcf761a.png)
+![](./doc/39.png)
 
 ### 3.2.7 测试
 
-**1**** ）关闭集群中的 ****HDFS**** ，会有如下效果**
+**1 ）关闭集群中的 HDFS ，会有如下效果**
 
-[atguigu@hadoop102 hadoop-3.1.3]$ sbin/stop-dfs.sh
+```shell
+[root@node01 ~]# stop-dfs.sh
+```
 
-**2**** ）查看仪表盘故障信息**
+**2 ）查看仪表盘故障信息**
 
-![](RackMultipart20220806-1-sbbs8l_html_a8783cff441ab9d0.png)
+![](./doc/40.png)
 
-**3**** ）查看邮件，接收故障信息**
+**3 ）查看邮件，接收故障信息**
 
-![](RackMultipart20220806-1-sbbs8l_html_7c09541ea4abf321.png)
+![](./doc/41.png)
 
 ## 3.3 创建模板
 
-**1**** ）点击配置 ****/**** 模板 ****/**** 创建模板**
+**1 ）点击配置 / 模板 / 创建模板**
 
-![](RackMultipart20220806-1-sbbs8l_html_ee01f3e2d2f66e17.png)
+![](./doc/42.png)
 
-**2**** ）配置模板名称 ****/**** 群组**
+**2 ）配置模板名称 / 群组**
 
-![](RackMultipart20220806-1-sbbs8l_html_bc08bf8f2a8454d.png)
+![](./doc/43.png)
 
-**3**** ）配置监控项**
+**3 ）配置监控项**
 
-![](RackMultipart20220806-1-sbbs8l_html_d03ee13370a4f1c4.png)
+![](./doc/44.png)
 
-![](RackMultipart20220806-1-sbbs8l_html_abfc823f425b5199.png)
+![](./doc/45.png)
 
-![](RackMultipart20220806-1-sbbs8l_html_8cf77e62bb6ee641.png)
+![](./doc/46.png)
 
-**4**** ）配置触发器**
+**4 ）配置触发器**
 
-![](RackMultipart20220806-1-sbbs8l_html_ebdd87f654bd4ac6.png)
+![](./doc/47.png)
 
-![](RackMultipart20220806-1-sbbs8l_html_cfb5163852ebf719.png)
+![](./doc/48.png)
 
-**5**** ）配置动作**
+**5 ）配置动作**
 
-![](RackMultipart20220806-1-sbbs8l_html_c0bbf55372227bff.png)
+![](./doc/49.png)
 
-![](RackMultipart20220806-1-sbbs8l_html_868ebe679e847b7c.png)
+![](./doc/50.png)
 
-![](RackMultipart20220806-1-sbbs8l_html_f209688c6a3d3b8f.png)
+![](./doc/51.png)
 
-![](RackMultipart20220806-1-sbbs8l_html_e6ef8f6fab5ef0d4.png)
+**6 ）为 node02 应用模板**
 
-**6**** ）为 ****hadoop103**** 应用模板**
+![](./doc/52.png)
 
-![](RackMultipart20220806-1-sbbs8l_html_a7492b0f3379599.png)
+![](./doc/53.png)
 
-![](RackMultipart20220806-1-sbbs8l_html_72588602513d1048.png)
-
-**7**** ）为 ****hadoop104**** 应用模板**
+**7 ）为 node03 应用模板**
 
 **同上**
 
-**8**** ）测试**
+**8 ）测试**
 
-**（**** 1 ****）启动**** hadoop ****集群**
+**（ 1 ）启动 hadoop 集群**
 
-[atguigu@hadoop102 hadoop-3.1.3]$ sbin/start-dfs.sh
+```shell
+[root@node01 ~]# start-dfs.sh
+```
 
-**（**** 2 ****）停止**** hadoop ****集群**
+**（ 2 ）停止 hadoop 集群**
 
-[atguigu@hadoop102 hadoop-3.1.3]$ sbin/stop-dfs.sh
+```shell
+[root@node01 ~]# stop-dfs.sh
+```
 
-**（**** 3 ****）查看报警邮件**
+**（ 3 ）查看报警邮件**
 
 # 第4章 集成Grafana
 
@@ -708,6 +710,3 @@ php_value[date.timezone] = Asia/Shanghai
 6）保存配置
 
 ![](RackMultipart20220806-1-sbbs8l_html_2f1f50e523e437fb.png)
-
-更多Java –大数据 –前端 –python人工智能资料下载，可百度访问：尚硅谷官网
-
