@@ -37,11 +37,11 @@ Zabbix是一款能够监控各种网络参数以及服务器健康性和完整�
 1）安装zabbix的yum仓库
 
 ```shell
-[root@node01 ~]# sudo rpm -Uvh https://mirrors.aliyun.com/zabbix/zabbix/5.0/rhel/7/x86\_64/zabbix-release-5.0-1.el7.noarch.rpm
+[root@node01 ~]# sudo rpm -Uvh https://mirrors.aliyun.com/zabbix/zabbix/5.0/rhel/7/x86_64/zabbix-release-5.0-1.el7.noarch.rpm
 
-[root@node02 ~]# sudo rpm -Uvh https://mirrors.aliyun.com/zabbix/zabbix/5.0/rhel/7/x86\_64/zabbix-release-5.0-1.el7.noarch.rpm
+[root@node02 ~]# sudo rpm -Uvh https://mirrors.aliyun.com/zabbix/zabbix/5.0/rhel/7/x86_64/zabbix-release-5.0-1.el7.noarch.rpm
 
-[root@node03 ~]# sudo rpm -Uvh https://mirrors.aliyun.com/zabbix/zabbix/5.0/rhel/7/x86\_64/zabbix-release-5.0-1.el7.noarch.rpm
+[root@node03 ~]# sudo rpm -Uvh https://mirrors.aliyun.com/zabbix/zabbix/5.0/rhel/7/x86_64/zabbix-release-5.0-1.el7.noarch.rpm
 ```
 
 2）安装Software Collections仓库
@@ -203,7 +203,7 @@ gpgcheck=1
 [root@node01 ~]# zcat /usr/share/doc/zabbix-server-mysql-5.0.*/create.sql.gz | mysql -uroot -proot zabbix
 ```
 
-### 2.5.3 配置Zabbix\_Server（node01）
+### 2.5.3 配置Zabbix_Server（node01）
 
 **修改 zabbix-server 配置文件**
 
@@ -216,7 +216,7 @@ DBUser=root
 DBPassword=root
 ```
 
-### 2.5.4 配置Zabbix\_Agent
+### 2.5.4 配置Zabbix_Agent
 
 **修改 zabbix-agent 配置文件**
 
@@ -230,7 +230,7 @@ Server=node01
 
 修改完成后分发到另外两台节点上去
 
-### 2.5.5 配置Zabbix\_Web时区
+### 2.5.5 配置Zabbix_Web时区
 
 **修改 /etc/opt/rh/rh-php72/php-fpm.d/zabbix.conf 文件**
 
@@ -297,7 +297,7 @@ php_value[date.timezone] = Asia/Shanghai
 [root@node03 ~]# sudo systemctl disable zabbix-agent
 ```
 
-### 2.6.3 连接Zabbix\_Web数据库
+### 2.6.3 连接Zabbix_Web数据库
 
 **1 ）浏览器访问 http://node01/zabbix/**
 
@@ -557,15 +557,15 @@ php_value[date.timezone] = Asia/Shanghai
 
 1.下载Grafana安装包
 
-官方仓库：[https://dl.grafana.com/oss/release/grafana-7.4.3-1.x86\_64.rpm](https://dl.grafana.com/oss/release/grafana-7.4.3-1.x86_64.rpm)
+官方仓库：[https://dl.grafana.com/oss/release/grafana-7.4.3-1.x86_64.rpm](https://dl.grafana.com/oss/release/grafana-7.4.3-1.x86_64.rpm)
 
-国内镜像：[https://repo.huaweicloud.com/grafana/7.4.3/grafana-7.4.3-1.x86\_64.rpm](https://repo.huaweicloud.com/grafana/7.4.3/grafana-7.4.3-1.x86_64.rpm)
+国内镜像：[https://repo.huaweicloud.com/grafana/7.4.3/grafana-7.4.3-1.x86_64.rpm](https://repo.huaweicloud.com/grafana/7.4.3/grafana-7.4.3-1.x86_64.rpm)
 
 2.将安装包上传到hadoop102主机的/opt/software路径
 
 3.使用rpm安装Grafana
 
-[atguigu@hadoop102 software]$ sudo rpm -ivh grafana-7.4.3-1.x86\_64.rpm
+[atguigu@hadoop102 software]$ sudo rpm -ivh grafana-7.4.3-1.x86_64.rpm
 
 4.启动Grafana
 

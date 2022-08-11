@@ -59,15 +59,15 @@ Kerberos中有以下一些概念需要了解：
 ```properties
 [kdcdefaults]
 
-kdc\_ports = 88
+kdc_ports = 88
 
-kdc\_tcp\_ports = 88
+kdc_tcp_ports = 88
 
 [realms]
 
 EXAMPLE.COM = {
 
-#master\_key\_type = aes256-cts
+#master_key_type = aes256-cts
 
 acl_file = /var/kerberos/krb5kdc/kadm5.acl
 
@@ -227,6 +227,8 @@ kadmin.local:
 kadmin.local :cpw test
 ```
 
+修改admin密码： kpasswd 用户名
+
 **4. 查看所有主体**
 
 ```shell
@@ -306,51 +308,24 @@ klist: No credentials cache found (ticket cache FILE:/tmp/krb5cc_0)
 | **yarn:hadoop**   | ResourceManager, NodeManager                        |
 | **mapred:hadoop** | MapReduce JobHistory Server                         |
 
-创建hadoop组
+创建hadoop组(所有节点)
 
+```shell
 [root@node01~]# groupadd hadoop
+```
 
-[root@node02 ~]# groupadd hadoop
+创建各用户并设置密码(所有节点)
 
-[root@node03 ~]# groupadd hadoop
-
-创建各用户并设置密码
-
+```shell
 [root@node01~]# useradd hdfs -g hadoop
-
 [root@node01~]# echo hdfs | passwd --stdin hdfs
 
 [root@node01~]# useradd yarn -g hadoop
-
 [root@node01~]# echo yarn | passwd --stdin yarn
 
 [root@node01~]# useradd mapred -g hadoop
-
 [root@node01~]# echo mapred | passwd --stdin mapred
-
-[root@node02 ~]# useradd hdfs -g hadoop
-
-[root@node02 ~]# echo hdfs | passwd --stdin hdfs
-
-[root@node02 ~]# useradd yarn -g hadoop
-
-[root@node02 ~]# echo yarn | passwd --stdin yarn
-
-[root@node02 ~]# useradd mapred -g hadoop
-
-[root@node02 ~]# echo mapred | passwd --stdin mapred
-
-[root@node03 ~]# useradd hdfs -g hadoop
-
-[root@node03 ~]# echo hdfs | passwd --stdin hdfs
-
-[root@node03 ~]# useradd yarn -g hadoop
-
-[root@node03 ~]# echo yarn | passwd --stdin yarn
-
-[root@node03 ~]# useradd mapred -g hadoop
-
-[root@node03 ~]# echo mapred | passwd --stdin mapred
+```
 
 # 第3章 Hadoop Kerberos配置
 
@@ -360,21 +335,21 @@ klist: No credentials cache found (ticket cache FILE:/tmp/krb5cc_0)
 
 **1. 各服务所需主体如下**
 
-环境：3台节点，主机名分别为hadoop102，node02，node03
+环境：3台节点，主机名分别为node01，node02，node03
 
 | **服务**               | **所在主机** | **主体（ Principal ）** |
 | ---------------------- | ------------ | ----------------------- |
-| **NameNode**           | hadoop102    | nn/hadoop102            |
-| **DataNode**           | hadoop102    | dn/hadoop102            |
+| **NameNode**           | node01       | nn/node01               |
+| **DataNode**           | node01       | dn/node01               |
 | **DataNode**           | node02       | dn/node02               |
 | **DataNode**           | node03       | dn/node03               |
 | **Secondary NameNode** | node03       | sn/node03               |
 | **ResourceManager**    | node02       | rm/node02               |
-| **NodeManager**        | hadoop102    | nm/hadoop102            |
+| **NodeManager**        | node01       | nm/node01               |
 | **NodeManager**        | node02       | nm/node02               |
 | **NodeManager**        | node03       | nm/node03               |
-| **JobHistory Server**  | hadoop102    | jhs/hadoop102           |
-| **Web UI**             | hadoop102    | HTTP/hadoop102          |
+| **JobHistory Server**  | node01       | jhs/node01              |
+| **Web UI**             | node01       | HTTP/node01             |
 | **Web UI**             | node02       | HTTP/node02             |
 | **Web UI**             | node03       | HTTP/node03             |
 
@@ -384,27 +359,32 @@ klist: No credentials cache found (ticket cache FILE:/tmp/krb5cc_0)
 
 为服务创建的主体，需要通过密钥文件keytab文件进行认证，故需为各服务准备一个安全的路径用来存储keytab文件。
 
+```shell
 [root@node01~]# mkdir /etc/security/keytab/
-
 [root@node01~]# chown -R root:hadoop /etc/security/keytab/
-
 [root@node01~]# chmod 770 /etc/security/keytab/
+```
 
 2）管理员主体认证
 
-为执行创建主体的语句，需登录Kerberos 数据库客户端，登录之前需先使用Kerberos的管理员用户进行认证，执行以下命令并根据提示输入密码。
+为执行创建主体的语句，需登录Kerberos 数据库**客户端**，登录之前需先使用Kerberos的管理员用户进行认证，执行以下命令并根据提示输入密码。
 
-[root@node01~]# kinit admin/admin
+```shell
+[root@node02~]# kinit admin/admin
+```
 
 3）登录数据库客户端
 
-[root@node01~]# kadmin
+```shell
+[root@node02~]# kadmin
+```
 
 4）执行创建主体的语句
 
+```shell
 kadmin: addprinc -randkey test/test
-
 kadmin: xst -k /etc/security/keytab/test.keytab test/test
+```
 
 说明：
 
@@ -426,9 +406,10 @@ test/test：主体
 
 （3）为方便创建主体，可使用如下命令
 
+```shell
 [root@node01~]# kadmin -padmin/admin -wadmin -q"addprinc -randkey test/test"
-
 [root@node01~]# kadmin -padmin/admin -wadmin -q"xst -k /etc/security/keytab/test.keytab test/test"
+```
 
 说明：
 
@@ -440,127 +421,131 @@ test/test：主体
 
 （4）操作主体的其他命令，可参考官方文档，地址如下：
 
-[http://web.mit.edu/kerberos/krb5-current/doc/admin/admin\_commands/kadmin\_local.html#commands](http://web.mit.edu/kerberos/krb5-current/doc/admin/admin_commands/kadmin_local.html#commands)
+[http://web.mit.edu/kerberos/krb5-current/doc/admin/admin_commands/kadmin_local.html#commands](http://web.mit.edu/kerberos/krb5-current/doc/admin/admin_commands/kadmin_local.html#commands)
 
 **3. 创建主体**
 
 **1 ）在所有节点创建 keytab 文件目录**
 
+```shell
 [root@node01~]# mkdir /etc/security/keytab/
-
 [root@node01~]# chown -R root:hadoop /etc/security/keytab/
-
 [root@node01~]# chmod 770 /etc/security/keytab/
-
-[root@node02 ~]# mkdir /etc/security/keytab/
-
-[root@node02 ~]# chown -R root:hadoop /etc/security/keytab/
-
-[root@node02 ~]# chmod 770 /etc/security/keytab/
-
-[root@node03 ~]# mkdir /etc/security/keytab/
-
-[root@node03 ~]# chown -R root:hadoop /etc/security/keytab/
-
-[root@node03 ~]# chmod 770 /etc/security/keytab/
+```
 
 **2 ）以下命令在 node01节点执行**
 
 **NameNode （ node01）**
 
-[root@node01~]# kadmin -padmin/admin -wadmin -q"addprinc -randkey nn/hadoop102"
-
-[root@node01~]# kadmin -padmin/admin -wadmin -q"xst -k /etc/security/keytab/nn.service.keytab nn/hadoop102"
+```shell
+[root@node01~]# kadmin -padmin/admin -wadmin -q"addprinc -randkey nn/node01"
+[root@node01~]# kadmin -padmin/admin -wadmin -q"xst -k /etc/security/keytab/nn.service.keytab nn/node01"
+```
 
 **DataNode （ node01）**
 
-[root@node01~]# kadmin -padmin/admin -wadmin -q"addprinc -randkey dn/hadoop102"
-
-[root@node01~]# kadmin -padmin/admin -wadmin -q"xst -k /etc/security/keytab/dn.service.keytab dn/hadoop102"
+```shell
+[root@node01~]# kadmin -padmin/admin -wadmin -q"addprinc -randkey dn/node01"
+[root@node01~]# kadmin -padmin/admin -wadmin -q"xst -k /etc/security/keytab/dn.service.keytab dn/node01"
+```
 
 **NodeManager （ node01）**
 
+```shell
 [root@node01~]# kadmin -padmin/admin -wadmin -q"addprinc -randkey nm/hadoop102"
-
-[root@node01~]# kadmin -padmin/admin -wadmin -q"xst -k /etc/security/keytab/nm.service.keytab nm/hadoop102"
-
-**JobHistory Server （ node01）**
-
-[root@node01~]# kadmin -padmin/admin -wadmin -q"addprinc -randkey jhs/hadoop102"
-
-[root@node01~]# kadmin -padmin/admin -wadmin -q"xst -k /etc/security/keytab/jhs.service.keytab jhs/hadoop102"
+[root@node01~]# kadmin -padmin/admin -wadmin -q"xst -k /etc/security/keytab/nm.service.keytab nm/node01"
+```
 
 **Web UI （ node01）**
 
+```shell
 [root@node01~]# kadmin -padmin/admin -wadmin -q"addprinc -randkey HTTP/hadoop102"
-
-[root@node01~]# kadmin -padmin/admin -wadmin -q"xst -k /etc/security/keytab/spnego.service.keytab HTTP/hadoop102"
-
-**2 ）以下命令在 node02 执行**
+[root@node01~]# kadmin -padmin/admin -wadmin -q"xst -k /etc/security/keytab/spnego.service.keytab HTTP/node01"
+```
 
 **ResourceManager （ node02 ）**
 
+```shell
+[root@node02 ~]# kadmin -padmin/admin -wadmin -q"addprinc -randkey rm/node01"
+[root@node02 ~]# kadmin -padmin/admin -wadmin -q"xst -k /etc/security/keytab/rm.service.keytab rm/node01"
+```
+
+**2 ）以下命令在 node02 执行**
+
+**NameNode （ node02）**
+
+```shell
+[root@node01~]# kadmin -padmin/admin -wadmin -q"addprinc -randkey nn/node01"
+[root@node01~]# kadmin -padmin/admin -wadmin -q"xst -k /etc/security/keytab/nn.service.keytab nn/node01"
+```
+
+**DataNode （ node02）**
+
+```shell
+[root@node01~]# kadmin -padmin/admin -wadmin -q"addprinc -randkey dn/node01"
+[root@node01~]# kadmin -padmin/admin -wadmin -q"xst -k /etc/security/keytab/dn.service.keytab dn/node01"
+```
+
+**NodeManager （ node02）**
+
+```shell
+[root@node01~]# kadmin -padmin/admin -wadmin -q"addprinc -randkey nm/hadoop102"
+[root@node01~]# kadmin -padmin/admin -wadmin -q"xst -k /etc/security/keytab/nm.service.keytab nm/node01"
+```
+
+**ResourceManager （ node02 ）**
+
+```shell
 [root@node02 ~]# kadmin -padmin/admin -wadmin -q"addprinc -randkey rm/node02"
-
 [root@node02 ~]# kadmin -padmin/admin -wadmin -q"xst -k /etc/security/keytab/rm.service.keytab rm/node02"
-
-**DataNode （ node02 ）**
-
-[root@node02 ~]# kadmin -padmin/admin -wadmin -q"addprinc -randkey dn/node02"
-
-[root@node02 ~]# kadmin -padmin/admin -wadmin -q"xst -k /etc/security/keytab/dn.service.keytab dn/node02"
-
-**NodeManager （ node02 ）**
-
-[root@node02 ~]# kadmin -padmin/admin -wadmin -q"addprinc -randkey nm/node02"
-
-[root@node02 ~]# kadmin -padmin/admin -wadmin -q"xst -k /etc/security/keytab/nm.service.keytab nm/node02"
+```
 
 **Web UI （ node02 ）**
 
+```shell
 [root@node02 ~]# kadmin -padmin/admin -wadmin -q"addprinc -randkey HTTP/node02"
-
 [root@node02 ~]# kadmin -padmin/admin -wadmin -q"xst -k /etc/security/keytab/spnego.service.keytab HTTP/node02"
+```
 
 **3 ）以下命令在 node03 执行**
 
 **DataNode （ node03 ）**
 
+```shell
 [root@node03 ~]# kadmin -padmin/admin -wadmin -q"addprinc -randkey dn/node03"
 
 [root@node03 ~]# kadmin -padmin/admin -wadmin -q"xst -k /etc/security/keytab/dn.service.keytab dn/node03"
-
-**Secondary NameNode （ node03 ）**
-
-[root@node03 ~]# kadmin -padmin/admin -wadmin -q"addprinc -randkey sn/node03"
-
-[root@node03 ~]# kadmin -padmin/admin -wadmin -q"xst -k /etc/security/keytab/sn.service.keytab sn/node03"
+```
 
 **NodeManager （ node03 ）**
 
+```shell
 [root@node03 ~]# kadmin -padmin/admin -wadmin -q"addprinc -randkey nm/node03"
 
 [root@node03 ~]# kadmin -padmin/admin -wadmin -q"xst -k /etc/security/keytab/nm.service.keytab nm/node03"
+```
 
 **Web UI （ node03 ）**
 
+```shell
 [root@node03 ~]# kadmin -padmin/admin -wadmin -q"addprinc -randkey HTTP/node03"
 
 [root@node03 ~]# kadmin -padmin/admin -wadmin -q"xst -k /etc/security/keytab/spnego.service.keytab HTTP/node03"
+```
+
+**JobHistory Server （ node03）**
+
+```shell
+[root@node03~]# kadmin -padmin/admin -wadmin -q"addprinc -randkey jhs/node03"
+[root@node03~]# kadmin -padmin/admin -wadmin -q"xst -k /etc/security/keytab/jhs.service.keytab jhs/node03"
+```
 
 **4. 修改 所有节点 keytab 文件的所有者和访问权限**
 
+```shell
 [root@node01~]# chown -R root:hadoop /etc/security/keytab/
-
-[root@node01~]# chmod 660 /etc/security/keytab/\*
-
-[root@node02 ~]# chown -R root:hadoop /etc/security/keytab/
-
-[root@node02 ~]# chmod 660 /etc/security/keytab/\*
-
-[root@node03 ~]# chown -R root:hadoop /etc/security/keytab/
-
-[root@node03 ~]# chmod 660 /etc/security/keytab/\*
+[root@node01~]# chmod 660 /etc/security/keytab/*
+```
 
 ## 3.2 修改Hadoop配置文件
 
@@ -568,287 +553,195 @@ test/test：主体
 
 **1.core-site.xml**
 
-[root@node01~]# vim /opt/module/hadoop-3.1.3/etc/hadoop/core-site.xml
+```shell
+[root@node01~]# vi /opt/stanlong/hadoop/hadoop-2.9.2/etc/hadoop/core-site.xml
+```
 
 增加以下内容
 
-\<!-- Kerberos主体到系统用户的映射机制 --\>
+```xml
+<!-- Kerberos主体到系统用户的映射机制 -->
+<property>
+  <name>hadoop.security.auth_to_local.mechanism</name>
+  <value>MIT</value>
+</property>
 
-\<property\>
+<!-- Kerberos主体到系统用户的具体映射规则 -->
+<property>
+  <name>hadoop.security.auth_to_local</name>
+  <value>
+    RULE:[2:$1/$2@$0]([ndj]n\/.*@EXAMPLE\.COM)s/.*/hdfs/
+    RULE:[2:$1/$2@$0]([rn]m\/.*@EXAMPLE\.COM)s/.*/yarn/
+    RULE:[2:$1/$2@$0](jhs\/.*@EXAMPLE\.COM)s/.*/mapred/
+    DEFAULT
+  </value>
+</property>
 
-\<name\>hadoop.security.auth\_to\_local.mechanism\</name\>
+<!-- 启用Hadoop集群Kerberos安全认证 -->
+<property>
+  <name>hadoop.security.authentication</name>
+  <value>kerberos</value>
+</property>
 
-\<value\>MIT\</value\>
+<!-- 启用Hadoop集群授权管理 -->
+<property>
+  <name>hadoop.security.authorization</name>
+  <value>true</value>
+</property>
 
-\</property\>
-
-\<!-- Kerberos主体到系统用户的具体映射规则 --\>
-
-\<property\>
-
-\<name\>hadoop.security.auth\_to\_local\</name\>
-
-\<value\>
-
-RULE:[2:$1/$2@$0]([ndj]n\/.\*@EXAMPLE\.COM)s/.\*/hdfs/
-
-RULE:[2:$1/$2@$0]([rn]m\/.\*@EXAMPLE\.COM)s/.\*/yarn/
-
-RULE:[2:$1/$2@$0](jhs\/.\*@EXAMPLE\.COM)s/.\*/mapred/
-
-DEFAULT
-
-\</value\>
-
-\</property\>
-
-\<!-- 启用Hadoop集群Kerberos安全认证 --\>
-
-\<property\>
-
-\<name\>hadoop.security.authentication\</name\>
-
-\<value\>kerberos\</value\>
-
-\</property\>
-
-\<!-- 启用Hadoop集群授权管理 --\>
-
-\<property\>
-
-\<name\>hadoop.security.authorization\</name\>
-
-\<value\>true\</value\>
-
-\</property\>
-
-\<!-- Hadoop集群间RPC通讯设为仅认证模式 --\>
-
-\<property\>
-
-\<name\>hadoop.rpc.protection\</name\>
-
-\<value\>authentication\</value\>
-
-\</property\>
+<!-- Hadoop集群间RPC通讯设为仅认证模式 -->
+<property>
+  <name>hadoop.rpc.protection</name>
+  <value>authentication</value>
+</property>
+```
 
 **2.hdfs-site.xml**
 
-[root@node01~]# vim /opt/module/hadoop-3.1.3/etc/hadoop/hdfs-site.xml
+```shell
+[root@node01~]# vi /opt/stanlong/hadoop/hadoop-2.9.2/etc/hadoop/hdfs-site.xml
+```
 
 增加以下内容
 
-\<!-- 访问DataNode数据块时需通过Kerberos认证 --\>
-
-\<property\>
-
-\<name\>dfs.block.access.token.enable\</name\>
-
-\<value\>true\</value\>
-
-\</property\>
-
-\<!-- NameNode服务的Kerberos主体,\_HOST会自动解析为服务所在的主机名 --\>
-
-\<property\>
-
-\<name\>dfs.namenode.kerberos.principal\</name\>
-
-\<value\>nn/\_HOST@EXAMPLE.COM\</value\>
-
-\</property\>
-
-\<!-- NameNode服务的Kerberos密钥文件路径 --\>
-
-\<property\>
-
-\<name\>dfs.namenode.keytab.file\</name\>
-
-\<value\>/etc/security/keytab/nn.service.keytab\</value\>
-
-\</property\>
-
-\<!-- Secondary NameNode服务的Kerberos主体 --\>
-
-\<property\>
-
-\<name\>dfs.secondary.namenode.keytab.file\</name\>
-
-\<value\>/etc/security/keytab/sn.service.keytab\</value\>
-
-\</property\>
-
-\<!-- Secondary NameNode服务的Kerberos密钥文件路径 --\>
-
-\<property\>
-
-\<name\>dfs.secondary.namenode.kerberos.principal\</name\>
-
-\<value\>sn/\_HOST@EXAMPLE.COM\</value\>
-
-\</property\>
-
-\<!-- NameNode Web服务的Kerberos主体 --\>
-
-\<property\>
-
-\<name\>dfs.namenode.kerberos.internal.spnego.principal\</name\>
-
-\<value\>HTTP/\_HOST@EXAMPLE.COM\</value\>
-
-\</property\>
-
-\<!-- WebHDFS REST服务的Kerberos主体 --\>
-
-\<property\>
-
-\<name\>dfs.web.authentication.kerberos.principal\</name\>
-
-\<value\>HTTP/\_HOST@EXAMPLE.COM\</value\>
-
-\</property\>
-
-\<!-- Secondary NameNode Web UI服务的Kerberos主体 --\>
-
-\<property\>
-
-\<name\>dfs.secondary.namenode.kerberos.internal.spnego.principal\</name\>
-
-\<value\>HTTP/\_HOST@EXAMPLE.COM\</value\>
-
-\</property\>
-
-\<!-- Hadoop Web UI的Kerberos密钥文件路径 --\>
-
-\<property\>
-
-\<name\>dfs.web.authentication.kerberos.keytab\</name\>
-
-\<value\>/etc/security/keytab/spnego.service.keytab\</value\>
-
-\</property\>
-
-\<!-- DataNode服务的Kerberos主体 --\>
-
-\<property\>
-
-\<name\>dfs.datanode.kerberos.principal\</name\>
-
-\<value\>dn/\_HOST@EXAMPLE.COM\</value\>
-
-\</property\>
-
-\<!-- DataNode服务的Kerberos密钥文件路径 --\>
-
-\<property\>
-
-\<name\>dfs.datanode.keytab.file\</name\>
-
-\<value\>/etc/security/keytab/dn.service.keytab\</value\>
-
-\</property\>
-
-\<!-- 配置NameNode Web UI 使用HTTPS协议 --\>
-
-\<property\>
-
-\<name\>dfs.http.policy\</name\>
-
-\<value\>HTTPS\_ONLY\</value\>
-
-\</property\>
-
-\<!-- 配置DataNode数据传输保护策略为仅认证模式 --\>
-
-\<property\>
-
-\<name\>dfs.data.transfer.protection\</name\>
-
-\<value\>authentication\</value\>
-
-\</property\>
+```xml
+<!-- 访问DataNode数据块时需通过Kerberos认证 -->
+<property>
+  <name>dfs.block.access.token.enable</name>
+  <value>true</value>
+</property>
+
+<!-- NameNode服务的Kerberos主体,_HOST会自动解析为服务所在的主机名 -->
+<property>
+  <name>dfs.namenode.kerberos.principal</name>
+  <value>nn/_HOST@EXAMPLE.COM</value>
+</property>
+
+<!-- NameNode服务的Kerberos密钥文件路径 -->
+<property>
+  <name>dfs.namenode.keytab.file</name>
+  <value>/etc/security/keytab/nn.service.keytab</value>
+</property>
+
+<!-- Secondary NameNode服务的Kerberos主体 -->
+<property>
+  <name>dfs.secondary.namenode.keytab.file</name>
+  <value>/etc/security/keytab/sn.service.keytab</value>
+</property>
+
+<!-- Secondary NameNode服务的Kerberos密钥文件路径 -->
+<property>
+  <name>dfs.secondary.namenode.kerberos.principal</name>
+  <value>sn/_HOST@EXAMPLE.COM</value>
+</property>
+
+<!-- NameNode Web服务的Kerberos主体 -->
+<property>
+  <name>dfs.namenode.kerberos.internal.spnego.principal</name>
+  <value>HTTP/_HOST@EXAMPLE.COM</value>
+</property>
+
+<!-- WebHDFS REST服务的Kerberos主体 -->
+<property>
+  <name>dfs.web.authentication.kerberos.principal</name>
+  <value>HTTP/_HOST@EXAMPLE.COM</value>
+</property>
+
+<!-- Hadoop Web UI的Kerberos密钥文件路径 -->
+<property>
+  <name>dfs.web.authentication.kerberos.keytab</name>
+  <value>/etc/security/keytab/spnego.service.keytab</value>
+</property>
+
+<!-- DataNode服务的Kerberos主体 -->
+<property>
+  <name>dfs.datanode.kerberos.principal</name>
+  <value>dn/_HOST@EXAMPLE.COM</value>
+</property>
+
+<!-- DataNode服务的Kerberos密钥文件路径 -->
+<property>
+  <name>dfs.datanode.keytab.file</name>
+  <value>/etc/security/keytab/dn.service.keytab</value>
+</property>
+
+<!-- 配置NameNode Web UI 使用HTTPS协议 -->
+<property>
+  <name>dfs.http.policy</name>
+  <value>HTTPS_ONLY</value>
+</property>
+
+<!-- 配置DataNode数据传输保护策略为仅认证模式 -->
+<property>
+  <name>dfs.data.transfer.protection</name>
+  <value>authentication</value>
+</property>
+```
 
 **3.yarn-site.xml**
 
-[root@node01~]# vim /opt/module/hadoop-3.1.3/etc/hadoop/yarn-site.xml
+```shell
+[root@node01~]# vi /opt/stanlong/hadoop/hadoop-2.9.2/etc/hadoop/yarn-site.xml
+```
 
 增加以下内容
 
-\<!-- Resource Manager 服务的Kerberos主体 --\>
+```xml
+<!-- Resource Manager 服务的Kerberos主体 -->
+<property>
+  <name>yarn.resourcemanager.principal</name>
+  <value>rm/_HOST@EXAMPLE.COM</value>
+</property>
 
-\<property\>
+<!-- Resource Manager 服务的Kerberos密钥文件 -->
+<property>
+  <name>yarn.resourcemanager.keytab</name>
+  <value>/etc/security/keytab/rm.service.keytab</value>
+</property>
 
-\<name\>yarn.resourcemanager.principal\</name\>
+<!-- Node Manager 服务的Kerberos主体 -->
+<property>
+  <name>yarn.nodemanager.principal</name>
+  <value>nm/_HOST@EXAMPLE.COM</value>
+</property>
 
-\<value\>rm/\_HOST@EXAMPLE.COM\</value\>
-
-\</property\>
-
-\<!-- Resource Manager 服务的Kerberos密钥文件 --\>
-
-\<property\>
-
-\<name\>yarn.resourcemanager.keytab\</name\>
-
-\<value\>/etc/security/keytab/rm.service.keytab\</value\>
-
-\</property\>
-
-\<!-- Node Manager 服务的Kerberos主体 --\>
-
-\<property\>
-
-\<name\>yarn.nodemanager.principal\</name\>
-
-\<value\>nm/\_HOST@EXAMPLE.COM\</value\>
-
-\</property\>
-
-\<!-- Node Manager 服务的Kerberos密钥文件 --\>
-
-\<property\>
-
-\<name\>yarn.nodemanager.keytab\</name\>
-
-\<value\>/etc/security/keytab/nm.service.keytab\</value\>
-
-\</property\>
+<!-- Node Manager 服务的Kerberos密钥文件 -->
+<property>
+  <name>yarn.nodemanager.keytab</name>
+  <value>/etc/security/keytab/nm.service.keytab</value>
+</property>
+```
 
 **4.mapred-site.xml**
 
-[root@node01~]# vim /opt/module/hadoop-3.1.3/etc/hadoop/mapred-site.xml
+```shell
+[root@node01~]# vi /opt/stanlong/hadoop/hadoop-2.9.2/etc/hadoop/mapred-site.xml
+```
 
 增加以下内容
 
-\<!-- 历史服务器的Kerberos主体 --\>
+```xml
+<!-- 历史服务器的Kerberos主体 -->
+<property>
+  <name>mapreduce.jobhistory.keytab</name>
+  <value>/etc/security/keytab/jhs.service.keytab</value>
+</property>
 
-\<property\>
-
-\<name\>mapreduce.jobhistory.keytab\</name\>
-
-\<value\>/etc/security/keytab/jhs.service.keytab\</value\>
-
-\</property\>
-
-\<!-- 历史服务器的Kerberos密钥文件 --\>
-
-\<property\>
-
-\<name\>mapreduce.jobhistory.principal\</name\>
-
-\<value\>jhs/\_HOST@EXAMPLE.COM\</value\>
-
-\</property\>
+<!-- 历史服务器的Kerberos密钥文件 -->
+<property>
+  <name>mapreduce.jobhistory.principal</name>
+  <value>jhs/_HOST@EXAMPLE.COM</value>
+</property>
+```
 
 **（ 5 ）分发以上修改的配置文件**
 
-[root@node01~]# xsync /opt/module/hadoop-3.1.3/etc/hadoop/core-site.xml
-
-[root@node01~]# xsync /opt/module/hadoop-3.1.3/etc/hadoop/hdfs-site.xml
-
-[root@node01~]# xsync /opt/module/hadoop-3.1.3/etc/hadoop/yarn-site.xml
-
-[root@node01~]# xsync /opt/module/hadoop-3.1.3/etc/hadoop/mapred-site.xml
+```shell
+[root@node01~]# xsync /opt/stanlong/hadoop/hadoop-2.9.2/etc/hadoop/core-site.xml
+[root@node01~]# xsync /opt/stanlong/hadoop/hadoop-2.9.2/etc/hadoop/hdfs-site.xml
+[root@node01~]# xsync /opt/stanlong/hadoop/hadoop-2.9.2/etc/hadoop/yarn-site.xml
+[root@node01~]# xsync /opt/stanlong/hadoop/hadoop-2.9.2/etc/hadoop/mapred-site.xml
+```
 
 ## 3.3 配置HDFS使用HTTPS安全传输协议
 
@@ -856,16 +749,14 @@ DEFAULT
 
 Keytool是java数据证书的管理工具，使用户能够管理自己的公/私钥对及相关证书。
 
--keystore    指定密钥库的名称及位置(产生的各类信息将存在.keystore文件中)
-
--genkey(或者-genkeypair)      生成密钥对
-
--alias 为生成的密钥对指定别名，如果没有默认是mykey
-
--keyalg  指定密钥的算法 RSA/DSA 默认是DSA
+- -keystore    指定密钥库的名称及位置(产生的各类信息将存在.keystore文件中)
+- -genkey(或者-genkeypair)      生成密钥对
+- -alias 为生成的密钥对指定别名，如果没有默认是mykey
+- -keyalg  指定密钥的算法 RSA/DSA 默认是DSA
 
 **1 ）生成  keystore 的密码及相应信息的密钥库**
 
+```shell
 [root@node01~]# keytool -keystore /etc/security/keytab/keystore -alias jetty -genkey -keyalg RSA
 
 输入密钥库口令:
@@ -905,6 +796,9 @@ CN=Unknown, OU=Unknown, O=Unknown, L=Unknown, ST=Unknown, C=Unknown是否正确?
 (如果和密钥库口令相同, 按回车):
 
 再次输入新口令:
+```
+
+
 
 **2 ）修改 keystore 文件的所有者和访问权限**
 
@@ -924,15 +818,15 @@ CN=Unknown, OU=Unknown, O=Unknown, L=Unknown, ST=Unknown, C=Unknown是否正确?
 
 **4 ）修改 hadoop 配置文件 ssl-server.xml.example ，**
 
-**该文件位于 $HADOOP\_HOME/etc/hadoop 目录**
+**该文件位于 $HADOOP_HOME/etc/hadoop 目录**
 
 **修改文件名为 ssl-server.xml**
 
-[root@node01~]# mv $HADOOP\_HOME/etc/hadoop/ssl-server.xml.example $HADOOP\_HOME/etc/hadoop/ssl-server.xml
+[root@node01~]# mv $HADOOP_HOME/etc/hadoop/ssl-server.xml.example $HADOOP_HOME/etc/hadoop/ssl-server.xml
 
 **修改以下内容**
 
-[root@node01~]# vim $HADOOP\_HOME/etc/hadoop/ssl-server.xml
+[root@node01~]# vim $HADOOP_HOME/etc/hadoop/ssl-server.xml
 
 修改以下参数
 
@@ -988,11 +882,11 @@ CN=Unknown, OU=Unknown, O=Unknown, L=Unknown, ST=Unknown, C=Unknown是否正确?
 
 **5 ）分发 ssl-server.xml 文件**
 
-[root@node01~]# xsync $HADOOP\_HOME/etc/hadoop/ssl-server.xml
+[root@node01~]# xsync $HADOOP_HOME/etc/hadoop/ssl-server.xml
 
 ## 3.4 配置Yarn使用LinuxContainerExecutor
 
-1）修改 **所有节点** 的container-executor所有者和权限，要求其所有者为root，所有组为hadoop（启动NodeManger的yarn用户的所属组），权限为6050。其默认路径为$HADOOP\_HOME/bin
+1）修改 **所有节点** 的container-executor所有者和权限，要求其所有者为root，所有组为hadoop（启动NodeManger的yarn用户的所属组），权限为6050。其默认路径为$HADOOP_HOME/bin
 
 [root@node01~]# chown root:hadoop /opt/module/hadoop-3.1.3/bin/container-executor
 
@@ -1006,7 +900,7 @@ CN=Unknown, OU=Unknown, O=Unknown, L=Unknown, ST=Unknown, C=Unknown是否正确?
 
 [root@node03 ~]# chmod 6050 /opt/module/hadoop-3.1.3/bin/container-executor
 
-2）修改 **所有节点** 的container-executor.cfg文件的所有者和权限，要求该文件及其所有的上级目录的所有者均为root，所有组为hadoop（启动NodeManger的yarn用户的所属组），权限为400。其默认路径为$HADOOP\_HOME/etc/hadoop
+2）修改 **所有节点** 的container-executor.cfg文件的所有者和权限，要求该文件及其所有的上级目录的所有者均为root，所有组为hadoop（启动NodeManger的yarn用户的所属组），权限为400。其默认路径为$HADOOP_HOME/etc/hadoop
 
 [root@node01~]# chown root:hadoop /opt/module/hadoop-3.1.3/etc/hadoop/container-executor.cfg
 
@@ -1044,9 +938,9 @@ CN=Unknown, OU=Unknown, O=Unknown, L=Unknown, ST=Unknown, C=Unknown是否正确?
 
 [root@node03 ~]# chmod 400 /opt/module/hadoop-3.1.3/etc/hadoop/container-executor.cfg
 
-3）修改$HADOOP\_HOME/etc/hadoop/container-executor.cfg
+3）修改$HADOOP_HOME/etc/hadoop/container-executor.cfg
 
-[root@node01~]# vim $HADOOP\_HOME/etc/hadoop/container-executor.cfg
+[root@node01~]# vim $HADOOP_HOME/etc/hadoop/container-executor.cfg
 
 内容如下
 
@@ -1060,9 +954,9 @@ allowed.system.users=
 
 feature.tc.enabled=false
 
-4）修改$HADOOP\_HOME/etc/hadoop/yarn-site.xml文件
+4）修改$HADOOP_HOME/etc/hadoop/yarn-site.xml文件
 
-[root@node01~]# vim $HADOOP\_HOME/etc/hadoop/yarn-site.xml
+[root@node01~]# vim $HADOOP_HOME/etc/hadoop/yarn-site.xml
 
 增加以下内容
 
@@ -1098,15 +992,15 @@ feature.tc.enabled=false
 
 5）分发container-executor.cfg和yarn-site.xml文件
 
-[root@node01~]# xsync $HADOOP\_HOME/etc/hadoop/container-executor.cfg
+[root@node01~]# xsync $HADOOP_HOME/etc/hadoop/container-executor.cfg
 
-[root@node01~]# xsync $HADOOP\_HOME/etc/hadoop/yarn-site.xml
+[root@node01~]# xsync $HADOOP_HOME/etc/hadoop/yarn-site.xml
 
 # 第4章 安全模式下启动Hadoop集群
 
 ## 4.1 修改特定本地路径权限
 
-| **local** | $HADOOP\_LOG\_DIR           | hdfs:hadoop | drwxrwxr-x |
+| **local** | $HADOOP_LOG_DIR             | hdfs:hadoop | drwxrwxr-x |
 | --------- | --------------------------- | ----------- | ---------- |
 | **local** | dfs.namenode.name.dir       | hdfs:hadoop | drwx------ |
 | **local** | dfs.datanode.data.dir       | hdfs:hadoop | drwx------ |
@@ -1114,9 +1008,9 @@ feature.tc.enabled=false
 | **local** | yarn.nodemanager.local-dirs | yarn:hadoop | drwxrwxr-x |
 | **local** | yarn.nodemanager.log-dirs   | yarn:hadoop | drwxrwxr-x |
 
-1）$HADOOP\_LOG\_DIR（所有节点）
+1）$HADOOP_LOG_DIR（所有节点）
 
-该变量位于hadoop-env.sh文件，默认值为 ${HADOOP\_HOME}/logs
+该变量位于hadoop-env.sh文件，默认值为 ${HADOOP_HOME}/logs
 
 [root@node01~]# chown hdfs:hadoop /opt/module/hadoop-3.1.3/logs/
 
@@ -1180,7 +1074,7 @@ feature.tc.enabled=false
 
 6）yarn.nodemanager.log-dirs（NodeManager节点）
 
-该参数位于yarn-site.xml文件，默认值为$HADOOP\_LOG\_DIR/userlogs
+该参数位于yarn-site.xml文件，默认值为$HADOOP_LOG_DIR/userlogs
 
 [root@node01~]# chown yarn:hadoop /opt/module/hadoop-3.1.3/logs/userlogs/
 
@@ -1225,19 +1119,19 @@ feature.tc.enabled=false
 
 1）在主节点（hadoop102）配置hdfs用户到所有节点的免密登录。
 
-2）修改主节点（hadoop102）节点的$HADOOP\_HOME/sbin/start-dfs.sh脚本，在顶部增加以下环境变量。
+2）修改主节点（hadoop102）节点的$HADOOP_HOME/sbin/start-dfs.sh脚本，在顶部增加以下环境变量。
 
-[root@node01~]# vim $HADOOP\_HOME/sbin/start-dfs.sh
+[root@node01~]# vim $HADOOP_HOME/sbin/start-dfs.sh
 
 在顶部增加如下内容
 
-HDFS\_DATANODE\_USER=hdfs
+HDFS_DATANODE_USER=hdfs
 
-HDFS\_NAMENODE\_USER=hdfs
+HDFS_NAMENODE_USER=hdfs
 
-HDFS\_SECONDARYNAMENODE\_USER=hdfs
+HDFS_SECONDARYNAMENODE_USER=hdfs
 
-**注： $HADOOP\_HOME/sbin/stop-dfs.sh 也需在顶部增加上述环境变量才可使用。**
+**注： $HADOOP_HOME/sbin/stop-dfs.sh 也需在顶部增加上述环境变量才可使用。**
 
 3）以root用户执行群起脚本，即可启动HDFS集群。
 
@@ -1287,11 +1181,11 @@ HDFS\_SECONDARYNAMENODE\_USER=hdfs
 
 [root@node01~]# hadoop fs -chmod 1777 /tmp/logs
 
-（3）参数mapreduce.jobhistory.intermediate-done-dir位于mapred-site.xml文件，默认值为/tmp/hadoop-yarn/staging/history/done\_intermediate，需保证该路径的所有上级目录（除/tmp）的所有者均为mapred，所属组为hadoop，权限为770
+（3）参数mapreduce.jobhistory.intermediate-done-dir位于mapred-site.xml文件，默认值为/tmp/hadoop-yarn/staging/history/done_intermediate，需保证该路径的所有上级目录（除/tmp）的所有者均为mapred，所属组为hadoop，权限为770
 
-[root@node01~]# hadoop fs -chown -R mapred:hadoop /tmp/hadoop-yarn/staging/history/done\_intermediate
+[root@node01~]# hadoop fs -chown -R mapred:hadoop /tmp/hadoop-yarn/staging/history/done_intermediate
 
-[root@node01~]# hadoop fs -chmod -R 1777 /tmp/hadoop-yarn/staging/history/done\_intermediate
+[root@node01~]# hadoop fs -chmod -R 1777 /tmp/hadoop-yarn/staging/history/done_intermediate
 
 [root@node01~]# hadoop fs -chown mapred:hadoop /tmp/hadoop-yarn/staging/history/
 
@@ -1343,19 +1237,19 @@ HDFS\_SECONDARYNAMENODE\_USER=hdfs
 
 1）在Yarn主节点（node02）配置 **yarn** 用户到所有节点的免密登录。
 
-2）修改主节点（node02）的$HADOOP\_HOME/sbin/start-yarn.sh，在顶部增加以下环境变量。
+2）修改主节点（node02）的$HADOOP_HOME/sbin/start-yarn.sh，在顶部增加以下环境变量。
 
-[root@node02 ~]# vim $HADOOP\_HOME/sbin/start-yarn.sh
+[root@node02 ~]# vim $HADOOP_HOME/sbin/start-yarn.sh
 
 在顶部增加如下内容
 
-YARN\_RESOURCEMANAGER\_USER=yarn
+YARN_RESOURCEMANAGER_USER=yarn
 
-YARN\_NODEMANAGER\_USER=yarn
+YARN_NODEMANAGER_USER=yarn
 
 **注： stop-yarn.sh 也需在顶部增加上述环境变量才可使用。**
 
-3）以root用户执行$HADOOP\_HOME/sbin/start-yarn.sh脚本即可启动yarn集群。
+3）以root用户执行$HADOOP_HOME/sbin/start-yarn.sh脚本即可启动yarn集群。
 
 [root@node02 ~]# start-yarn.sh
 
@@ -1459,15 +1353,15 @@ YARN\_NODEMANAGER\_USER=yarn
 
 [libdefaults]
 
-dns\_lookup\_realm = false
+dns_lookup_realm = false
 
-ticket\_lifetime = 24h
+ticket_lifetime = 24h
 
 forwardable = true
 
 rdns = false
 
-default\_realm = EXAMPLE.COM
+default_realm = EXAMPLE.COM
 
 [realms]
 
@@ -1475,11 +1369,11 @@ EXAMPLE.COM = {
 
 kdc = hadoop102
 
-admin\_server = hadoop102
+admin_server = hadoop102
 
 }
 
-[domain\_realm]
+[domain_realm]
 
 **2. 配置火狐浏览器**
 
@@ -1573,9 +1467,9 @@ admin\_server = hadoop102
 
 ## 6.2 配置认证
 
-1.修改$HIVE\_HOME/conf/hive-site.xml文件，增加如下属性
+1.修改$HIVE_HOME/conf/hive-site.xml文件，增加如下属性
 
-[root@node01~]# vim $HIVE\_HOME/conf/hive-site.xml
+[root@node01~]# vim $HIVE_HOME/conf/hive-site.xml
 
 \<!-- HiveServer2启用Kerberos认证 --\>
 
@@ -1637,9 +1531,9 @@ admin\_server = hadoop102
 
 \</property\>
 
-2.修改$HADOOP\_HOME/etc/hadoop/core-site.xml文件，具体修改如下
+2.修改$HADOOP_HOME/etc/hadoop/core-site.xml文件，具体修改如下
 
-[root@node01~]# vim $HADOOP\_HOME/etc/hadoop/core-site.xml
+[root@node01~]# vim $HADOOP_HOME/etc/hadoop/core-site.xml
 
 1） **删除** 以下参数
 
@@ -1703,7 +1597,7 @@ admin\_server = hadoop102
 
 3.分发配置core-site.xml文件
 
-[root@node01~]# xsync $HADOOP\_HOME/etc/hadoop/core-site.xml
+[root@node01~]# xsync $HADOOP_HOME/etc/hadoop/core-site.xml
 
 4.重启Hadoop集群
 
