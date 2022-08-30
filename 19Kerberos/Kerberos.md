@@ -334,7 +334,7 @@ klist: No credentials cache found (ticket cache FILE:/tmp/krb5cc_0)
 
 ## 3.1 为Hadoop各服务创建Kerberos主体（Principal）
 
-主体格式如下：ServiceName/HostName@REALM，例如 `dn/hadoop102@EXAMPLE.COM`
+主体格式如下：ServiceName/HostName@REALM，例如 `dn/node01@EXAMPLE.COM`
 
 **1. 各服务所需主体如下**
 
@@ -473,7 +473,7 @@ test/test：主体
 **Web UI （ node01）**
 
 ```shell
-[root@node01~]# kadmin -padmin/admin -wadmin -q"addprinc -randkey HTTP/hadoop102"
+[root@node01~]# kadmin -padmin/admin -wadmin -q"addprinc -randkey HTTP/node01"
 [root@node01~]# kadmin -padmin/admin -wadmin -q"xst -k /etc/security/keytab/spnego.service.keytab HTTP/node01"
 ```
 
@@ -510,7 +510,7 @@ test/test：主体
 **NodeManager （ node02）**
 
 ```shell
-[root@node02~]# kadmin -padmin/admin -wadmin -q"addprinc -randkey nm/hadoop102"
+[root@node02~]# kadmin -padmin/admin -wadmin -q"addprinc -randkey nm/node01"
 [root@node02~]# kadmin -padmin/admin -wadmin -q"xst -k /etc/security/keytab/nm.service.keytab nm/node01"
 ```
 
@@ -1014,81 +1014,66 @@ feature.tc.enabled=false
 
 该变量位于hadoop-env.sh文件，默认值为 ${HADOOP_HOME}/logs
 
-[root@node01~]# chown hdfs:hadoop /opt/module/hadoop-3.1.3/logs/
+```shell
+[root@node01~]# chown hdfs:hadoop /opt/stanlong/hadoop/hadoop-2.9.2/logs/
+[root@node01~]# chmod 775 /opt/stanlong/hadoop/hadoop-2.9.2/logs/
+```
 
-[root@node01~]# chmod 775 /opt/module/hadoop-3.1.3/logs/
+2）dfs.namenode.name.dir（NameNode节点, node01 和 node02）
 
-[root@node02 ~]# chown hdfs:hadoop /opt/module/hadoop-3.1.3/logs/
+《该参数位于hdfs-site.xml文件，默认值为file://${hadoop.tmp.dir}/dfs/name》
 
-[root@node02 ~]# chmod 775 /opt/module/hadoop-3.1.3/logs/
+说明，在本集群中 dfs.namenode.name.dir 配置在 corr-site.xml 中。
 
-[root@node03 ~]# chown hdfs:hadoop /opt/module/hadoop-3.1.3/logs/
+```xml
+<!-- 配置NN数据存放路径,目录必须为空 -->
+<property>
+    <name>hadoop.tmp.dir</name>
+    <value>/var/data/hadoop/ha/data</value>
+</property>
+```
 
-[root@node03 ~]# chmod 775 /opt/module/hadoop-3.1.3/logs/
+因此修改内容如下
 
-2）dfs.namenode.name.dir（NameNode节点）
+```shell
+[root@node01~]# chown -R hdfs:hadoop /var/data/hadoop/ha/data/dfs/name/
+[root@node01~]# chmod 700 /var/data/hadoop/ha/data/dfs/name/
+```
 
-该参数位于hdfs-site.xml文件，默认值为file://${hadoop.tmp.dir}/dfs/name
-
-[root@node01~]# chown -R hdfs:hadoop /opt/module/hadoop-3.1.3/data/dfs/name/
-
-[root@node01~]# chmod 700 /opt/module/hadoop-3.1.3/data/dfs/name/
-
-3）dfs.datanode.data.dir（DataNode节点）
+3）dfs.datanode.data.dir（DataNode节点， 三个节点都要改）
 
 该参数为于hdfs-site.xml文件，默认值为file://${hadoop.tmp.dir}/dfs/data
 
-[root@node01~]# chown -R hdfs:hadoop /opt/module/hadoop-3.1.3/data/dfs/data/
+```shell
+[root@node01~]# chown -R hdfs:hadoop /var/data/hadoop/ha/data/dfs/data/
+[root@node01~]# chmod 700 /var/data/hadoop/ha/data/dfs/data/
+```
 
-[root@node01~]# chmod 700 /opt/module/hadoop-3.1.3/data/dfs/data/
-
-[root@node02 ~]# chown -R hdfs:hadoop /opt/module/hadoop-3.1.3/data/dfs/data/
-
-[root@node02 ~]# chmod 700 /opt/module/hadoop-3.1.3/data/dfs/data/
-
-[root@node03 ~]# chown -R hdfs:hadoop /opt/module/hadoop-3.1.3/data/dfs/data/
-
-[root@node03 ~]# chmod 700 /opt/module/hadoop-3.1.3/data/dfs/data/
-
-4）dfs.namenode.checkpoint.dir（SecondaryNameNode节点）
+4）dfs.namenode.checkpoint.dir（SecondaryNameNode节点，集群配置了HA, 这一步不需要）
 
 该参数位于hdfs-site.xml文件，默认值为file://${hadoop.tmp.dir}/dfs/namesecondary
 
-[root@node03 ~]# chown -R hdfs:hadoop /opt/module/hadoop-3.1.3/data/dfs/namesecondary/
+[root@node03 ~]# chown -R hdfs:hadoop /opt/stanlong/hadoop/hadoop-2.9.2/data/dfs/namesecondary/
 
-[root@node03 ~]# chmod 700 /opt/module/hadoop-3.1.3/data/dfs/namesecondary/
+[root@node03 ~]# chmod 700 /opt/stanlong/hadoop/hadoop-2.9.2/data/dfs/namesecondary/
 
-5）yarn.nodemanager.local-dirs（NodeManager节点）
+5）yarn.nodemanager.local-dirs（NodeManager节点， 三个节点都要改）
 
 该参数位于yarn-site.xml文件，默认值为file://${hadoop.tmp.dir}/nm-local-dir
 
-[root@node01~]# chown -R yarn:hadoop /opt/module/hadoop-3.1.3/data/nm-local-dir/
+```shell
+[root@node01~]# chown -R yarn:hadoop /var/data/hadoop/ha/data/nm-local-dir/
+[root@node01~]# chmod -R 775 /var/data/hadoop/ha/data/nm-local-dir/
+```
 
-[root@node01~]# chmod -R 775 /opt/module/hadoop-3.1.3/data/nm-local-dir/
-
-[root@node02 ~]# chown -R yarn:hadoop /opt/module/hadoop-3.1.3/data/nm-local-dir/
-
-[root@node02 ~]# chmod -R 775 /opt/module/hadoop-3.1.3/data/nm-local-dir/
-
-[root@node03 ~]# chown -R yarn:hadoop /opt/module/hadoop-3.1.3/data/nm-local-dir/
-
-[root@node03 ~]# chmod -R 775 /opt/module/hadoop-3.1.3/data/nm-local-dir/
-
-6）yarn.nodemanager.log-dirs（NodeManager节点）
+6）yarn.nodemanager.log-dirs（NodeManager节点， 三个节点都要改）
 
 该参数位于yarn-site.xml文件，默认值为$HADOOP_LOG_DIR/userlogs
 
-[root@node01~]# chown yarn:hadoop /opt/module/hadoop-3.1.3/logs/userlogs/
-
-[root@node01~]# chmod 775 /opt/module/hadoop-3.1.3/logs/userlogs/
-
-[root@node02 ~]# chown yarn:hadoop /opt/module/hadoop-3.1.3/logs/userlogs/
-
-[root@node02 ~]# chmod 775 /opt/module/hadoop-3.1.3/logs/userlogs/
-
-[root@node03 ~]# chown yarn:hadoop /opt/module/hadoop-3.1.3/logs/userlogs/
-
-[root@node03 ~]# chmod 775 /opt/module/hadoop-3.1.3/logs/userlogs/
+```shell
+[root@node01~]# chown yarn:hadoop /opt/stanlong/hadoop/hadoop-2.9.2/logs/userlogs/
+[root@node01~]# chmod 775 /opt/stanlong/hadoop/hadoop-2.9.2/logs/userlogs/
+```
 
 ## 4.2 启动HDFS
 
@@ -1098,19 +1083,25 @@ feature.tc.enabled=false
 
 （1）启动NameNode
 
-[root@node01~]# sudo -i -u hdfs hdfs --daemon start namenode
+```shell
+[root@node01~]# su hdfs
+[hdfs@node01~]# hadoop-daemon.sh start namenode
+
+[root@node02~]# su hdfs
+[hdfs@node02~]# hadoop-daemon.sh start namenode
+```
 
 （2）启动DataNode
 
-[root@node01~]# sudo -i -u hdfs hdfs --daemon start datanode
+```shell
+[root@node01~]# su hdfs
+[root@node02~]# su hdfs
+[root@node03~]# su hdfs
 
-[root@node02 ~]# sudo -i -u hdfs hdfs --daemon start datanode
-
-[root@node03 ~]# sudo -i -u hdfs hdfs --daemon start datanode
-
-（3）启动SecondaryNameNode
-
-[root@node03 ~]# sudo -i -u hdfs hdfs --daemon start secondarynamenode
+[hdfs@node01~]# hadoop-daemon.sh start datanode
+[hdfs@node02~]# hadoop-daemon.sh start datanode
+[hdfs@node03~]# hadoop-daemon.sh start datanode
+```
 
 **说明：**
 
@@ -1119,29 +1110,33 @@ feature.tc.enabled=false
 
 **2. 群起**
 
-1）在主节点（hadoop102）配置hdfs用户到所有节点的免密登录。
+1）在主节点（node01）配置hdfs用户到所有节点的免密登录。
 
-2）修改主节点（hadoop102）节点的$HADOOP_HOME/sbin/start-dfs.sh脚本，在顶部增加以下环境变量。
+2）修改主节点（node01）节点的$HADOOP_HOME/sbin/start-dfs.sh脚本，在顶部增加以下环境变量。
 
-[root@node01~]# vim $HADOOP_HOME/sbin/start-dfs.sh
+```shell
+[root@node01~]# vi $HADOOP_HOME/sbin/start-dfs.sh
+```
 
 在顶部增加如下内容
 
+```shell
 HDFS_DATANODE_USER=hdfs
-
 HDFS_NAMENODE_USER=hdfs
-
 HDFS_SECONDARYNAMENODE_USER=hdfs
+```
 
 **注： $HADOOP_HOME/sbin/stop-dfs.sh 也需在顶部增加上述环境变量才可使用。**
 
 3）以root用户执行群起脚本，即可启动HDFS集群。
 
+```shell
 [root@node01~]# start-dfs.sh
+```
 
 **3. 查看 HFDS web 页面**
 
-访问地址为[https://hadoop102:9871](https://hadoop102:9871/)
+访问地址为[https://node01:9871](https://node01:9871/)
 
 ## 4.3 修改HDFS特定路径访问权限
 
@@ -1267,7 +1262,7 @@ YARN_NODEMANAGER_USER=yarn
 
 **2. 查看历史服务器 web 页面**
 
-访问地址为[http://hadoop102:19888](http://hadoop102:19888/)
+访问地址为[http://node01:19888](http://node01:19888/)
 
 # 第5章 安全集群使用说明
 
@@ -1369,9 +1364,9 @@ default_realm = EXAMPLE.COM
 
 EXAMPLE.COM = {
 
-kdc = hadoop102
+kdc = node01
 
-admin_server = hadoop102
+admin_server = node01
 
 }
 
@@ -1383,7 +1378,7 @@ admin_server = hadoop102
 
 ![](RackMultipart20220810-1-83eiah_html_92468b845bcdd841.png)
 
-２）搜索"network.negotiate-auth.trusted-uris"，修改值为要访问的主机名（hadoop102）
+２）搜索"network.negotiate-auth.trusted-uris"，修改值为要访问的主机名（node01）
 
 ![](RackMultipart20220810-1-83eiah_html_833060021af366d7.png)
 
@@ -1425,7 +1420,7 @@ admin_server = hadoop102
 
 2.提交任务
 
-[atguigu@node01~]$ hadoop jar /opt/module/hadoop-3.1.3/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.1.3.jar pi 1 1
+[atguigu@node01~]$ hadoop jar /opt/stanlong/hadoop/hadoop-2.9.2/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.1.3.jar pi 1 1
 
 # 第6章 Hive用户认证配置
 
@@ -1455,11 +1450,11 @@ admin_server = hadoop102
 
 创建hive用户的Kerberos主体
 
-[root@node01~]# kadmin -padmin/admin -wadmin -q"addprinc -randkey hive/hadoop102"
+[root@node01~]# kadmin -padmin/admin -wadmin -q"addprinc -randkey hive/node01"
 
 在Hive所部署的节点生成keytab文件
 
-[root@node01~]# kadmin -padmin/admin -wadmin -q"xst -k /etc/security/keytab/hive.service.keytab hive/hadoop102"
+[root@node01~]# kadmin -padmin/admin -wadmin -q"xst -k /etc/security/keytab/hive.service.keytab hive/node01"
 
 3.修改keytab文件所有者和访问权限
 
@@ -1489,7 +1484,7 @@ admin_server = hadoop102
 
 \<name\>hive.server2.authentication.kerberos.principal\</name\>
 
-\<value\>hive/hadoop102@EXAMPLE.COM\</value\>
+\<value\>hive/node01@EXAMPLE.COM\</value\>
 
 \</property\>
 
@@ -1529,7 +1524,7 @@ admin_server = hadoop102
 
 \<name\>hive.metastore.kerberos.principal\</name\>
 
-\<value\>hive/hadoop102@EXAMPLE.COM\</value\>
+\<value\>hive/node01@EXAMPLE.COM\</value\>
 
 \</property\>
 
@@ -1633,7 +1628,7 @@ admin_server = hadoop102
 
 使用如下url进行连接
 
-\> !connect **jdbc:hive2://hadoop102:10000/;principal=hive/hadoop102@EXAMPLE.COM**
+\> !connect **jdbc:hive2://node01:10000/;principal=hive/node01@EXAMPLE.COM**
 
 ![](RackMultipart20220810-1-83eiah_html_f93c01e69be99fcb.png)
 
@@ -1669,7 +1664,7 @@ url模板：jdbc:hive2://{host}:{port}/{database}[;\<;,{:identifier}={:param}\>]
 
 **注：**
 
-url：jdbc:hive2://hadoop102:10000/;principal=hive/hadoop102@EXAMPLE.COM
+url：jdbc:hive2://node01:10000/;principal=hive/node01@EXAMPLE.COM
 
 2）高级配置
 
@@ -1701,7 +1696,7 @@ principal="atguigu@EXAMPLE.COM";
 
 };
 
-4）为用户生成keytab文件，在krb5kdc所在节点（hadoop102）执行以下命令
+4）为用户生成keytab文件，在krb5kdc所在节点（node01）执行以下命令
 
 [root@hadooop102]# kadmin.local -q"xst -norandkey -k /home/atguigu/atguigu.keytab atguigu"
 

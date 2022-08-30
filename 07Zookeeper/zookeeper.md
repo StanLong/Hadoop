@@ -80,7 +80,7 @@ clientPort=2181
 # Purge task interval in hours
 # Set to "0" to disable auto purge feature
 #autopurge.purgeInterval=1
-# 配置zookeeper节点，两个端口号是因为zookeeper运行时又两个状态，可用和不可用状态
+# 配置zookeeper节点，两个端口号是因为zookeeper运行时有两个状态：可用和不可用状态
 # zookeeper 也是主从模型 一个领导者 leader，多个跟随者follwoer组成的集群
 # 如果leader挂了， 可以根据数字快速选取出下一个leader
 server.1=192.168.235.11:2888:3888
