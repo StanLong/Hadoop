@@ -1,0 +1,401 @@
+09/03/2022 21:19:32:264 : 2473 : MESSAGE : /opt/intel/oneapi/installer/installer is run with arguments: --log-dir /tmp/root/intel_oneapi_installer/2022.09.03.21.19.24.674 --product-id intel.oneapi.lin.basekit.product --product-ver 2022.2.0-262 --package-path /root/l_BaseKit_p_2022.2.0.262_offline/packages --cli
+09/03/2022 21:19:32:264 : 2473 : MESSAGE : Installer is started in CLI mode
+09/03/2022 21:19:32:264 : 2473 : MESSAGE : Installer executable location is /opt/intel/oneapi/installer/installer, version is 4.1.1.0-291
+09/03/2022 21:19:32:264 : 2473 : MESSAGE : Package manager executable location is /opt/intel/packagemanager/1.0/packagemanager, version is 4.1.5-296
+09/03/2022 21:19:32:264 : 2473 : MESSAGE : Product is set to intel.oneapi.lin.basekit.product,v=2022.2.0-262. Mode is set to install.
+09/03/2022 21:19:33:411 : 2475 : MESSAGE : PreRequisite for other install successfully checked
+09/03/2022 21:19:33:421 : 2475 : MESSAGE : PreRequisite for other Intel install successfully checked
+09/03/2022 21:19:33:421 : 2475 : MESSAGE : PreRequisite for check installer location successfully checked
+09/03/2022 21:19:33:425 : 2475 : MESSAGE : PreRequisite for admin rights successfully checked
+09/03/2022 21:19:33:469 : 2475 : MESSAGE : Error [This machine uses operating system "CentOS version 7". Compatibility issues may occur.]
+09/03/2022 21:19:33:469 : 2475 : MESSAGE : Description [Installation can continue; however, product functionality may not meet expectations because this product is untested on this operating system. Suggestion: Check the Release Notes for a list of supported operating systems and install this product on a compliant system.]
+09/03/2022 21:19:33:469 : 2475 : WARNING : This machine uses operating system "CentOS version 7". Compatibility issues may occur.
+09/03/2022 21:19:33:469 : 2475 : MESSAGE : Checks for preRequisite for supported operation system are passed with warning
+09/03/2022 21:19:33:473 : 2475 : MESSAGE : All checks for preRequisite for supported operation system are passed
+09/03/2022 21:19:33:478 : 2475 : MESSAGE : All checks for preRequisite for supported operation system are passed
+09/03/2022 21:19:33:479 : 2475 : MESSAGE : All checks for preRequisite for supported operation system are passed
+09/03/2022 21:19:33:568 : 2475 : MESSAGE : PreRequisite for temporary folder successfully checked
+09/03/2022 21:19:33:568 : 2475 : MESSAGE : PreRequisite for host architecture successfully checked
+09/03/2022 21:20:12:036 : 2474 : MESSAGE : Check for id = [oneApiGpuDriverIsNotFound] failed
+09/03/2022 21:20:12:036 : 2474 : MESSAGE : Error [Intel® Graphics Compute Runtime for OpenCL™ not found.]
+09/03/2022 21:20:12:036 : 2474 : MESSAGE : Description [You have no relevant GPU driver. If you are going to develop and run GPU-accelerated applications on this system, please check the installation guide for instructions on the GPU drivers here: https://www.intel.com/content/www/us/en/develop/documentation/installation-guide-for-intel-oneapi-toolkits-linux/top/prerequisites/install-intel-gpu-drivers.html
+Otherwise, you can ignore the warning and continue the installation as is: the product can still be used with CPU.]
+09/03/2022 21:20:12:190 : 2474 : MESSAGE : Check for id = [atspi_check] failed
+09/03/2022 21:20:12:190 : 2474 : MESSAGE : Error [AT-SPI2 package is not installed]
+09/03/2022 21:20:12:190 : 2474 : MESSAGE : Description [Intel® VTune(TM) Profiler requires AT-SPI2 for graphical user interface, it can be installed with
+sudo apt-get install libatspi2.0-0 on Ubuntu / Debian
+sudo zypper install at-spi2-core on SUSE
+sudo dnf install at-spi2-core on CentOS / RHEL / Fedora]
+09/03/2022 21:20:12:281 : 2474 : MESSAGE : Check for id = [gbm_check] failed
+09/03/2022 21:20:12:281 : 2474 : MESSAGE : Error [GBM package is not installed]
+09/03/2022 21:20:12:281 : 2474 : MESSAGE : Description [Intel® VTune(TM) Profiler requires GBM library for graphical user interface, it can be installed with
+sudo apt-get install libgbm1 on Ubuntu / Debian
+sudo zypper install libgbm1 on SUSE
+sudo dnf install mesa-libgbm on CentOS / RHEL / Fedora]
+09/03/2022 21:20:12:365 : 2474 : MESSAGE : Check for id = [gtk3_check] failed
+09/03/2022 21:20:12:365 : 2474 : MESSAGE : Error [GTK3 package is not installed]
+09/03/2022 21:20:12:365 : 2474 : MESSAGE : Description [Intel® VTune(TM) Profiler requires GTK3 library for graphical user interface, it can be installed with
+sudo apt-get install libgtk-3-0 on Ubuntu / Debian
+sudo zypper install libgtk-3-0 on SUSE
+sudo dnf install gtk3 on CentOS / RHEL / Fedora]
+09/03/2022 21:20:12:395 : 2474 : MESSAGE : Check for id = [notify_check] failed
+09/03/2022 21:20:12:395 : 2474 : MESSAGE : Error [Libnotify package is not installed]
+09/03/2022 21:20:12:395 : 2474 : MESSAGE : Description [Intel® VTune(TM) Profiler requires Libnotify library for graphical user interface, it can be installed with
+sudo apt-get install libnotify4 on Ubuntu / Debian
+sudo zypper install libnotify4 on SUSE
+sudo dnf install libnotify on CentOS / RHEL / Fedora]
+09/03/2022 21:20:12:468 : 2474 : MESSAGE : Check for id = [xcbDri3_check] failed
+09/03/2022 21:20:12:468 : 2474 : MESSAGE : Error [XCB package is not installed]
+09/03/2022 21:20:12:468 : 2474 : MESSAGE : Description [Intel® VTune(TM) Profiler requires XCB library for graphical user interface, it can be installed with
+sudo apt-get install libxcb-dri3-0 on Ubuntu / Debian
+sudo zypper install libxcb1 on SUSE
+sudo dnf install libxcb on CentOS / RHEL / Fedora]
+09/03/2022 21:20:12:485 : 2474 : MESSAGE : Check for id = [xdgUtils_check] failed
+09/03/2022 21:20:12:485 : 2474 : MESSAGE : Error [XDG Utils package is not installed]
+09/03/2022 21:20:12:485 : 2474 : MESSAGE : Description [Intel® VTune(TM) Profiler requires XDG Utils for graphical user interface, it can be installed with
+sudo apt-get install xdg-utils on Ubuntu / Debian
+sudo zypper install xdg-utils on SUSE
+sudo dnf install xdg-utils on CentOS / RHEL / Fedora]
+09/03/2022 21:20:45:808 : 2474 : MESSAGE : PreRequisite for free disk space passed
+09/03/2022 21:20:45:808 : 2474 : MESSAGE : PreRequisite for permissions passed
+09/03/2022 21:20:45:809 : 2474 : MESSAGE : PreRequisite for other install successfully checked
+09/03/2022 21:20:45:809 : 2474 : MESSAGE : PreRequisite for other Intel install successfully checked
+09/03/2022 21:20:45:816 : 2473 : MESSAGE : ISIP consent status is 'Yes'
+09/03/2022 21:20:45:816 : 2473 : MESSAGE : Product installation directory is /opt/intel/oneapi
+09/03/2022 21:20:45:816 : 2473 : MESSAGE : Product installation size required: 28107132613 bytes
+09/03/2022 21:20:45:816 : 2473 : MESSAGE : Product will be (un)integrated with the following IDEs:
+09/03/2022 21:20:45:818 : 2473 : MESSAGE : End of IDE list.
+09/03/2022 21:20:45:824 : 2474 : MESSAGE : Graph State Dump.
+----------------------------------------------------------------------------------------------------
+intel.oneapi.lin.basekit.product,v=2022.2.0-262, Enabled, Selected, Not Installed
+intel.oneapi.lin.basekit.getting_started,v=2022.2.0-262, Enabled, Selected, Not Installed
+intel.oneapi.lin.oneapi-common.vars,v=2022.1.0-161, Enabled, Selected, Not Installed
+intel.oneapi.lin.oneapi-common.licensing,v=2022.1.0-161, Enabled, Selected, Not Installed
+intel.oneapi.lin.dpcpp-ct,v=2022.1.0-172, Enabled, Selected, Not Installed
+intel.oneapi.lin.dpcpp-ct.eclipse-plugin-file,v=2022.1.0-172, Enabled, Selected, Not Installed
+intel.oneapi.lin.dpcpp-ct.eclipse-plugin-integration,v=2022.1.0-172, Disabled, Not Selected, Not Installed
+intel.oneapi.lin.dpcpp-ct.eclipse-cfg,v=2022.1.0-172, Enabled, Selected, Not Installed
+intel.oneapi.lin.dev-utilities,v=2021.6.0-989, Enabled, Selected, Not Installed
+intel.oneapi.lin.dev-utilities.plugins,v=2021.6.0-989, Enabled, Selected, Not Installed
+intel.oneapi.lin.dev-utilities.eclipse-file,v=2021.6.0-989, Enabled, Selected, Not Installed
+intel.oneapi.lin.dev-utilities.eclipse-integration,v=2021.6.0-989, Disabled, Not Selected, Not Installed
+intel.oneapi.lin.dpcpp_dbg,v=2021.6.0-178, Enabled, Selected, Not Installed
+intel.oneapi.lin.dpcpp_dbg.eclipse-cfg,v=2021.6.0-178, Enabled, Selected, Not Installed
+intel.oneapi.lin.dpcpp_dbg.eclipse-plugin-file,v=2021.6.0-178, Enabled, Selected, Not Installed
+intel.oneapi.lin.dpcpp_dbg.eclipse-plugin-integration,v=2021.6.0-178, Disabled, Not Selected, Not Installed
+intel.oneapi.lin.dpl,v=2021.7.0-631, Enabled, Selected, Not Installed
+intel.oneapi.lin.condaindex,v=2022.1.0-155, Enabled, Selected, Not Installed
+intel.oneapi.lin.onedg,v=2022.1.0-150, Enabled, Selected, Not Installed
+intel.oneapi.lin.tbb.devel,v=2021.6.0-835, Enabled, Selected, Not Installed
+intel.oneapi.lin.tbb.runtime,v=2021.6.0-835, Enabled, Selected, Not Installed
+intel.oneapi.lin.ccl.devel,v=2021.6.0-568, Enabled, Selected, Not Installed
+intel.oneapi.lin.ccl.runtime,v=2021.6.0-568, Enabled, Selected, Not Installed
+intel.oneapi.lin.mpi.devel,v=2021.6.0-602, Enabled, Selected, Not Installed
+intel.oneapi.lin.mpi.runtime,v=2021.6.0-602, Enabled, Selected, Not Installed
+intel.oneapi.lin.dpcpp-cpp-compiler,v=2022.1.0-3768, Enabled, Selected, Not Installed
+intel.oneapi.lin.dpcpp-cpp-common,v=2022.1.0-3768, Enabled, Selected, Not Installed
+intel.oneapi.lin.compilers-common,v=2022.1.0-3768, Enabled, Selected, Not Installed
+intel.oneapi.lin.compilers-common.runtime,v=2022.1.0-3768, Enabled, Selected, Not Installed
+intel.oneapi.lin.openmp,v=2022.1.0-3768, Enabled, Selected, Not Installed
+intel.oneapi.lin.dpcpp-cpp-common.runtime,v=2022.1.0-3768, Enabled, Selected, Not Installed
+intel.oneapi.lin.dpcpp-compiler.eclipse-plugin-file,v=2022.1.0-3768, Enabled, Selected, Not Installed
+intel.oneapi.lin.dpcpp-compiler.eclipse-plugin-integration,v=2022.1.0-3768, Disabled, Not Selected, Not Installed
+intel.oneapi.lin.dpcpp-compiler.eclipse-cfg,v=2022.1.0-3768, Enabled, Selected, Not Installed
+intel.oneapi.lin.dpcpp-cpp-compiler-pro.eclipse-plugin-file,v=2022.1.0-3768, Enabled, Selected, Not Installed
+intel.oneapi.lin.dpcpp-cpp-compiler-pro.eclipse-plugin-integration,v=2022.1.0-3768, Disabled, Not Selected, Not Installed
+intel.oneapi.lin.dpcpp-cpp-compiler-pro.eclipse-cfg,v=2022.1.0-3768, Enabled, Selected, Not Installed
+intel.oneapi.lin.dal.devel,v=2021.6.0-915, Enabled, Selected, Not Installed
+intel.oneapi.lin.dal.runtime,v=2021.6.0-915, Enabled, Selected, Not Installed
+intel.oneapi.lin.vpl,v=2022.1.0-154, Enabled, Selected, Not Installed
+intel.oneapi.lin.ipp.devel,v=2021.6.0-626, Enabled, Selected, Not Installed
+intel.oneapi.lin.ipp.runtime,v=2021.6.0-626, Enabled, Selected, Not Installed
+intel.oneapi.lin.ippcp.devel,v=2021.6.0-536, Enabled, Selected, Not Installed
+intel.oneapi.lin.mkl.devel,v=2022.1.0-223, Enabled, Selected, Not Installed
+intel.oneapi.lin.mkl.runtime,v=2022.1.0-223, Enabled, Selected, Not Installed
+intel.oneapi.lin.advisor,v=2022.1.0-171, Enabled, Selected, Not Installed
+intel.oneapi.lin.advisor.eclipse-plugin,v=2022.1.0-171, Enabled, Selected, Not Installed
+intel.oneapi.lin.advisor.eclipse-integration,v=2022.1.0-171, Disabled, Not Selected, Not Installed
+intel.oneapi.lin.python3,v=2022.1.0-214, Enabled, Selected, Not Installed
+intel.oneapi.lin.dal.daal4py,v=2021.6.0-915, Enabled, Selected, Not Installed
+intel.oneapi.lin.dal.scikitlearnintelex,v=2021.6.0-915, Enabled, Selected, Not Installed
+intel.oneapi.lin.vtune,v=2022.2.0-172, Enabled, Selected, Not Installed
+intel.oneapi.lin.vtune.eclipse-plugin,v=2022.2.0-172, Enabled, Selected, Not Installed
+intel.oneapi.lin.vtune.eclipse-integration,v=2022.2.0-172, Disabled, Not Selected, Not Installed
+intel.oneapi.lin.fpga.group,v=2022.2.0-31, Enabled, Not Selected, Not Installed
+intel.oneapi.lin.fpga.pac,v=2022.2.0-41, Enabled, Not Selected, Not Installed
+intel.oneapi.lin.fpga.custom_platforms.quartus194,v=2022.2.0-45, Enabled, Not Selected, Not Installed
+intel.oneapi.lin.fpga.custom_platforms.quartus202,v=2022.2.0-41, Enabled, Not Selected, Not Installed
+intel.oneapi.lin.fpga.custom_platforms.quartus203,v=2022.2.0-41, Enabled, Not Selected, Not Installed
+intel.oneapi.lin.fpga.custom_platforms.quartus204,v=2022.2.0-41, Enabled, Not Selected, Not Installed
+intel.oneapi.lin.fpga.custom_platforms.quartus211,v=2022.2.0-42, Enabled, Not Selected, Not Installed
+intel.oneapi.lin.fpga.custom_platforms.quartus212,v=2022.2.0-46, Enabled, Not Selected, Not Installed
+intel.oneapi.lin.fpga.custom_platforms.quartus213,v=2022.2.0-26, Enabled, Not Selected, Not Installed
+intel.oneapi.lin.fpga.custom_platforms.quartus214,v=2022.2.0-17, Enabled, Not Selected, Not Installed
+intel.oneapi.lin.dnnl,v=2022.1.0-132, Enabled, Selected, Not Installed
+----------------------------------------------------------------------------------------------------
+
+09/03/2022 21:20:45:832 : 2474 : MESSAGE : Operations dump.
+----------------------------------------------------------------------------------------------------
+Updating package state...
+Preparing installation...
+Protecting installation location...
+Finalizing removal. It may take up to 5 minutes...
+Install intel.oneapi.lin.basekit.getting_started,v=2022.2.0-262
+Install intel.oneapi.lin.oneapi-common.vars,v=2022.1.0-161
+Install intel.oneapi.lin.oneapi-common.licensing,v=2022.1.0-161
+Install intel.oneapi.lin.dpcpp-ct.eclipse-plugin-file,v=2022.1.0-172
+Install intel.oneapi.lin.dpcpp-ct.eclipse-cfg,v=2022.1.0-172
+Install intel.oneapi.lin.dpcpp-ct,v=2022.1.0-172
+Install intel.oneapi.lin.dev-utilities.eclipse-file,v=2021.6.0-989
+Install intel.oneapi.lin.dev-utilities.plugins,v=2021.6.0-989
+Install intel.oneapi.lin.dev-utilities,v=2021.6.0-989
+Install intel.oneapi.lin.dpcpp_dbg.eclipse-cfg,v=2021.6.0-178
+Install intel.oneapi.lin.dpcpp_dbg.eclipse-plugin-file,v=2021.6.0-178
+Install intel.oneapi.lin.dpcpp_dbg,v=2021.6.0-178
+Install intel.oneapi.lin.condaindex,v=2022.1.0-155
+Install intel.oneapi.lin.dpl,v=2021.7.0-631
+Install intel.oneapi.lin.onedg,v=2022.1.0-150
+Install intel.oneapi.lin.tbb.runtime,v=2021.6.0-835
+Install intel.oneapi.lin.tbb.devel,v=2021.6.0-835
+Install intel.oneapi.lin.mpi.runtime,v=2021.6.0-602
+Install intel.oneapi.lin.mpi.devel,v=2021.6.0-602
+Install intel.oneapi.lin.ccl.runtime,v=2021.6.0-568
+Install intel.oneapi.lin.ccl.devel,v=2021.6.0-568
+Install intel.oneapi.lin.openmp,v=2022.1.0-3768
+Install intel.oneapi.lin.compilers-common.runtime,v=2022.1.0-3768
+Install intel.oneapi.lin.compilers-common,v=2022.1.0-3768
+Install intel.oneapi.lin.dpcpp-cpp-common.runtime,v=2022.1.0-3768
+Install intel.oneapi.lin.dpcpp-compiler.eclipse-plugin-file,v=2022.1.0-3768
+Install intel.oneapi.lin.dpcpp-compiler.eclipse-cfg,v=2022.1.0-3768
+Install intel.oneapi.lin.dpcpp-cpp-compiler-pro.eclipse-plugin-file,v=2022.1.0-3768
+Install intel.oneapi.lin.dpcpp-cpp-compiler-pro.eclipse-cfg,v=2022.1.0-3768
+Install intel.oneapi.lin.dpcpp-cpp-common,v=2022.1.0-3768
+Install intel.oneapi.lin.dpcpp-cpp-compiler,v=2022.1.0-3768
+Install intel.oneapi.lin.dal.runtime,v=2021.6.0-915
+Install intel.oneapi.lin.dal.devel,v=2021.6.0-915
+Install intel.oneapi.lin.vpl,v=2022.1.0-154
+Install intel.oneapi.lin.ipp.runtime,v=2021.6.0-626
+Install intel.oneapi.lin.ipp.devel,v=2021.6.0-626
+Install intel.oneapi.lin.ippcp.devel,v=2021.6.0-536
+Install intel.oneapi.lin.mkl.runtime,v=2022.1.0-223
+Install intel.oneapi.lin.mkl.devel,v=2022.1.0-223
+Install intel.oneapi.lin.advisor.eclipse-plugin,v=2022.1.0-171
+Install intel.oneapi.lin.advisor,v=2022.1.0-171
+Install intel.oneapi.lin.dal.daal4py,v=2021.6.0-915
+Install intel.oneapi.lin.dal.scikitlearnintelex,v=2021.6.0-915
+Install intel.oneapi.lin.python3,v=2022.1.0-214
+Install intel.oneapi.lin.vtune.eclipse-plugin,v=2022.2.0-172
+Install intel.oneapi.lin.vtune,v=2022.2.0-172
+Install intel.oneapi.lin.dnnl,v=2022.1.0-132
+Install intel.oneapi.lin.basekit.product,v=2022.2.0-262
+Finalizing. It may take up to 10 minutes or more to integrate with your system, please do not interrupt the install process...
+Updating package state...
+----------------------------------------------------------------------------------------------------
+
+09/03/2022 21:20:47:286 : 2474 : MESSAGE : Start install/modify sequence execution.
+09/03/2022 21:20:47:294 : 2474 : MESSAGE : Starting execution of operation 'update_state.operation.intel.sessionmanifest.1662211245824954'.
+09/03/2022 21:20:47:294 : 2474 : MESSAGE : Operation 'update_state.operation.intel.sessionmanifest.1662211245824954' execution is finished with status Success.
+09/03/2022 21:20:47:294 : 2474 : MESSAGE : Starting execution of operation 'prepare.operation.intel.sessionmanifest.1662211245824954'.
+09/03/2022 21:20:47:294 : 2474 : MESSAGE : Operation 'prepare.operation.intel.sessionmanifest.1662211245824954' execution is finished with status Success.
+09/03/2022 21:20:47:294 : 2474 : MESSAGE : Starting execution of operation 'protect.operation.intel.sessionmanifest.1662211245824954'.
+09/03/2022 21:20:47:295 : 2474 : MESSAGE : Operation 'protect.operation.intel.sessionmanifest.1662211245824954' execution is finished with status Success.
+09/03/2022 21:20:47:295 : 2474 : MESSAGE : Starting execution of operation 'complete.operation.intel.sessionmanifest.1662211245824957'.
+09/03/2022 21:20:47:295 : 2474 : MESSAGE : Operation 'complete.operation.intel.sessionmanifest.1662211245824957' execution is finished with status Success.
+09/03/2022 21:20:47:301 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.basekit.getting_started,v=2022.2.0-262'.
+09/03/2022 21:20:47:673 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.basekit.getting_started,v=2022.2.0-262' execution is finished with status Success.
+09/03/2022 21:20:47:673 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.oneapi-common.vars,v=2022.1.0-161'.
+09/03/2022 21:20:48:069 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.oneapi-common.vars,v=2022.1.0-161' execution is finished with status Success.
+09/03/2022 21:20:48:069 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.oneapi-common.licensing,v=2022.1.0-161'.
+09/03/2022 21:20:48:609 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.oneapi-common.licensing,v=2022.1.0-161' execution is finished with status Success.
+09/03/2022 21:20:48:609 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.dpcpp-ct.eclipse-plugin-file,v=2022.1.0-172'.
+09/03/2022 21:20:48:998 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dpcpp-ct.eclipse-plugin-file,v=2022.1.0-172' execution is finished with status Success.
+09/03/2022 21:20:48:998 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.dpcpp-ct.eclipse-cfg,v=2022.1.0-172'.
+09/03/2022 21:20:49:414 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dpcpp-ct.eclipse-cfg,v=2022.1.0-172' execution is finished with status Success.
+09/03/2022 21:20:49:414 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.dpcpp-ct,v=2022.1.0-172'.
+09/03/2022 21:20:53:119 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dpcpp-ct,v=2022.1.0-172' execution is finished with status Success.
+09/03/2022 21:20:53:119 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.dev-utilities.eclipse-file,v=2021.6.0-989'.
+09/03/2022 21:20:53:602 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dev-utilities.eclipse-file,v=2021.6.0-989' execution is finished with status Success.
+09/03/2022 21:20:53:602 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.dev-utilities.plugins,v=2021.6.0-989'.
+09/03/2022 21:20:57:621 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dev-utilities.plugins,v=2021.6.0-989' execution is finished with status Success.
+09/03/2022 21:20:57:621 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.dev-utilities,v=2021.6.0-989'.
+09/03/2022 21:20:57:796 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dev-utilities,v=2021.6.0-989' execution is finished with status Success.
+09/03/2022 21:20:57:796 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.dpcpp_dbg.eclipse-cfg,v=2021.6.0-178'.
+09/03/2022 21:20:58:051 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dpcpp_dbg.eclipse-cfg,v=2021.6.0-178' execution is finished with status Success.
+09/03/2022 21:20:58:051 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.dpcpp_dbg.eclipse-plugin-file,v=2021.6.0-178'.
+09/03/2022 21:20:58:308 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dpcpp_dbg.eclipse-plugin-file,v=2021.6.0-178' execution is finished with status Success.
+09/03/2022 21:20:58:308 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.dpcpp_dbg,v=2021.6.0-178'.
+09/03/2022 21:22:00:132 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dpcpp_dbg,v=2021.6.0-178' execution is finished with status Success.
+09/03/2022 21:22:00:196 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.condaindex,v=2022.1.0-155'.
+09/03/2022 21:22:01:620 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.condaindex,v=2022.1.0-155' execution is finished with status Success.
+09/03/2022 21:22:01:620 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.dpl,v=2021.7.0-631'.
+09/03/2022 21:22:05:436 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dpl,v=2021.7.0-631' execution is finished with status Success.
+09/03/2022 21:22:05:436 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.onedg,v=2022.1.0-150'.
+09/03/2022 21:22:06:220 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.onedg,v=2022.1.0-150' execution is finished with status Success.
+09/03/2022 21:22:06:220 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.tbb.runtime,v=2021.6.0-835'.
+09/03/2022 21:22:08:136 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.tbb.runtime,v=2021.6.0-835' execution is finished with status Success.
+09/03/2022 21:22:08:136 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.tbb.devel,v=2021.6.0-835'.
+09/03/2022 21:22:09:683 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.tbb.devel,v=2021.6.0-835' execution is finished with status Success.
+09/03/2022 21:22:09:683 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.mpi.runtime,v=2021.6.0-602'.
+09/03/2022 21:22:17:855 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.mpi.runtime,v=2021.6.0-602' execution is finished with status Success.
+09/03/2022 21:22:17:855 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.mpi.devel,v=2021.6.0-602'.
+09/03/2022 21:22:34:157 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.mpi.devel,v=2021.6.0-602' execution is finished with status Success.
+09/03/2022 21:22:34:157 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.ccl.runtime,v=2021.6.0-568'.
+09/03/2022 21:22:36:185 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.ccl.runtime,v=2021.6.0-568' execution is finished with status Success.
+09/03/2022 21:22:36:185 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.ccl.devel,v=2021.6.0-568'.
+09/03/2022 21:22:38:408 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.ccl.devel,v=2021.6.0-568' execution is finished with status Success.
+09/03/2022 21:22:38:408 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.openmp,v=2022.1.0-3768'.
+09/03/2022 21:23:01:270 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.openmp,v=2022.1.0-3768' execution is finished with status Success.
+09/03/2022 21:23:01:270 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.compilers-common.runtime,v=2022.1.0-3768'.
+09/03/2022 21:23:30:864 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.compilers-common.runtime,v=2022.1.0-3768' execution is finished with status Success.
+09/03/2022 21:23:30:864 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.compilers-common,v=2022.1.0-3768'.
+09/03/2022 21:23:54:328 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.compilers-common,v=2022.1.0-3768' execution is finished with status Success.
+09/03/2022 21:23:54:328 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.dpcpp-cpp-common.runtime,v=2022.1.0-3768'.
+09/03/2022 21:23:59:191 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dpcpp-cpp-common.runtime,v=2022.1.0-3768' execution is finished with status Success.
+09/03/2022 21:23:59:191 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.dpcpp-compiler.eclipse-plugin-file,v=2022.1.0-3768'.
+09/03/2022 21:23:59:441 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dpcpp-compiler.eclipse-plugin-file,v=2022.1.0-3768' execution is finished with status Success.
+09/03/2022 21:23:59:441 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.dpcpp-compiler.eclipse-cfg,v=2022.1.0-3768'.
+09/03/2022 21:23:59:572 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dpcpp-compiler.eclipse-cfg,v=2022.1.0-3768' execution is finished with status Success.
+09/03/2022 21:23:59:572 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.dpcpp-cpp-compiler-pro.eclipse-plugin-file,v=2022.1.0-3768'.
+09/03/2022 21:23:59:760 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dpcpp-cpp-compiler-pro.eclipse-plugin-file,v=2022.1.0-3768' execution is finished with status Success.
+09/03/2022 21:23:59:760 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.dpcpp-cpp-compiler-pro.eclipse-cfg,v=2022.1.0-3768'.
+09/03/2022 21:23:59:990 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dpcpp-cpp-compiler-pro.eclipse-cfg,v=2022.1.0-3768' execution is finished with status Success.
+09/03/2022 21:23:59:990 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.dpcpp-cpp-common,v=2022.1.0-3768'.
+09/03/2022 21:25:19:476 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dpcpp-cpp-common,v=2022.1.0-3768' execution is finished with status Success.
+09/03/2022 21:25:19:476 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.dpcpp-cpp-compiler,v=2022.1.0-3768'.
+09/03/2022 21:25:19:697 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dpcpp-cpp-compiler,v=2022.1.0-3768' execution is finished with status Success.
+09/03/2022 21:25:19:697 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.dal.runtime,v=2021.6.0-915'.
+09/03/2022 21:25:37:249 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dal.runtime,v=2021.6.0-915' execution is finished with status Success.
+09/03/2022 21:25:37:250 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.dal.devel,v=2021.6.0-915'.
+09/03/2022 21:26:07:377 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dal.devel,v=2021.6.0-915' execution is finished with status Success.
+09/03/2022 21:26:07:377 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.vpl,v=2022.1.0-154'.
+09/03/2022 21:26:14:003 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.vpl,v=2022.1.0-154' execution is finished with status Success.
+09/03/2022 21:26:14:003 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.ipp.runtime,v=2021.6.0-626'.
+09/03/2022 21:26:39:341 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.ipp.runtime,v=2021.6.0-626' execution is finished with status Success.
+09/03/2022 21:26:39:341 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.ipp.devel,v=2021.6.0-626'.
+09/03/2022 21:27:17:643 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.ipp.devel,v=2021.6.0-626' execution is finished with status Success.
+09/03/2022 21:27:17:643 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.ippcp.devel,v=2021.6.0-536'.
+09/03/2022 21:27:22:229 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.ippcp.devel,v=2021.6.0-536' execution is finished with status Success.
+09/03/2022 21:27:22:229 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.mkl.runtime,v=2022.1.0-223'.
+09/03/2022 21:28:19:092 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.mkl.runtime,v=2022.1.0-223' execution is finished with status Success.
+09/03/2022 21:28:19:092 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.mkl.devel,v=2022.1.0-223'.
+09/03/2022 21:29:12:693 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.mkl.devel,v=2022.1.0-223' execution is finished with status Success.
+09/03/2022 21:29:12:693 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.advisor.eclipse-plugin,v=2022.1.0-171'.
+09/03/2022 21:29:12:959 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.advisor.eclipse-plugin,v=2022.1.0-171' execution is finished with status Success.
+09/03/2022 21:29:12:959 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.advisor,v=2022.1.0-171'.
+09/03/2022 21:29:56:346 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.advisor,v=2022.1.0-171' execution is finished with status Success.
+09/03/2022 21:29:56:346 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.dal.daal4py,v=2021.6.0-915'.
+09/03/2022 21:30:04:136 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dal.daal4py,v=2021.6.0-915' execution is finished with status Success.
+09/03/2022 21:30:04:136 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.dal.scikitlearnintelex,v=2021.6.0-915'.
+09/03/2022 21:30:04:332 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dal.scikitlearnintelex,v=2021.6.0-915' execution is finished with status Success.
+09/03/2022 21:30:04:332 : 2474 : MESSAGE : Starting execution of operation 'intel.oneapi.lin.python3,v=2022.1.0-214'.
+09/03/2022 21:30:16:207 : 2474 : ERROR : Installation of component has failed.
+Component id: intel.oneapi.lin.python3, name: Intel® Distribution for Python*, version: 2022.1.0-214.
+During the execution of the application '/var/intel/installercache/downloadcache/intel.oneapi.lin.python3,v=2022.1.0-214/exec_script.sh' with arguments '/opt/intel/oneapi' errors were received:'tar: Child returned status 2
+tar: Error is not recoverable: exiting now
+'
+Error: Sequence execution failed.
+
+09/03/2022 21:30:16:207 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.python3,v=2022.1.0-214' execution is finished with status Fail.
+09/03/2022 21:30:16:207 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.dal.scikitlearnintelex,v=2021.6.0-915'.
+09/03/2022 21:30:16:360 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dal.scikitlearnintelex,v=2021.6.0-915' rollback is finished with status Success.
+09/03/2022 21:30:16:360 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.dal.daal4py,v=2021.6.0-915'.
+09/03/2022 21:30:17:125 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dal.daal4py,v=2021.6.0-915' rollback is finished with status Success.
+09/03/2022 21:30:17:125 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.advisor,v=2022.1.0-171'.
+09/03/2022 21:30:20:403 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.advisor,v=2022.1.0-171' rollback is finished with status Success.
+09/03/2022 21:30:20:403 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.advisor.eclipse-plugin,v=2022.1.0-171'.
+09/03/2022 21:30:20:558 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.advisor.eclipse-plugin,v=2022.1.0-171' rollback is finished with status Success.
+09/03/2022 21:30:20:558 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.mkl.devel,v=2022.1.0-223'.
+09/03/2022 21:30:23:679 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.mkl.devel,v=2022.1.0-223' rollback is finished with status Success.
+09/03/2022 21:30:23:679 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.mkl.runtime,v=2022.1.0-223'.
+09/03/2022 21:30:26:846 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.mkl.runtime,v=2022.1.0-223' rollback is finished with status Success.
+09/03/2022 21:30:26:847 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.ippcp.devel,v=2021.6.0-536'.
+09/03/2022 21:30:27:379 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.ippcp.devel,v=2021.6.0-536' rollback is finished with status Success.
+09/03/2022 21:30:27:379 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.ipp.devel,v=2021.6.0-626'.
+09/03/2022 21:30:29:643 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.ipp.devel,v=2021.6.0-626' rollback is finished with status Success.
+09/03/2022 21:30:29:643 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.ipp.runtime,v=2021.6.0-626'.
+09/03/2022 21:30:31:521 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.ipp.runtime,v=2021.6.0-626' rollback is finished with status Success.
+09/03/2022 21:30:31:521 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.vpl,v=2022.1.0-154'.
+09/03/2022 21:30:32:121 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.vpl,v=2022.1.0-154' rollback is finished with status Success.
+09/03/2022 21:30:32:122 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.dal.devel,v=2021.6.0-915'.
+09/03/2022 21:30:34:015 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dal.devel,v=2021.6.0-915' rollback is finished with status Success.
+09/03/2022 21:30:34:015 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.dal.runtime,v=2021.6.0-915'.
+09/03/2022 21:30:34:988 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dal.runtime,v=2021.6.0-915' rollback is finished with status Success.
+09/03/2022 21:30:34:988 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.dpcpp-cpp-compiler,v=2022.1.0-3768'.
+09/03/2022 21:30:35:141 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dpcpp-cpp-compiler,v=2022.1.0-3768' rollback is finished with status Success.
+09/03/2022 21:30:35:141 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.dpcpp-cpp-common,v=2022.1.0-3768'.
+09/03/2022 21:30:44:728 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dpcpp-cpp-common,v=2022.1.0-3768' rollback is finished with status Success.
+09/03/2022 21:30:44:728 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.dpcpp-cpp-compiler-pro.eclipse-cfg,v=2022.1.0-3768'.
+09/03/2022 21:30:44:916 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dpcpp-cpp-compiler-pro.eclipse-cfg,v=2022.1.0-3768' rollback is finished with status Success.
+09/03/2022 21:30:44:916 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.dpcpp-cpp-compiler-pro.eclipse-plugin-file,v=2022.1.0-3768'.
+09/03/2022 21:30:45:103 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dpcpp-cpp-compiler-pro.eclipse-plugin-file,v=2022.1.0-3768' rollback is finished with status Success.
+09/03/2022 21:30:45:103 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.dpcpp-compiler.eclipse-cfg,v=2022.1.0-3768'.
+09/03/2022 21:30:45:252 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dpcpp-compiler.eclipse-cfg,v=2022.1.0-3768' rollback is finished with status Success.
+09/03/2022 21:30:45:252 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.dpcpp-compiler.eclipse-plugin-file,v=2022.1.0-3768'.
+09/03/2022 21:30:45:440 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dpcpp-compiler.eclipse-plugin-file,v=2022.1.0-3768' rollback is finished with status Success.
+09/03/2022 21:30:45:440 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.dpcpp-cpp-common.runtime,v=2022.1.0-3768'.
+09/03/2022 21:30:45:925 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dpcpp-cpp-common.runtime,v=2022.1.0-3768' rollback is finished with status Success.
+09/03/2022 21:30:45:925 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.compilers-common,v=2022.1.0-3768'.
+09/03/2022 21:30:47:840 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.compilers-common,v=2022.1.0-3768' rollback is finished with status Success.
+09/03/2022 21:30:47:840 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.compilers-common.runtime,v=2022.1.0-3768'.
+09/03/2022 21:30:49:519 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.compilers-common.runtime,v=2022.1.0-3768' rollback is finished with status Success.
+09/03/2022 21:30:49:519 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.openmp,v=2022.1.0-3768'.
+09/03/2022 21:30:52:305 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.openmp,v=2022.1.0-3768' rollback is finished with status Success.
+09/03/2022 21:30:52:305 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.ccl.devel,v=2021.6.0-568'.
+09/03/2022 21:30:52:653 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.ccl.devel,v=2021.6.0-568' rollback is finished with status Success.
+09/03/2022 21:30:52:653 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.ccl.runtime,v=2021.6.0-568'.
+09/03/2022 21:30:52:894 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.ccl.runtime,v=2021.6.0-568' rollback is finished with status Success.
+09/03/2022 21:30:52:894 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.mpi.devel,v=2021.6.0-602'.
+09/03/2022 21:30:53:796 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.mpi.devel,v=2021.6.0-602' rollback is finished with status Success.
+09/03/2022 21:30:53:796 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.mpi.runtime,v=2021.6.0-602'.
+09/03/2022 21:30:54:500 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.mpi.runtime,v=2021.6.0-602' rollback is finished with status Success.
+09/03/2022 21:30:54:500 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.tbb.devel,v=2021.6.0-835'.
+09/03/2022 21:30:54:847 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.tbb.devel,v=2021.6.0-835' rollback is finished with status Success.
+09/03/2022 21:30:54:847 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.tbb.runtime,v=2021.6.0-835'.
+09/03/2022 21:30:55:137 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.tbb.runtime,v=2021.6.0-835' rollback is finished with status Success.
+09/03/2022 21:30:55:137 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.onedg,v=2022.1.0-150'.
+09/03/2022 21:30:55:344 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.onedg,v=2022.1.0-150' rollback is finished with status Success.
+09/03/2022 21:30:55:344 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.dpl,v=2021.7.0-631'.
+09/03/2022 21:30:55:660 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dpl,v=2021.7.0-631' rollback is finished with status Success.
+09/03/2022 21:30:55:660 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.condaindex,v=2022.1.0-155'.
+09/03/2022 21:30:55:823 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.condaindex,v=2022.1.0-155' rollback is finished with status Success.
+09/03/2022 21:30:55:823 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.dpcpp_dbg,v=2021.6.0-178'.
+09/03/2022 21:31:01:435 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dpcpp_dbg,v=2021.6.0-178' rollback is finished with status Success.
+09/03/2022 21:31:01:435 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.dpcpp_dbg.eclipse-plugin-file,v=2021.6.0-178'.
+09/03/2022 21:31:01:602 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dpcpp_dbg.eclipse-plugin-file,v=2021.6.0-178' rollback is finished with status Success.
+09/03/2022 21:31:01:602 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.dpcpp_dbg.eclipse-cfg,v=2021.6.0-178'.
+09/03/2022 21:31:01:756 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dpcpp_dbg.eclipse-cfg,v=2021.6.0-178' rollback is finished with status Success.
+09/03/2022 21:31:01:756 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.dev-utilities,v=2021.6.0-989'.
+09/03/2022 21:31:01:898 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dev-utilities,v=2021.6.0-989' rollback is finished with status Success.
+09/03/2022 21:31:01:898 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.dev-utilities.plugins,v=2021.6.0-989'.
+09/03/2022 21:31:02:266 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dev-utilities.plugins,v=2021.6.0-989' rollback is finished with status Success.
+09/03/2022 21:31:02:266 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.dev-utilities.eclipse-file,v=2021.6.0-989'.
+09/03/2022 21:31:02:420 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dev-utilities.eclipse-file,v=2021.6.0-989' rollback is finished with status Success.
+09/03/2022 21:31:02:420 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.dpcpp-ct,v=2022.1.0-172'.
+09/03/2022 21:31:02:832 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dpcpp-ct,v=2022.1.0-172' rollback is finished with status Success.
+09/03/2022 21:31:02:832 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.dpcpp-ct.eclipse-cfg,v=2022.1.0-172'.
+09/03/2022 21:31:02:977 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dpcpp-ct.eclipse-cfg,v=2022.1.0-172' rollback is finished with status Success.
+09/03/2022 21:31:02:977 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.dpcpp-ct.eclipse-plugin-file,v=2022.1.0-172'.
+09/03/2022 21:31:03:143 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.dpcpp-ct.eclipse-plugin-file,v=2022.1.0-172' rollback is finished with status Success.
+09/03/2022 21:31:03:144 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.oneapi-common.licensing,v=2022.1.0-161'.
+09/03/2022 21:31:03:320 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.oneapi-common.licensing,v=2022.1.0-161' rollback is finished with status Success.
+09/03/2022 21:31:03:320 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.oneapi-common.vars,v=2022.1.0-161'.
+09/03/2022 21:31:03:512 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.oneapi-common.vars,v=2022.1.0-161' rollback is finished with status Success.
+09/03/2022 21:31:03:512 : 2474 : MESSAGE : Starting rollback of operation 'intel.oneapi.lin.basekit.getting_started,v=2022.2.0-262'.
+09/03/2022 21:31:03:663 : 2474 : MESSAGE : Operation 'intel.oneapi.lin.basekit.getting_started,v=2022.2.0-262' rollback is finished with status Success.
+09/03/2022 21:31:03:663 : 2474 : MESSAGE : Starting rollback of operation 'complete.operation.intel.sessionmanifest.1662211245824957'.
+09/03/2022 21:31:03:776 : 2474 : MESSAGE : Operation 'complete.operation.intel.sessionmanifest.1662211245824957' rollback is finished with status Success.
+09/03/2022 21:31:03:776 : 2474 : MESSAGE : Starting rollback of operation 'protect.operation.intel.sessionmanifest.1662211245824954'.
+09/03/2022 21:31:03:777 : 2474 : MESSAGE : Operation 'protect.operation.intel.sessionmanifest.1662211245824954' rollback is finished with status Success.
+09/03/2022 21:31:03:777 : 2474 : MESSAGE : Starting rollback of operation 'prepare.operation.intel.sessionmanifest.1662211245824954'.
+09/03/2022 21:31:03:777 : 2474 : MESSAGE : Operation 'prepare.operation.intel.sessionmanifest.1662211245824954' rollback is finished with status Success.
+09/03/2022 21:31:03:777 : 2474 : MESSAGE : Starting rollback of operation 'update_state.operation.intel.sessionmanifest.1662211245824954'.
+09/03/2022 21:31:03:778 : 2474 : MESSAGE : Operation 'update_state.operation.intel.sessionmanifest.1662211245824954' rollback is finished with status Success.
+09/03/2022 21:31:03:778 : 2474 : ERROR : Install sequence execution status: Rollback
+09/03/2022 21:31:03:778 : 2473 : MESSAGE : ----------------------------------------------------------------------------------------------------
+09/03/2022 21:31:03:778 : 2473 : MESSAGE : Anonymous statistics fields: 
+09/03/2022 21:31:03:778 : 2473 : MESSAGE :     EventId = 'install-min'
+09/03/2022 21:31:03:778 : 2473 : MESSAGE :     EventTime = ''
+09/03/2022 21:31:03:779 : 2473 : MESSAGE :     Id = 'intel.oneapi.lin.basekit.product,v=2022.2.0-262'
+09/03/2022 21:31:03:779 : 2473 : MESSAGE :     Message = '{  \"product_name\":\"[Linux] Intel® oneAPI Base Toolkit 2022.2\",  \"lic_type\":\"\",   \"support_code\":\"\",   \"install_status\":\"4643\",   \"product_tag\":\"\"  }'
+09/03/2022 21:31:03:779 : 2473 : MESSAGE :     ProductId = '[Linux] Intel® oneAPI Base Toolkit 2022.2'
+09/03/2022 21:31:03:779 : 2473 : MESSAGE : ----------------------------------------------------------------------------------------------------

@@ -227,3 +227,16 @@ zookeeper      	0:off	1:off	2:on	3:on	4:on	5:on	6:off
 9. var： 存放程序产生的数据文件，比如日志，数据库库文件
 ```
 
+### 查看操作系统版本
+
+```shell
+[root@node01 ~]# cat /etc/redhat-release
+CentOS Linux release 7.4.1708 (Core)
+
+# 查看内核版本
+[root@node01 ~]# cat /proc/version
+Linux version 3.10.0-693.el7.x86_64 (builder@kbuilder.dev.centos.org) (gcc version 4.8.5 20150623 (Red Hat 4.8.5-16) (GCC) ) #1 SMP Tue Aug 22 21:09:27 UTC 2017
+```
+
+
+
