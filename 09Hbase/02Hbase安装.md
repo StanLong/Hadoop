@@ -4,10 +4,10 @@
 
 ## 节点规划
 
-|               | node01      | node02        | node03        | node04      |
-| ------------- | ----------- | ------------- | ------------- | ----------- |
-| HMaster       | HMaster(主) |               |               | HMaster(备) |
-| HRegionServer |             | HRegionServer | HRegionServer |             |
+|               | node01        | node02        | node03      |
+| ------------- | ------------- | ------------- | ----------- |
+| HMaster       | HMaster(主)   |               | HMaster(备) |
+| HRegionServer | HRegionServer | HRegionServer |             |
 
 ### 角色说明
 
@@ -80,7 +80,10 @@ export JAVA_HOME=/usr/java/jdk1.8.0_221-amd64
 # see http://wiki.apache.org/hadoop/PerformanceTuning
 export HBASE_OPTS="-XX:+UseConcMarkSweepGC"
 
-# 删除 Configure PermSize 下面的两行，这两行在jdk1.7的版本才需要配置
+# 注释掉 Configure PermSize 下面的两行，这两行在jdk1.7的版本才需要配置
+# export HBASE_MASTER_OPTS="$HBASE_MASTER_OPTS -XX:PermSize=128m -XX:MaxPermSize=128m -XX:ReservedCodeCacheSize=256m"
+# export HBASE_REGIONSERVER_OPTS="$HBASE_REGIONSERVER_OPTS -XX:PermSize=128m -XX:MaxPermSize=128m -XX:ReservedCodeCacheSize=256m"
+
 
 # Where log files are stored.  $HBASE_HOME/logs by default.
 # 配置Hbase日志路径
@@ -117,7 +120,7 @@ export HBASE_MANAGES_ZK=false
  */
 -->
 <configuration>
-	<!--配置为core-site.xml 中的fs.defaultFS -->
+    <!--配置为core-site.xml 中的fs.defaultFS -->
 	<property>
 	  <name>hbase.rootdir</name>
 	  <value>hdfs://hacluster/hbase</value>
@@ -130,7 +133,7 @@ export HBASE_MANAGES_ZK=false
 	<!-- zookeeper集群 -->
     <property>
         <name>hbase.zookeeper.quorum</name>
-        <value>node02,node03,node04</value>
+        <value>node01,node02,node03</value>
     </property>
 
 	<!-- Hbase 在zookeeper 上数据的根目录znode节点 -->
@@ -166,24 +169,17 @@ export HBASE_MANAGES_ZK=false
 ### regionservers
 
 ```pro
+node01
 node02
-node03
 ```
 
-### 备master节点
-
-```sql
-[root@node01 conf]# vi backup-masters
-node04
-```
-
-### 复制hadoop的配置文件
+### 软连接hadoop的配置文件
 
 ```shell
 [root@node01 conf]# pwd
 /opt/stanlong/hbase/hbase-1.3.6/conf
-[root@node01 conf]# cp /opt/stanlong/hadoop-ha/hadoop-2.9.2/etc/hadoop/core-site.xml .
-[root@node01 conf]# cp /opt/stanlong/hadoop-ha/hadoop-2.9.2/etc/hadoop/hdfs-site.xml .
+[root@node01 conf]# n -s /opt/stanlong/hadoop-2.10.2/etc/hadoop/core-site.xml /opt/stanlong/hbase-1.3.6/conf/core-site.xml
+[root@node01 conf]# ln -s /opt/stanlong/hadoop-2.10.2/etc/hadoop/hdfs-site.xml /opt/stanlong/hbase-1.3.6/conf/hdfs-site.xml
 ```
 
 ## 分发Hbase
@@ -194,7 +190,7 @@ node04
 [root@node01 myshell]#  ./rsyncd.sh /opt/stanlong/hbase/hbase-1.3.6/
 ```
 
-## 修改node02,03,04的环境变量
+## 修改node02,03的环境变量
 
 ```shell
 [root@node02 hbase-1.3.6]# vi /etc/profile
