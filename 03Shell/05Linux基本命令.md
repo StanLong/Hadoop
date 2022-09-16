@@ -10,7 +10,7 @@
 [root@node01 etc]#
 ```
 
-### type ifconfig
+### type
 
 查看命令路径
 
@@ -18,7 +18,7 @@
 [root@gmall opt]# type ifconfig
 ifconfig is hashed (/usr/sbin/ifconfig)
 ```
-### file /usr/sbin/ifconfig
+### file
 查看命令文件类型
 
 ```
@@ -27,12 +27,29 @@ ifconfig is hashed (/usr/sbin/ifconfig)
 
 ```
 
-### echo $$
-打印当前进程号
+### cut
 
-```
-[root@gmall opt]# echo $$
-1019
+数据截取
+
+- -c :  以字符为单位进行分割
+
+- -d ：自定义分隔符， 默认为制表符 \t
+
+- -f :  与 -d  一起使用， 指定显示哪个区域
+
+  以 /etc/passwd 为例，演示以上命令
+
+  
+
+### wc
+
+统计文件行数
+
+```shell
+[root@gmall ~]# wc -l zlftext.txt 
+4 zlftext.txt
+[root@gmall ~]# cat zlftext.txt | wc -l
+4
 ```
 
 ### ps -fe
@@ -145,7 +162,21 @@ zip -q -r html.zip /home/html
 
 ### grep
 
-- -i 忽略大小写
+- -i   忽略大小写
+
+- -v  查找不包含指定内容的行，反向选择
+
+- -w  按单词搜索
+
+- -n  显示行号
+
+- -A 显示匹配行及后面多少行 
+
+  ```shell
+  grep -A 5 'root' /etc/passwd
+  ```
+
+- -B 显示匹配行及前面多少行
 
 ### 去重
 
@@ -162,7 +193,7 @@ sort $1 | uniq
 ：！ ls -l /opt/
 ```
 
-## 后台运行命令
+### 后台运行命令
 
 ```
  1. command &  后台运行，关掉终端会停止运行
@@ -179,16 +210,6 @@ i 忽略大小写
 
 ```
 :1,$s/after/before/
-```
-
-### wc
-统计文件行数
-
-```shell
-[root@gmall ~]# wc -l zlftext.txt 
-4 zlftext.txt
-[root@gmall ~]# cat zlftext.txt | wc -l
-4
 ```
 
 ### 日期格式化
