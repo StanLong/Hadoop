@@ -136,3 +136,74 @@ cat test.txt | { while read line;do
 管道父子进程：以第四个脚本为例
 管道 | 左侧和右侧是两个bash. num 是在父进程中定义的，而管道是两个子进程子进程对变量的修改不会影响父进程,管道右边会先创建一个子进程
 
+## 批量分发功能
+
+各节点上要预先安装 rsync 工具
+
+```shell
+function node_sync_file()
+{
+    if [ $# -lt 2 ] ;then
+        echo "Not Enough Arguement!"
+        exit;
+    fi
+
+    host_group=$1
+    src_dir=$2
+    declare dest_dir=""
+
+    pdir=`cd -P $(dirname $src_dir); pwd`
+    echo pdir=$pdir
+
+    fname=`basename $src_dir`
+    echo fname=$fname
+
+    user=`whoami`
+
+    if [[ -z $3 ]];then
+        dest_dir=$pdir
+    else
+        dest_dir=$3
+    fi
+
+    if [ -O $src_dir ];then
+        
+        if [[ $host_group == "all" ]];then
+            hosts=$(get_cluster_ip)
+            for ip in $hosts
+            do
+                echo ====================  $ip ====================
+                rsync -av $pdir/$fname $user@$ip:$dest_dir
+            done
+        else
+            current_hosts_list=$(utils_get_host_list $host_group)
+            for ip in $current_hosts_list;do
+                echo ====================  $ip  ====================
+                rsync -av $pdir/$fname $user@$ip:$dest_dir
+            done
+        fi
+    fi
+
+    if [ ! -O $src_dir ];then
+        if [[ $host_group == "all" ]];then
+            hosts=$(get_cluster_ip)
+
+            for ip in $hosts
+            do
+                shell_command="su - root -c 'rsync -av $pdir/$fname root@$ip:$dest_dir'"
+                root_nopass_shell $ip $shell_command
+            done
+        else
+            current_hosts_list=$(utils_get_host_list $host_group)
+            for ip in $current_hosts_list;do
+                shell_command="su - root -c 'rsync -av $pdir/$fname root@$ip:$dest_dir'"
+                root_nopass_shell $ip $shell_command
+            done
+        fi
+    fi
+
+}
+```
+
+
+
