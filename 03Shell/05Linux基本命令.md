@@ -24,7 +24,6 @@ ifconfig is hashed (/usr/sbin/ifconfig)
 ```
 [root@gmall opt]# file /usr/sbin/ifconfig
 /usr/sbin/ifconfig: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.32, BuildID[sha1]=dff548da1b4ad9ae2afe44c9ee33c2365a7c5f8f, stripped
-
 ```
 
 ### cut
@@ -39,7 +38,80 @@ ifconfig is hashed (/usr/sbin/ifconfig)
 
   以 /etc/passwd 为例，演示以上命令
 
+  ```shell
+  [root@node01 ~]# cp /etc/passwd .
   
+  [root@node01 ~]# cut -d: -f1 passwd # 按:分隔，取分隔后的第一列
+  
+  [root@node01 ~]# cut -d: -f1,3 passwd # 按:分隔，取分隔后的第1列和第3列
+  
+  [root@node01 ~]# cut -d: -f1-3 passwd # 按:分隔，取分隔后的第1列至第3列
+  
+  [root@node01 ~]# cut -d: -f1 passwd | cut -c 1 # 按:分隔，取分隔后第一列的第一个字符
+  
+  截取ip地址
+  [root@node01 ~]# ifconfig ens33 | grep -w "inet" | cut -d" " -f10  
+  192.168.235.11
+  ```
+
+### tr
+
+字符串转换，替换、删除。
+
+- -d  删除字符串1中所有输入字符
+- -s  删除所有重复出现的字符序列，只保留第一个。即将重复出现的字符压缩为一个字符。
+
+```shell
+替换语法
+commands|tr 'old_string' 'new_string'
+
+# 替换， 替换是进行等额匹配，所以只有四个字符替换成功了
+[root@node01 ~]# ifconfig ens33 | grep -w "inet" | tr "inet" "new_inet"
+        new_ 192.168.235.11  ew_mask 255.255.255.0  broadcas_ 192.168.235.255
+
+# 去掉重复的空格，只保留第一个空格
+[root@node01 ~]# ifconfig ens33 | grep -w "inet" | tr -s " "
+ inet 192.168.235.11 netmask 255.255.255.0 broadcast 192.168.235.255
+
+# 删掉字符 1
+[root@node01 ~]# ifconfig ens33 | grep -w "inet" | tr -s " " | cut -d" " -f3 | tr -d "1"
+92.68.235.
+
+# 删掉字符 1和9
+[root@node01 ~]# ifconfig ens33 | grep -w "inet" | tr -s " " | cut -d" " -f3 | tr -d "[1,9]"
+2.68.235.
+
+# 删掉字符 1至3
+[root@node01 ~]# ifconfig ens33 | grep -w "inet" | tr -s " " | cut -d" " -f3 | tr -d "[1-3]"
+```
+
+### sort
+
+排序， 将文件的每一行作为一个单位，从首字符向后，依次按ASCII码值进行比较，最后升序输出。
+
+- -u   :  去除重复行
+
+- -r   : 降序排列，默认是升序
+
+- -o  : 将排序结果输出到文件中上，类似重定向符号 > 
+
+- -n  : 以数字分隔，默认是按字符排序
+
+- -t  : 分隔符
+
+- -k  : 第N列
+
+- -b  : 忽略前导空格
+
+- -R  : 随机排序， 每次运行的结果均不同
+
+  ```shell
+  sort -n passwod # 按照数字升序排
+  sort -nu passwod # 按照数字去重后升序排
+  sort -n -t: -k3 passwd  # 按:分隔，对第三列进行升序排序
+  sort -nr -t: -k3 passwd  # 按:分隔，对第三列进行降序排序
+  sort -n passwd -o 1.txt # 将排序后的结果重定向到文件1.txt
+  ```
 
 ### wc
 
