@@ -136,6 +136,24 @@ cat test.txt | { while read line;do
 管道父子进程：以第四个脚本为例
 管道 | 左侧和右侧是两个bash. num 是在父进程中定义的，而管道是两个子进程子进程对变量的修改不会影响父进程,管道右边会先创建一个子进程
 
+## ROOT免密登录
+
+```shell
+function root_nopass_shell(){
+    host_ip=$1
+    shift
+    shell_command="$@"
+    expect <<EOF 
+spawn ssh root@$host_ip $shell_command
+expect {
+"yes/no" { send "yes\r"; exp_continue}
+"*password:" { send "$root_passwd\r" }
+}
+expect eof
+EOF
+}
+```
+
 ## 批量分发功能
 
 各节点上要预先安装 rsync 工具
