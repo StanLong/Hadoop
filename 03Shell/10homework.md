@@ -223,5 +223,51 @@ function node_sync_file()
 }
 ```
 
+## 在不分发脚本的情况下选程执行本地脚本
+
+```shell
+function execute_shell()
+{
+    if [ $# != 2 ];then
+        echo "Not Enough Arguement!"
+        exit;
+    fi
+    host_group=$1
+    shell_command=$2
+    shell_args=$3
+    if [[ -z $shell_args ]];then
+        if [[ $host_group == "all" ]];then
+            hosts=$(get_cluster_ip)
+            for ip in $hosts
+            do
+                echo ====================  $ip ====================
+                ssh $ip "echo `base64 -w0 $shell_command` | base64 -d | bash && exit"
+            done
+        else
+            current_hosts_list=$(utils_get_host_list $host_group)
+            for ip in $current_hosts_list;do
+                echo ====================  $ip  ====================
+                ssh $ip " echo `base64 -w0 $shell_command` | base64 -d | bash && exit"
+            done
+        fi
+    else 
+        if [[ $host_group == "all" ]];then
+            hosts=$(get_cluster_ip)
+            for ip in $hosts
+            do
+                echo ====================  $ip ====================
+                ssh $node_ip "echo `base64 -w0 $shell_command` |base64 -d>/tmp/test.sh;bash /tmp/test.sh $shell_args && rm -rf /tmp/test.sh"
+            done
+        else
+            current_hosts_list=$(utils_get_host_list $host_group)
+            for ip in $current_hosts_list;do
+                echo ====================  $ip  ====================
+                ssh $node_ip "echo `base64 -w0 $shell_command` |base64 -d>/tmp/test.sh;bash /tmp/test.sh $shell_args && rm -rf /tmp/test.sh"
+            done
+        fi
+    fi
+}
+```
+
 
 
