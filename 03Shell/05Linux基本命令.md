@@ -250,12 +250,130 @@ zip -q -r html.zip /home/html
 
 - -B 显示匹配行及前面多少行
 
+### uniq
+
+去除连续的重复行， **实现去重先要排序**
+
+- -i  : 忽略大小写
+
+- -c  : 统计重复行次数
+
+- -d  : 只显示重复行
+
+  ```shell
+  sort -n 2.txt | uniq  # 按数字升序排序后去重
+  
+  sort -n 2.txt | uniq -c  # 按数字升序排序后去重, 并统计重复行的次数
+  
+  sort -n 2.txt | uniq -dc  # 按数字升序排序, 只显示重复行并统计重复行的次数
+  ```
+
+### tee
+
+双向输出， 从标准输入读取并写入到标准输出和文件。即：双向覆盖重定向<屏幕输出|文本输入>
+
+- -a 双向追加重定向
+
+  ```shell
+  echo hello world
+  echo hello world | tee file1.txt # 将 hello world 输出到屏幕，同时输出到文件 file1.txt, 默认会覆盖原文件
+  cat file1
+  echo 999|tree -a file1.txt # 在文件file1.txt中追加 999
+  cat file1
+  ```
+
+### paste
+
+合并文件输出到屏幕，不会改变文件
+
+- -d  : 自定义分隔符，默认是tab，只接受一个字符
+
+- -s  : 将每个文件中的所有内容按照一行输出，文件中的行与行以TAB间隔
+
+  ```
+  cat a.txt
+  hello
+  
+  cat b.txt
+  hello world
+  888
+  999
+  
+  paste a.txt b.txt
+  hello	hello world
+  	888
+  	999
+  		
+  		
+  paste -d'@' a.txt b.txt
+  hello@hello world
+  @888
+  @999
+  
+  paste -s a.txt b.txt 
+  hello
+  hello world	888	999
+  ```
+
+### xargs
+
+将上一行命令的输出作为下一个命令的参数，通常和管道一起使用
+
+- -a  file:  从文件读入作为下一个命令的参数
+
+- -E  flag : flag必须是一个以空格分隔的标志，当xargs分析到含有flag这个标志时就停止
+
+- -p  : 当每执行到一个 argument 时就询问一次用户
+
+- -n  num: 后面加次数，表示命令在执行的时候一次用几个argument，默认是所有的。
+
+- -t  :  先打印命令，然后再执行
+
+- -i  或者 -I  :   这个参数得看linux是否支持了，将xargs的每项名称，一般是一行一行赋值给{}, 可以用 {} 代替
+
+- -r no-run-if-empty  :  当 xargs的输入为空时则停止xargs， 不再去执行了。
+
+- -d delim 分隔符，默认的xargs的分隔符是回车， argument 的分隔符是空格，这里修改的是xargs的分隔符
+
+  ```shell
+  cat b.txt 
+  hello world
+  888
+  999
+  
+  xargs -a b.txt  # 从文件读入数据作为命令参数, 这里是按行输出的
+  hello world 888 999
+  
+  xargs -a b.txt -d "@" # xargs 默认分隔符是换行，把分隔符替换成"@"之后换行符起作用。
+  hello world
+  888
+  999
+  
+  
+  xargs -a b.txt -E 999 # 从文件读入数据作为命令参数，当读到999时就不再往下读了
+  hello world 888
+  
+  xargs -a b.txt -p # 从文件读入数据作为命令参数，读一次询问一次
+  echo hello world 888 999 ?...y
+  hello world 888 999
+  
+  xargs -a b.txt -t # 不询问， 直接输出参数
+  echo hello world 888 999 
+  hello world 888 999
+  
+  xargs -a b.txt -n 2 # 表示每次处理两个参数
+  hello world
+  888 999
+  ```
+
+  
+
+
+
 ### 去重
 
 ```shell
 awk '!($1 in a){a[$1];print $1}'
-或者
-sort $1 | uniq 
 ```
 
 ### vi最小化命令
