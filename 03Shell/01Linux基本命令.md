@@ -366,15 +366,6 @@ zip -q -r html.zip /home/html
   888 999
   ```
 
-  
-
-
-
-### 去重
-
-```shell
-awk '!($1 in a){a[$1];print $1}'
-```
 
 ### vi最小化命令
 按下！最小化vi并回到外部bash执行 ls -l /opt/ 命令，按enter再回到vi

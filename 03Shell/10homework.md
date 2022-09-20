@@ -269,5 +269,51 @@ function execute_shell()
 }
 ```
 
+## 组合命令实战
+
+基本步骤：1、先截取行  2、统一数据格式  3、截取字符串  4、处理字符串
+
+1. 检索本机IP,  NETMASK, MAC 地址， 广播地址
+
+   ```shell
+   # IP 地址
+   ifconfig ens192 | grep -w "inet" | tr -s " " | cut -d" " -f3 | xargs echo "IP: "
+   IP:  192.168.6.101
+   
+   # 子网掩码
+   ifconfig ens192 | grep -w "inet" | tr -s " " | cut -d" " -f5 | xargs echo "NETMASK: "
+   NETMASK:  255.255.255.0
+   
+   # 广播地址
+   ifconfig ens192 | grep -w "inet" | tr -s " " | cut -d" " -f7 | xargs echo "BOARDCAST: "
+   BOARDCAST:  192.168.6.255
+   
+   # MAC地址
+   ifconfig ens192 | grep -w "ether" | tr -s " " | cut -d" " -f3 | xargs echo "MAC_ADDRESS: "
+   MAC_ADDRESS:  00:50:56:a7:ee:e5
+   ```
+
+2. 将系统中所有普通用户的用户名、密码和默认shell保存到一个文件中，要求用户名密码和默认shell之间用tab分割
+
+   说明：linux系统中的用户分为管理员，系统用户，普通用户。
+
+   管理员uid=0,  系统用户 uid<1000, 普通用户 uid > 1000
+
+   ```shell
+   cp /etc/passwd .
+   
+   # 查看普通用户
+   grep -i "bash" passwd | grep -v "root"
+   hadoop:x:2021:2021::/home/hadoop:/bin/bash
+   oracle:x:2020:2020::/home/oracle:/bin/bash
+   
+   # 完成题目要求
+   grep -i "bash" passwd | grep -v "root" | cut -d":" -f1,2,7 | tr ":" "\t"
+   hadoop	x	/bin/bash
+   oracle	x	/bin/bash
+   ```
+
+   
+
 
 

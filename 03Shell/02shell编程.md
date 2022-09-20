@@ -719,6 +719,8 @@ awk 'END{print NR}' data
 awk 'END{print $0}' data
 # 打印文本共有多少列
 awk 'END{print NF}' data
+# 去重
+awk '!($1 in a){a[$1];print $1}'
 ```
 
 
