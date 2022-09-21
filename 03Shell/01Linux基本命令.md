@@ -366,8 +366,22 @@ zip -q -r html.zip /home/html
   888 999
   ```
 
+### 快捷键命令
+
+```shell
+ctrl+r    搜索历史命令
+ctrl+k    删除光标后所有字符
+ctrl+u    删除光标前所有字符
+ctrl+l    光标移动支命令行的最后端
+ctrl+a    光标移动到命令行的最前端
+ctrl+z    将前台运行的程序挂起到后台
+ctrl+d    退出，等价 exit
+```
+
+
 
 ### vi最小化命令
+
 按下！最小化vi并回到外部bash执行 ls -l /opt/ 命令，按enter再回到vi
 
 ```

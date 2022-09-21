@@ -179,9 +179,9 @@ function node_sync_file()
     user=`whoami`
 
     if [[ -z $3 ]];then
-        dest_dir=$pdir
+        dest_dir=$pdir/
     else
-        dest_dir=$3
+        dest_dir=${3%/}/
     fi
 
     if [ -O $src_dir ];then
@@ -233,7 +233,7 @@ function execute_shell()
         exit;
     fi
     host_group=$1
-    shell_command=$2
+    shell_command=$(base64 -w0 $2)
     shell_args=$3
     if [[ -z $shell_args ]];then
         if [[ $host_group == "all" ]];then
