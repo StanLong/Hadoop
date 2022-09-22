@@ -326,5 +326,37 @@ function execute_shell()
 
 使用/dev/sdb5,   /dev/sdb6,   新建卷组vg100，并创建一个PE为16M,容量为2.5G的逻辑卷lv100， 格式化为xfs,默认开机自动挂载到/data/data2目录
 
+https://www.cnblogs.com/yzgblogs/p/15483202.html
+
+## 内存使用率统计
+
+```shell
+#job实现代码  04_memory_use.sh
+#!/bin/bash
+# 
+#Author: www.zutuanxue.com
+#Release: 
+#Description:内存使用率计算脚本
+
+#free
+#1、获得内存总量
+memory_total=`free -m|grep -i "mem"|tr -s " "|cut -d " " -f2`
+
+#2、获得内存使用的量
+memory_use=`free -m|grep -i "mem"|tr -s " "|cut -d " " -f3`
+
+#3、计算输出
+#运算的时候是否需要小数点 浮点运算，要考虑使用的命令 （难点 重点）
+#echo "内存使用率: $((memory_use*100/memory_total))%"
+#难点：浮点运算中，同优先级的情况下，大数除以小数 尽可能保证精确
+echo "内存使用率: `echo "scale=2;$memory_use*100/$memory_total"|bc`%"
+```
+
+
+
+
+
+
+
 
 

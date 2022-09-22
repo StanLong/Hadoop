@@ -62,15 +62,63 @@ shell是一个程序，采用C语言编写，是用户和Linux内核沟通的桥
 
 ## 数学运算
 
+**四则运算符：** + - * \ 【加减乘除】
+**扩展：** % ** 【取余 开方】
+
+**运算命令:**
+
+- 整形运算
+  – expr
+  – let
+  – $(())
+  – bc
+- 浮点运算
+  – bc
+
 ```shell
-[root@node01 ~]# expr 1 + 1 expr 命令: 只能做整数运算， 注意空格
+ # expr 命令: 只能做整数运算， 注意空格
+[root@node01 ~]# expr 1 + 1
 2
 [root@node01 ~]# expr 5 \* 2  # 乘法运算需要转义
 10
-[root@node01 ~]# echo $((100+3)) # (()) 也可以做数学运算
+
+# let命令:只能做整数运算，且运算元素必须是变量，无法直接对整数做运算
+[root@node01 ~]# let a=100+3;echo $a
+103
+[root@node01 ~]# let a++;echo $a
+104
+[root@node01 ~]# let a--;echo $a
+103
+
+# 双小圆括号运算，在shell中(( ))也可以用来做数学运算
+[root@node01 ~]# echo $((100+3)) 
 103
 
 # 浮点数比较
+# bc 是linux 文件界面的计算器， 检查机器有没有安装 bc
+[root@node01 ~]# rpm -qf `which bc` # 检查机器有没有安装bc
+[root@node01 ~]# yum -y install bc # 如果没有安装就手动安装下
+
+[hadoop@hadoop101 ~]$ bc
+bc 1.06.95
+Copyright 1991-1994, 1997, 1998, 2000, 2004, 2006 Free Software Foundation, Inc.
+This is free software with ABSOLUTELY NO WARRANTY.
+For details type `warranty'. 
+1+2+3
+6
+
+
+1.2+1.3
+2.5
+
+scale=2  # 除法运算时可以指定保留的小数范围
+100/3
+33.33
+
+quit
+
+[root@node01 ~]# echo "scale=3;100/3"|bc
+33.333
 [root@node01 ~]# echo "0.3 > 0.2"|bc  # 大于返回1
 1
 [root@node01 ~]# echo "0.1 > 0.2"|bc # 小于返回 0
@@ -85,22 +133,39 @@ exit num 退出脚本，num 代表一个返回值范围是1-255
 
 ## 格式化输入输出
 
-**echo** 
+**格式化输出： echo** 
 
 -n 不要自动换行
 
 ```shell
-[root@node01 ~]# echo -n "date: ";date +%F
+[root@node01 ~]# echo  "date: ";date +%F
+date: 
+2021-11-02
+
+
+[root@node01 ~]# echo -n "date: ";date +%F # 不自动换行
 date:2021-11-02
 ```
 
--e 若字符串中出现转义字符，则需要特别处理，不会将转义字符当成一般文字输出
+-e 解释转义字符
 
-转义字符： 
+```shell
+[root@hadoop101 ~]# echo "\n hello world"
+\n hello world
+[root@hadoop101 ~]# echo -e "\n hello world"  # 解释转义字符
+
+ hello world
+```
+
+常见的转义字符： 
 
 \a 发出告警声
 
 \b 删除前一个字符
+
+\t 插入 tab
+
+\n 换行且光标移动到行首
 
 ```shell
 # 倒计时脚本
@@ -118,12 +183,30 @@ echo
 **颜色代码**
 
 ```shell
-[root@node01 ~]# echo -e "\033[背景色;字体颜色 字符串 \033[属性效果"
+格式如下：
+echo -e "\033[背景色;字体颜色 m字符串 \033[0m"
+
+例如:
+echo -e "\033[41;36m Hello World\033[0m"
+
+其中
+41 代表文字背景色
+36 代码字体颜色
+字符串前后可以没有空格，如果有的话，输出也同样有空格
+
+字体颜色： 30-37
+字体背景色： 40-47
+
+最后面的控制选项说明
+\033[0m 关闭所有属性
+\033[1m 设置高亮度
+\033[4m 下划线
+\033[5m 闪烁
+\033[7m 反显
+\033[8m 消隐
 ```
 
-## 基本输入
-
-**read**
+**格式化输入：  read**
 
 -p 打印信息
 
@@ -134,32 +217,27 @@ echo
 -n 限制输入字符的个数
 
 ```shell
-#!/bin/bash
-
-clear
-# echo -n -e "Login: "
-# read acc
-# 上面两行可简写成
-read -p "Login: " acc
-echo -n -e "Password: "
-read -s -t5 -n pw # 不显示输入的密码，5秒钟不输入密码就退出，密码长度只能有6位
-
-echo "account: $ass password: $pw"
-```
-
-```shell
 # 模拟登陆界面
 
 #!/bin/bash
 
-clear
+IP=`ifconfig ens33|egrep -w "inet"|awk '{print $2}'`
 
-echo "Centos Linux 7 (Core)"
-echo "kernel `uname -r` an `uname -m` \n"
-echo -n -e "$HOSTNAME login: "
-read acc
-read -s -p "password: "
-read pw
+#1、清屏
+clear
+#2、输出提示信息
+echo "CentOS Linux 8 (Core)"
+echo -e "Kernel `uname -r` on an `uname -m`\n"
+
+echo -e "Web console: https://localhost:9090/ or https://$IP:9090/ \n"
+
+#3、交互输入登陆名
+echo -n "$HOSTNAME login: "
+read account
+
+#4、交互输入密码
+read -s -t30 -p "Password: " pw
+echo
 ```
 
 ## 变量
@@ -219,7 +297,7 @@ unset name # 取消变量
    
 4. 全局变量：所有用户都可以使用，保存在 /etc/profile、/etc/bashrc文件中
 
-   printenv  :   打印全局变量
+   - printenv  :   打印全局变量
 
 5. 内置变量
 
