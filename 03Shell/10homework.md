@@ -313,7 +313,18 @@ function execute_shell()
    oracle	x	/bin/bash
    ```
 
-   
+
+## 给虚拟机添加一块磁盘
+
+给虚拟机添加一块磁盘(以sdb为例)，要求使用脚本对该磁盘分三个区：  
+
+​	1）主分区 /dev/sdb3 543M 文件系统 ext4 要求开机自动挂载到/data/data1目录 
+
+​	 2) 逻辑分区 /dev/sdb5 2G  
+
+​	3) 逻辑分区 /dev/sdb6 3G 
+
+使用/dev/sdb5,   /dev/sdb6,   新建卷组vg100，并创建一个PE为16M,容量为2.5G的逻辑卷lv100， 格式化为xfs,默认开机自动挂载到/data/data2目录
 
 
 

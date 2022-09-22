@@ -366,6 +366,19 @@ zip -q -r html.zip /home/html
   888 999
   ```
 
+### 目录相关
+
+```shell
+dirname  : 打印上一级目录
+basename ： 打印文件名
+
+dirname /home/hadoop/test.sh 
+/home/hadoop
+
+basename /home/hadoop/test.sh 
+test.sh
+```
+
 ### 快捷键命令
 
 ```shell
