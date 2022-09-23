@@ -330,6 +330,22 @@ https://www.cnblogs.com/yzgblogs/p/15483202.html
 
 ## 内存使用率统计
 
+检查内存使用率的的三种方式， 单位都是kb
+
+- free
+
+  介绍物理内存和交换内存的使用情况
+
+- top 
+
+  类似于windows下的任务管理器， 是个交互式命令
+
+  top -n1 :  只打印一次
+
+- cat /proc/meminfo 
+
+  只查看前两行 head -2 /proc/meminfo
+
 ```shell
 #job实现代码  04_memory_use.sh
 #!/bin/bash
@@ -350,6 +366,37 @@ memory_use=`free -m|grep -i "mem"|tr -s " "|cut -d " " -f3`
 #echo "内存使用率: $((memory_use*100/memory_total))%"
 #难点：浮点运算中，同优先级的情况下，大数除以小数 尽可能保证精确
 echo "内存使用率: `echo "scale=2;$memory_use*100/$memory_total"|bc`%"
+```
+
+## 平滑关闭服务脚本
+
+```shell
+#!/bin/bash
+# 
+#Author: www.zutuanxue.com
+#
+#Release: 
+#Description:找到服务的PID号,如果服务开启则杀死，否则提示服务已经关闭或不存在
+
+#1、判断PID
+#注意PID的路径，如果服务的PID不在这里可以做个软连接
+if [ -f /var/run/$1.pid ];then
+   #2、如果存在
+   PID=`cat /var/run/$1.pid`
+   #3、统计进程数
+   process_num=`ps aux|grep $PID|wc -l`
+   #5、判断进程数大于2则杀死
+   if [ $process_num -ge 2 ];then
+       kill -s QUIT $PID 
+   else
+   #5、判断小于2则提示进程不存在,同时删除服务PID文件
+   	echo "service $1 is close"
+        rm -f /var/run/$1.pid
+   fi
+else
+   #2、不存在
+   echo "service $1 is close"
+fi
 ```
 
 

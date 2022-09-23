@@ -1,12 +1,12 @@
 # Shell编程
 
-## 介绍
+## 一、介绍
 
 shell是一个程序，采用C语言编写，是用户和Linux内核沟通的桥梁，它既是一种命令语言，又是一种解释性的编程语言。如下图所示
 
 ![](./doc/01.png)
 
-## 功能
+**shell脚本具有如下功能**
 
 - 命令行解释功能
 - 启动程序
@@ -16,7 +16,7 @@ shell是一个程序，采用C语言编写，是用户和Linux内核沟通的桥
 - 变量维护
 - 环境控制
 
-## 特殊符号
+## 二、shell中的特殊符号
 
 | 符号            | 含义                                                         |
 | --------------- | ------------------------------------------------------------ |
@@ -46,99 +46,16 @@ shell是一个程序，采用C语言编写，是用户和Linux内核沟通的桥
 | [[]]            | 字符串匹配                                                   |
 | &               | 后台运行命令                                                 |
 | &&              | 逻辑与                                                       |
+| >               | 重定向输入 覆盖原数据                                        |
+| >>              | 重定向追加输入，在原数据的末尾添加                           |
+| <               | 重定向输出  例如： wc -l < /etc/paawd                        |
+| <<              | 重定向追加输出  例如: fdisk /dev/sdb <<EOF ... EOF # 追加输入的内容为 fdisk 需要的参数 |
 | >/dev/null 2>&1 | 标准输出和标准错误都重定向到了/dev/null                      |
 | 2>&1 >/dev/null | 意思是把标准错误输出重定向到标准输出后重定向到/dev/null      |
 | 1>&2 >/dev/null | 意思是把标准输出重定向到标准错误后重定向到/dev/null          |
 | &> /dev/null    | 不管你是啥玩意儿文件描述符，通通重定向到/dev/null            |
 
-## 重定向
-
-```shell
->    重定向输入 覆盖原数据
->>   重定向追加输入，在原数据的末尾添加
-<    重定向输出  例如： wc -l < /etc/paawd
-<<   重定向追加输出  例如: fdisk /dev/sdb <<EOF ... EOF # 追加输入的内容为 fdisk 需要的参数
-```
-
-## 数学运算
-
-**四则运算符：** + - * \ 【加减乘除】
-
-**扩展：** % ** 【取余 开方】
-
-**运算命令:**
-
-- 整形运算
-  
-  – expr
-  
-  – let
-  
-  – $(())
-  
-  – bc
-  
-- 浮点运算
-  
-  – bc
-
-```shell
- # expr 命令: 只能做整数运算， 注意空格
-[root@node01 ~]# expr 1 + 1
-2
-[root@node01 ~]# expr 5 \* 2  # 乘法运算需要转义
-10
-
-# let命令:只能做整数运算，且运算元素必须是变量，无法直接对整数做运算
-[root@node01 ~]# let a=100+3;echo $a
-103
-[root@node01 ~]# let a++;echo $a
-104
-[root@node01 ~]# let a--;echo $a
-103
-
-# 双小圆括号运算，在shell中(( ))也可以用来做数学运算
-[root@node01 ~]# echo $((100+3)) 
-103
-
-# 浮点数比较
-# bc 是linux 文件界面的计算器， 检查机器有没有安装 bc
-[root@node01 ~]# rpm -qf `which bc` # 检查机器有没有安装bc
-[root@node01 ~]# yum -y install bc # 如果没有安装就手动安装下
-
-[hadoop@hadoop101 ~]$ bc
-bc 1.06.95
-Copyright 1991-1994, 1997, 1998, 2000, 2004, 2006 Free Software Foundation, Inc.
-This is free software with ABSOLUTELY NO WARRANTY.
-For details type `warranty'. 
-1+2+3
-6
-
-
-1.2+1.3
-2.5
-
-scale=2  # 除法运算时可以指定保留的小数范围
-100/3
-33.33
-
-quit
-
-[root@node01 ~]# echo "scale=3;100/3"|bc
-33.333
-[root@node01 ~]# echo "0.3 > 0.2"|bc  # 大于返回1
-1
-[root@node01 ~]# echo "0.1 > 0.2"|bc # 小于返回 0
-0
-```
-
-## 退出脚本
-
-```shell
-exit num 退出脚本，num 代表一个返回值范围是1-255
-```
-
-## 格式化输入输出
+## 三、格式化输入输出
 
 **格式化输出： echo** 
 
@@ -247,17 +164,17 @@ read -s -t30 -p "Password: " pw
 echo
 ```
 
-## 变量
+## 四、变量
 
 变量是在编程中最常用的一种临时在内存中存取数据的方式
 
-**命名规则**
+### 命名规则
 
 - 只能用英文字母，数字和下划线，不能以数字开头
 - 变量名和"="中间不能有空格
 - 不能使用bash里的关键字
 
-**变量的设置与取消**
+### 变量的设置与取消
 
 ```shell
 name="zhangsan" # 设置变量
@@ -265,7 +182,7 @@ echo $name
 unset name # 取消变量
 ```
 
-**有类型变量 declare**
+### 有类型变量 declare
 
 - -i  将变量看成整数
 - -r  使变量只读， 该变量的值无法更改，且不能 unset
@@ -273,7 +190,7 @@ unset name # 取消变量
 - -a  指定为索引数组
 - -A  指定为关联数组
 
-**变量分类**
+### 变量分类
 
 1. 本地变量：用户自定义的变量，定义在脚本或者当前终端中，脚本执行完毕后或终端结束后变量失效
 
@@ -282,7 +199,7 @@ unset name # 取消变量
    - env   :   查看当前用户的环境变量
    - set    :   查询当前用户的所有变量（临时变量与环境变量）
 
-3.  export 将当前变量变成环境变量
+3. export 将当前变量变成环境变量
 
    运行 shell 脚本时， 系统将创建一个子shell，此时，系统中将有两个 shell ， 一个是登录时系统启动的shell（父shell）, 另一个是系统为运行脚本程序创建的 shell （子shell）， 两个 shell 在运行的过程中本地变量是不能够共用的，只有环境变量能共用。
 
@@ -301,7 +218,7 @@ unset name # 取消变量
    
    #从脚本执行的结果来看，只有环境变量打印出来了
    ```
-   
+
 4. 全局变量：所有用户都可以使用，保存在 /etc/profile、/etc/bashrc文件中
 
    - printenv  :   打印全局变量
@@ -343,15 +260,227 @@ unset name # 取消变量
 
    $#  :   表示变量是独立的
 
-## 数组
+## 五、Shell中的运行
 
-**语法**
+### 数学运算
+
+**四则运算符：** + - * \ 【加减乘除】
+
+**扩展：** % ** 【取余 开方】
+
+**运算命令:**
+
+- 整形运算
+  
+  – expr
+  
+  – let
+  
+  – $(())
+  
+  – bc
+  
+- 浮点运算
+  
+  – bc
+
+```shell
+ # expr 命令: 只能做整数运算， 注意空格
+[root@node01 ~]# expr 1 + 1
+2
+[root@node01 ~]# expr 5 \* 2  # 乘法运算需要转义
+10
+
+# let命令:只能做整数运算，且运算元素必须是变量，无法直接对整数做运算
+[root@node01 ~]# let a=100+3;echo $a
+103
+[root@node01 ~]# let a++;echo $a
+104
+[root@node01 ~]# let a--;echo $a
+103
+
+# 双小圆括号运算，在shell中(( ))也可以用来做数学运算
+[root@node01 ~]# echo $((100+3)) 
+103
+
+# 浮点数比较
+# bc 是linux 文件界面的计算器， 检查机器有没有安装 bc
+[root@node01 ~]# rpm -qf `which bc` # 检查机器有没有安装bc
+[root@node01 ~]# yum -y install bc # 如果没有安装就手动安装下
+
+[hadoop@hadoop101 ~]$ bc
+bc 1.06.95
+Copyright 1991-1994, 1997, 1998, 2000, 2004, 2006 Free Software Foundation, Inc.
+This is free software with ABSOLUTELY NO WARRANTY.
+For details type `warranty'. 
+1+2+3
+6
+
+
+1.2+1.3
+2.5
+
+scale=2  # 除法运算时可以指定保留的小数范围
+100/3
+33.33
+
+quit
+
+[root@node01 ~]# echo "scale=3;100/3"|bc
+33.333
+[root@node01 ~]# echo "0.3 > 0.2"|bc  # 大于返回1
+1
+[root@node01 ~]# echo "0.1 > 0.2"|bc # 小于返回 0
+0
+```
+
+### 比较运算
+
+#### 整形比较
+
+```
+运算符解释：
+
+ 精确比较
+        -eq         等于 equal
+
+        -gt         大于
+
+        -lt         小于
+
+ 模糊比较
+        -ge         大于或等于
+
+        -le         小于或等于
+
+        -ne         不等于
+```
+
+```shell
+[root@zutuanxue ~]# test 100 -gt 300;echo $?
+1
+[root@zutuanxue ~]# test 100 -ge 300;echo $?
+1
+[root@zutuanxue ~]# test 100 -eq 300;echo $?
+1
+[root@zutuanxue ~]# test 100 -le 300;echo $?
+0
+[root@zutuanxue ~]# test 100 -lt 300;echo $?
+0
+[root@zutuanxue ~]# test 100 -ne 300;echo $?
+0
+
+备注：linux命令test只能比较两个整数的关系，不会返回结果，需要通过$?才能看到结果
+```
+
+#### 字符串比较
+
+字符串必须加引号，如果字符串中有变量，加双引号
+
+	== 等于
+	!= 不等于
+	-n 检查字符串长度是否大于0
+	-z 检查字符串长度是否等于0
+### 逻辑运算
+
+- 逻辑与运算 &&
+
+- 逻辑或运算 ||
+
+- 逻辑非运算 ！
+
+  ```
+  逻辑运算注意事项：
+      逻辑与 或 运算都需要两个或以上条件
+      逻辑非运算只能一个条件。
+      口诀:     逻辑与运算               真真为真 真假为假   假假为假
+               逻辑或运算               真真为真 真假为真   假假为假
+               逻辑非运算               非假为真   非真为假
+               
+               
+  逻辑与或的短路运算
+  逻辑与中靠前的条件中出现了假，后面的就不在判断了，因为已经是假的了
+  逻辑或中靠前的条件中出现了真，后不在往后判断了，结果已经为真了
+  ```
+
+### 文件类型、权限、新旧判断
+
+test判断命令 :  检测文件类型和比较运算
+
+```shell
+-d  检查文件是否存在且为目录
+-e  检查文件是否存在
+-f  检查文件是否存在且为文件
+-r  检查文件是否存在且可读
+-s  检查文件是否存在且不为空
+-w  检查文件是否存在且可写
+-x  检查文件是否存在且可执行
+-O  检查文件是否存在并且被当前用户拥有
+-G  检查文件是否存在并且默认组为当前用户组
+-nt file1 -nt file2  检查file1是否比file2新
+-ot file1 -ot file2  检查file1是否比file2旧     
+-ef file1 -ef file2  检查file1是否与file2是同一个文件，判定依据的是i节点
+```
+
+```shell
+文件类型
+[root@zutuanxue ~]# test -f /etc/passwd;echo $?
+0
+[root@zutuanxue ~]# test -f /etc;echo $?
+1
+[root@zutuanxue ~]# test -d /etc;echo $?
+0
+
+权限判断
+[root@zutuanxue ~]# test -x /root/anaconda-ks.cfg ;echo $?
+1
+[root@zutuanxue ~]# ll /root/anaconda-ks.cfg 
+-rw-------. 1 root root 1216 6月  26 09:06 /root/anaconda-ks.cfg
+[root@zutuanxue ~]# test -r /root/anaconda-ks.cfg ;echo $?
+0
+
+[root@zutuanxue ~]# test -w /root/anaconda-ks.cfg ;echo $?
+0
+```
+
+## 六、数组
+
+数组可以让用户一次赋予多个值，需要读取数据时只需通过索引调用就可以方便读出了。
+
+普通数组：只能使用整数作为数组索引(元素的索引)
+
+关联数组：可以使用字符串作为数组索引(元素的索引)
+
+### 普通数组
+
+**数组定义方式**
 
 ```
 数组名称=(元素1, 元素2， 元素3)
 ```
 
-**检索数组元素**
+**赋值方式**
+
+- 一次赋一个值
+
+  ```shell
+  变量名=变量值
+  array[0]=v1
+  array[1]=v2
+  array[3]=v3
+  ```
+
+- 一次赋多个值
+
+  ```shell
+  array=(var1 var2 var3 var4)
+  array1=(`cat /etc/passwd`)			# 将文件中每一行赋值给array1数组
+  array2=(`ls /root`)                 # 将命令的执行结果保存到数组中
+  array3=(harry amy jack "Miss zhang")
+  array4=(1 2 3 4 "hello world" [10]=linux)
+  ```
+
+**取值方式**
 
 ```shell
 # 格式
@@ -380,7 +509,7 @@ echo "第三到第六的语言为：${program[*]:2:5}"
 echo "第七到第十一的语言为：${program[@]:6:10}"
 ```
 
-## 关联数组
+### 关联数组
 
 可以自定义索引
 
@@ -418,13 +547,6 @@ echo "第七到第十一的语言为：${program[@]:6:10}"
     -G 检查file是否存在并且默认组与当前用户相同
     file1 -nt file2 检查file1是否比file2新
     file1 -ot file2 检查file1是否比file2旧
-    
-字符串比较运算
-
-	== 等于
-	!= 不等于
-	-n 检查字符串长度是否大于0
-	-z 检查字符串长度是否等于0
 ```
 
 ```shell
