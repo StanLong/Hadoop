@@ -60,7 +60,7 @@ node1、node02、node03三台节点，依次执行如下步骤。
 
 **1）修改为阿里云镜像**
 
-**（ 1）查看原始zabbix.repo文件 **
+**（1）查看原始zabbix.repo文件** 
 
 ```shell
 [root@node01 ~]# cat /etc/yum.repos.d/zabbix.repo
@@ -266,7 +266,7 @@ php_value[post_max_size] = 16M
 php_value[upload_max_filesize] = 2M
 php_value[max_input_time] = 300
 php_value[max_input_vars] = 10000
-php_value[date.timezone] = Asia/Shanghai
+php_value[date.timezone] = Asia/Shanghai # 修改时区
 ```
 
 ## 2.6 启动停止Zabbix
@@ -325,7 +325,7 @@ php_value[date.timezone] = Asia/Shanghai
 
 用户名：Admin 密码：zabbix
 
-![](/doc/08.png)
+![](./doc/08.png)
 
 2）点击User Settings，语言设成中文
 
