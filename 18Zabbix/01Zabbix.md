@@ -46,9 +46,7 @@ Zabbix是一款能够监控各种网络参数以及服务器健康性和完整�
 [root@node03 ~]# sudo rpm -Uvh https://mirrors.aliyun.com/zabbix/zabbix/5.0/rhel/7/x86_64/zabbix-release-5.0-1.el7.noarch.rpm
 ```
 
-2）安装RHEL Software collections（SCLs）
-
-Software collections是一个Linux软件多版本共存的解决方案
+2）安装Software Collections仓库
 
 ```shell
 [root@node01 ~]# sudo yum install -y centos-release-scl
@@ -102,7 +100,7 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-ZABBIX
 gpgcheck=1
 ```
 
-**（2) 执行以下命令完成全局替换**
+**（ 2 ）执行以下命令完成全局替换 **
 
 ```shell
 [root@node01 ~]# sed -i 's/http:\/\/repo.zabbix.com/https:\/\/mirrors.aliyun.com\/zabbix/g' /etc/yum.repos.d/zabbix.repo
@@ -146,7 +144,7 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-ZABBIX
 gpgcheck=1
 ```
 
-**2）启用 zabbix-web 仓库**
+**2 ）启用 zabbix-web 仓库 **
 
 **打开 /etc/yum.repos.d/zabbix.repo 文件，做如下修改**
 
