@@ -399,6 +399,26 @@ else
 fi
 ```
 
+## 监控CPU平均负载值
+
+分别打印CPU 1min 5min 15min load负载值
+
+```shell
+#!/bin/bash
+# 
+#Author: www.zutuanxue.com
+#
+#Release: 
+#Description: 打印cpu 1min 5min 15min的负载值
+
+#1、收集负载值
+cpu_load=(`uptime|tr -s " "|cut -d " " -f9-11|tr "," " "`)
+#2、输出负载值
+echo "CPU 1 min平均负载为: ${cpu_load[0]}"
+echo "CPU 5 min平均负载为: ${cpu_load[1]}"
+echo "CPU 15 min平均负载为: ${cpu_load[2]}"
+```
+
 
 
 

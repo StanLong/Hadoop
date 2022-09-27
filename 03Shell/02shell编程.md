@@ -511,7 +511,9 @@ echo "第七到第十一的语言为：${program[@]:6:10}"
 
 ### 关联数组
 
-可以自定义索引
+可以自定义索引， 声明方式 `declare -A 数组名称`
+
+**赋值**
 
 ```
 赋值方式1
@@ -531,23 +533,49 @@ echo "第七到第十一的语言为：${program[@]:6:10}"
     方式2中，和索引数组定义方式一样，数组名称=(元素1 元素2 元素3)，但括号内部元素格式不同。元素格式为：["键"]=值，元素键值对之间以空格分隔。
 ```
 
-## IF判断
+一次赋一个值
 
 ```shell
-文件比较与检查
-
-    -d 检查file是否存在并是一个目录
-    -e 检查file是否存在
-    -f 检查file是否存在并是一个文件
-    -r 检查file是否存在并可读
-    -s 检查file是否存在并非空
-    -w 检查file是否存在并可写
-    -x 检查file是否存在并可执行
-    -O 检查file是否存在并属当前用户所有
-    -G 检查file是否存在并且默认组与当前用户相同
-    file1 -nt file2 检查file1是否比file2新
-    file1 -ot file2 检查file1是否比file2旧
+数组名[索引]=变量值
+[root@zutuanxue ~]# asso_array1[linux]=one
+[root@zutuanxue ~]# asso_array1[java]=two
+[root@zutuanxue ~]# asso_array1[php]=three
 ```
+
+一次赋多个值
+
+```shell
+[root@zutuanxue ~]# asso_array2=([name1]=harry [name2]=jack [name3]=amy [name4]="Miss zhang")
+```
+
+查看关联数组
+
+```shell
+[root@zutuanxue ~]# declare -A
+declare -A asso_array1='([php]="three" [java]="two" [linux]="one" )'
+declare -A asso_array2='([name3]="amy" [name2]="jack" [name1]="harry" [name4]="Miss zhang" )'
+```
+
+**取值**
+
+```shell
+[root@zutuanxue ~]# echo ${asso_array1[linux]}
+one
+[root@zutuanxue ~]# echo ${asso_array1[php]}
+three
+[root@zutuanxue ~]# echo ${asso_array1[*]}
+three two one
+[root@zutuanxue ~]# echo ${!asso_array1[*]}
+php java linux
+[root@zutuanxue ~]# echo ${#asso_array1[*]}
+3
+[root@zutuanxue ~]# echo ${#asso_array2[*]}
+4
+[root@zutuanxue ~]# echo ${!asso_array2[*]}
+name3 name2 name1 name4
+```
+
+## 七、IF判断
 
 ```shell
 #!/bin/bash
@@ -563,7 +591,7 @@ fi
 #!/bin/bash
 # 登陆人员身份认证
 
-if[$USER == 'root']
+if [ $USER == 'root' ]
 	then
 		echo "管理员， 你好"
 else

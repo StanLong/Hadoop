@@ -2,6 +2,8 @@
 
 https://www.zabbix.com/download
 
+离线安装文档： https://blog.csdn.net/a648642694/article/details/107332363
+
 ## 1.1 Zabbix概述
 
 Zabbix是一款能够监控各种网络参数以及服务器健康性和完整性的软件。Zabbix使用灵活的通知机制，允许用户为几乎任何事件配置基于邮件的告警。这样可以快速反馈服务器的问题。基于已存储的数据，Zabbix提供了出色的报告和数据可视化功能。
@@ -44,7 +46,9 @@ Zabbix是一款能够监控各种网络参数以及服务器健康性和完整�
 [root@node03 ~]# sudo rpm -Uvh https://mirrors.aliyun.com/zabbix/zabbix/5.0/rhel/7/x86_64/zabbix-release-5.0-1.el7.noarch.rpm
 ```
 
-2）安装Software Collections仓库
+2）安装RHEL Software collections（SCLs）
+
+Software collections是一个Linux软件多版本共存的解决方案
 
 ```shell
 [root@node01 ~]# sudo yum install -y centos-release-scl
@@ -182,6 +186,9 @@ gpgcheck=1
 **在三台节点分别执行以下安装命令**
 
 ```shell
+# 按照规划 node01 上安装四个组件
+# 两个 zabbix 主服务 zabbix-server-mysql zabbix-agent
+# 两个 前端组件      zabbix-web-mysql-scl zabbix-apache-conf-scl
 [root@node01 ~]#  yum install -y zabbix-server-mysql zabbix-agent zabbix-web-mysql-scl zabbix-apache-conf-scl
 
 [root@node02 ~]#  sudo yum install -y zabbix-agent
