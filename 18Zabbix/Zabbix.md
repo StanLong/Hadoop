@@ -98,7 +98,7 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-ZABBIX
 gpgcheck=1
 ```
 
-**（ 2 ）执行以下命令完成全局替换 **
+**（2) 执行以下命令完成全局替换**
 
 ```shell
 [root@node01 ~]# sed -i 's/http:\/\/repo.zabbix.com/https:\/\/mirrors.aliyun.com\/zabbix/g' /etc/yum.repos.d/zabbix.repo
@@ -142,7 +142,7 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-ZABBIX
 gpgcheck=1
 ```
 
-**2 ）启用 zabbix-web 仓库 **
+**2）启用 zabbix-web 仓库**
 
 **打开 /etc/yum.repos.d/zabbix.repo 文件，做如下修改**
 
