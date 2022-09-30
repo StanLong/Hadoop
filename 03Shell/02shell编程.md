@@ -579,53 +579,197 @@ name3 name2 name1 name4
 
 ## 七、IF判断
 
-```shell
-#!/bin/bash
-# 如果目录 /tmp/abc 不存在，就创建一个
-if [ ! -d /tmp/abc ]
-	then
-		mkdir -v /tmp/abc # 打印创建信息
-		echo "create /tmp/abc ok"
-fi
-```
+**语法格式**
 
-```shell
-#!/bin/bash
-# 登陆人员身份认证
+- 格式1： **test** 条件表达式
+- 格式2： [ 条件表达式 ]
+- 格式3： [[ 条件表达式 ]] （支持正则~）
 
-if [ $USER == 'root' ]
-	then
-		echo "管理员， 你好"
-else
-	echo "guest, 你好"
-fi
-```
+**特别说明：**
 
-```shell
-#!/bin/bash
-# 判断两个整数的关系
-if [ $1 -gt $2 ]
-	then
-		echo "$1>$2"
-elif [ $1 -eq $2 ]
-	then
-		echo "$1=$2"
-else
-	echo "$1<$2"
-fi
-# 或者
-if [ $1 -eq $2 ]
-	then
-		echo "$1=$2"
-else
-	if[ $1 -gt $2 ]
-		then
-			echo "$1>$2"
-	else
-		echo echo "$1<$2"
-	fi
-fi
-```
+1）[ 亲亲，我两边都有空格，不空打死你呦 ] 👿
+
+2）[[ 亲亲，我两边都有空格，不空打死你呦 ]]👿
+
+- if-1.sh :  单if语法
+
+  ```shell
+  #!/bin/bash
+  # 判断当前用户是否为root
+  if [ $USER != 'root' ]
+  then
+      echo "ERROR: need to be root so that"
+      exit 1
+  fi
+  ```
+
+- if-2.sh :  if...else
+
+  ```shell
+  #!/bin/bash
+  # 登陆人员身份认证
+  
+  if [ $USER == 'root' ]
+          then
+                  echo "管理员， 你好"
+  else
+          echo "guest, 你好"
+  fi
+  ```
+
+- if-3.sh  :  if...elif..else
+
+  ```shell
+  #!/bin/bash
+  #判断内存的使用率
+  #60以下    ok 绿色  32m
+  #60以上    黄色警告   33m
+  #70以上    粉色严重警告 35m 
+  #80以上    红色警告 31m
+  if [ $1 -gt 80 ]
+  then
+          echo -e "\033[31m 警告 \033[0m"
+  elif [ $1 -gt 70 ]
+  then
+          echo -e "\033[35m 警告 \033[0m" 
+  
+  elif [ $1 -gt 60 ]
+  then
+          echo -e "\033[33m 警告 \033[0m"
+  else
+          echo -e "\033[32m OK \033[0m"
+  fi
+  ```
+
+- if-4.sh  :  if 嵌套if
+
+  ```shell
+  #!/bin/bash
+  #判断两个整数的关系
+  if [ $1 -ne $2  ]
+  then
+          if [ $1 -gt $2 ]
+          then
+                  echo " $1 > $2 "
+          else
+                  echo " $1 < $2 "
+          fi
+  else
+          echo " $1 = $2 "
+  fi
+  ```
+
+- if-5.sh  :  if 与shell运算
+
+  ```shell
+  #!/bin/bash
+  #判断目录 /tmp/stanlong  是否存在，如果不存在就创建一个
+  if [ ! -d /tmp/stanlong ];then
+          mkdir -v /tmp/stanlong
+  fi
+  ```
+
+- if-6.sh  :  字符串判断
+
+  ```shell
+  #!/bin/bash
+  #用户登录验证
+  
+  read -p "user: " myuser
+  if [ -z "$myuser" ];then
+          echo "用户名为空"
+          exit 1
+  fi
+  
+  read -p "password: " mypw
+  if [ -n "$mypw" ];then
+          if [ "$myuser" == "root" ];then
+                  if [ "$mypw" == "abc-123" ];then
+                          echo "welcome root"
+                  else
+                          echo "密码错误"
+                          exit 1
+                  fi
+          else
+                  echo "用户名错误"
+                  exit 1
+          fi
+  else
+          echo "密码不能为空"
+  fi             
+  
+  ###################################################################################
+  
+  # 用逻辑运算简写 if
+  #!/bin/bash
+  #用户登录验证
+  read -p "user: " myuser
+  if [ -z "$myuser" ];then
+          echo "用户名为空"
+          exit 1
+  fi
+  
+  read -p "password: " mypw
+  if [ -n "$mypw" ];then
+          if [ "$myuser" == "root" ] && [ "$mypw" == "abc-123" ]; then
+                  echo "welcome root"
+          else
+                  echo "用户名或密码错误"
+                  exit 1
+          fi
+  else
+          echo "密码不能为空"
+  fi             
+  ```
+
+- if-7.sh  :  条件符号中使用 (()) ， 可以在条件中植入数学表达式
+
+  ```shell
+  #!/bin/bash
+  if (( (5+5-5)*5/5 > 10 ));then
+          echo "yes"
+  else
+          echo "no"
+  fi
+  ```
+
+- if-8.sh  :  使用双方括号，可以在条件中使用通配符
+
+  ```shell
+  #!/bin/bash
+  for var in ab ac rx bx rvv vt
+  do
+          if [[ "$var" == r* ]];then
+                  echo "$var"
+          fi
+  done
+  ```
+
+- if-9.sh  :  简写if 
+
+  ```shell
+  if [ ! -d /tmp/stanlong ];then
+          mkdir -v /tmp/stanlong
+  fi
+  
+  可简写为
+  
+  [ ! -d /tmp/stanlong ] && mkdir -v /tmp/stanlong
+  
+  ##################################################################
+  
+  if [ $USER == 'root' ]
+          then
+                  echo "管理员， 你好"
+  else
+          echo "guest, 你好"
+  fi
+  
+  可简写为
+  [ $USER == 'root' ] && echo "管理员， 你好" || echo "guest, 你好"
+  ```
+
+  
 
 ## FOR循环
 
