@@ -30,7 +30,7 @@ done < ./tablename
 + 避免捕获用户接口
 + 程序自定义输出
 
-```
+```shell
 [root@gmall ~]# vi userAdd.sh
 #!/bin/bash
 useradd $1
