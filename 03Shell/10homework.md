@@ -419,6 +419,24 @@ echo "CPU 5 min平均负载为: ${cpu_load[1]}"
 echo "CPU 15 min平均负载为: ${cpu_load[2]}"
 ```
 
+## 免交互式登录root
+
+```shell
+function root_nopass_shell(){
+    host_ip=$1
+    shift
+    shell_command="$@"
+    expect <<EOF 
+spawn ssh root@$host_ip $shell_command
+expect {
+"yes/no" { send "yes\r"; exp_continue}
+"*password:" { send "$root_passwd\r" }
+}
+expect eof
+EOF
+}
+```
+
 
 
 

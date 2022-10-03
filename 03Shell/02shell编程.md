@@ -769,49 +769,60 @@ name3 name2 name1 name4
   [ $USER == 'root' ] && echo "管理员， 你好" || echo "guest, 你好"
   ```
 
-  
 
-## FOR循环
+## 八、FOR循环
 
-```shell
-# 语法1
-for var in value1 value2 ...
-	do
-		commands
-done
-
-# C格式语法
-for ((变量; 条件; 自增减运算))
-	do
-		代码块
-done
-```
+for-1.sh  :  基本语法
 
 ```shell
 #!/bin/bash
-# 直接赋值
-for var in 1 2 3 4 5
-	do
-		echo $var
-		sleep 1
-done
-
-# 使用命令赋值
-for var in `var 1 9`
-	do echo $var
-	sleep 1
-done
-
-# C格式语法
-for ((i=1; i<10; i++))
-	do echo $i
-done
-
-for ((n=10, m=0; n>0, m<10; n--, m++))
-	do
-		echo -e "$n\t$m"
+#for i in 1 2 3 4 5 # 语法1枚举 
+#for i in {1..5} # 语法2 列表
+# for i in `seq 1 5`  # 语法3 序列 默认从1开始
+# for i in $(seq 5) # 与上面的赋值方式等价
+# for i in `seq 1 +3 10` # 设置步长， +3 或者 -3
+for i in {1..10..3}  # 设置步长，1到10每步加3，如果{10..1..3},就是每步减3
+do
+        echo "$i"
+        echo "Long Grant China"
 done
 ```
+
+for-2.sh  :  不带列表循环， 参数由用户传入
+
+```shell
+#!/bin/bash
+# 参数由用户传入
+for i 
+do
+	echo $i
+done
+
+[root@node01 ~]# ./for-2.sh 1 2 3 4 5
+```
+
+for-3.sh  :  C语法格式
+
+```shell
+#!/bin/bash
+for ((i=0; i<=5; i++))
+do
+	echo $i
+done
+
+
+#########################################
+
+#!/bin/bash
+# 定义多个变量
+
+for ((x=1,y=10; x<=10, y>=1; x++, y--))
+do
+        echo "$x  $y"
+done
+```
+
+
 
 ```shell
 #!/bin/bash
