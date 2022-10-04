@@ -941,33 +941,76 @@ done
 
 ## 九、while循环
 
+while-1.sh  :   基本语法
+
 ```shell
 #!/bin/bash
-# 五种运算类型
-# 数学比较 字符串比较 文件类型 逻辑运算 赋值运算
-read -p "NUM: " num1
-while [$num1 -gt 0]
+i=1
+while [ $i -lt 10 ]
 do
-	echo "大于"
-	sleep 3
-done
-
----------------------------------------------------------------------------
-
-read -p "login: " account
-while [$account != 'root']
-do
-	read -p "login:" account
-done
-
----------------------------------------------------------------------------
-
-while [! -d /tmp/stanlong]
-do
-	echo "not found /tmp/stanlong"
-	sleep 3
+        echo $i
+        #i=$((i+1)) 或者像如下使用 i++ 的方式
+        let i++
 done
 ```
+
+while-2.sh  :   字符比较
+
+```shell
+#!/bin/bash
+read -p "请输入一个字符[按'Q'退出]: " choose
+while [ $choose != 'Q' ]
+do
+        echo "输入的字符是: $choose"
+        read -p "请输入一个字符[按'Q'退出]: " choose
+done
+```
+
+while-3.sh   :  逻辑运算
+
+```shell
+#!/bin/bash
+read -p "M:" m
+read -p "C:" c
+read -p "H:" h
+
+while [ $m -lt 10000 ] || [ $c -lt 1 ] || [ $h -lt 2 ];do
+        echo "out"
+        read -p "M:" m
+        read -p "C:" c
+        read -p "H:" h
+done
+echo "welcome"
+```
+
+while-4.sh  :  文件运算
+
+```shell
+#!/bin/bash
+while [ ! -d /tmp/stanlong ]
+do
+        echo "文件不存在"
+        sleep 1
+done
+```
+
+while-5.sh  :  特殊条件
+
+```shell
+!/bin/bash
+#while true 或者写成 while : 
+while :
+do
+        echo "无息币，勿完物"
+        sleep 1
+done
+
+# false 代表假
+```
+
+
+
+
 
 ## until语句
 
