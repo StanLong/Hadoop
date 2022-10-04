@@ -822,69 +822,124 @@ do
 done
 ```
 
-
-
-```shell
-#!/bin/bash
-# 监控主机存活的脚本
-for((;;))
-do
-	ping -c1 $1 &> /dev/null
-	if[$? -eq 0]
-		then
-			echo "`date +"%F %H:%M:%S"`:$1 is up"
-	else
-		echo "`date +"%F %H:%M:%S"`:$1 is down"
-	fi
-	
-	# 脚本节奏控制
-	sleep 5
-done
-```
+for-4.sh  :  循环控制 break
 
 ```shell
 #!/bin/bash
-# 跳出5，打印 1，2，3，4，6，7，8
-for((i=0;i<=8;i++))
+for i in `seq 1 9`
 do
-	if[$i -eq 5];then
-		continue
-	fi
-	echo $i
+        echo $i
+        if [ $i -eq 5 ];then
+                break
+        fi
 done
+
+echo "ok"
 ```
+
+for-5.sh  :  循环控制  continue
 
 ```shell
 #!/bin/bash
-# 要求用户输入一个字母，当输入到Q的时候退出
-for((;;))
+for i in `seq 1 9`
 do
-	read -p "char: " ch
-	if [$ch -eq "Q"]
-		then
-			break
-	else
-		echo "你输入的是: $ch"
-	fi
+        if [ $i -eq 5 ];then
+                continue
+        else
+                echo $i
+        fi
 done
 ```
+
+for-6.sh  :  循环控制 sleep  控制循环节奏
 
 ```shell
 #!/bin/bash
-# 跳出外循环
-for((i=1;i<100;i++))
+for ((;;))
 do
-	echo "#loop $i"
-	for((;;))
-	do
-		echo "haha"
-		break 2 # 内循环为1， 外循环为2，依次往外数
-	done
-	sleep 3
+        echo "Long Great China"
+        sleep 1 # 默认1s
 done
 ```
 
-## while循环
+for-7.sh  :  参数控制命令 shift, 使位置参数向左移动，默认移动1位，可以使用 shift N 表示向左移动N位，传参要是N的整数倍
+
+```shell
+#!/bin/bash
+[ $# -lt 3 ] && echo "请输入至少三个参数: " $0 '$1 $2 $3 ...' && exit 1
+count=$#
+
+for ((i=1; i<= $count; i++))
+do
+        echo "参数数量： $#"
+        echo "当前$1的数值是：'$1'"
+        shift 1
+        sleep 1
+done
+echo "执行完毕"
+```
+
+for-8.sh  :  脚本退出命令 exit， 退出脚本，释放执行该脚本时申请的所有资源
+
+```shell
+#!/bin/bash
+for i in `seq 1 9`
+do
+        echo $i
+        if [ $i -eq 5 ];then
+                exit 0 # 退出代码，不继续往下执行
+        fi
+done
+echo "执行完毕"
+```
+
+for-9.sh  :  循环嵌套 九九乘法表
+
+```shell
+#!/bin/bash
+for ((x=1; x<=9; x++))
+do
+        for ((y=1; y<=$x; y++))
+        do
+                echo -n -e "$x * $y = $((x * y)) \t"
+        done
+        echo
+done
+```
+
+for-10  :  遍历数组
+
+```shell
+#!/bin/bash
+name=('沈万三' '朱元璋' '刘伯温' '南海财神' '漠北富婆')
+count=${#name[*]} # 求数组长度
+
+for ((i=0; i<$count; i++))
+do
+        echo "name[$i]=${name[$i]}"
+done
+
+################################################################################################
+
+#!/bin/bash
+# 循环往数组中赋值
+for ((i=0; i<3; i++))
+do
+        read -p "name: " name
+        names[$i]=$name
+done
+
+
+count=${#names[*]}
+
+
+for ((i=0; i<$count; i++))
+do
+        echo "names[$i]=${names[$i]}"
+done
+```
+
+## 九、while循环
 
 ```shell
 #!/bin/bash
