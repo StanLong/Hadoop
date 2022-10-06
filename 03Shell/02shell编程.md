@@ -1008,32 +1008,77 @@ done
 # false 代表假
 ```
 
-
-
-
-
-## until语句
+## 十、until循环
 
 ```shell
-语法
+语法：
 until [condition] # 条件为假 until 才会循环，条件为真，until停止循环
 do
 	commands
 done
 ```
 
+untiil-1.sh  :  until 循环
+
 ```shell
 #!/bin/bash
-# 打印10到20
-init_num=10
-until [$init_num -gt 20]
-do 
-	echo $init_num
-	init_num=$((init_num + 1))
+#!/bin/bash
+i=1
+until [ $i -gt 5 ]
+do
+        echo $i
+        let i++
+done
+
+################################################################################################
+
+#!/bin/bash
+# until 无限循环
+until false
+do
+        echo "Long Great China"
+        sleep 1
 done
 ```
 
-## case语句
+## 十一、函数与case
+
+```shell
+#语法1
+函数名 (){
+	代码块
+	return N
+}
+
+#语法2， 函数名可以不用加括号
+function 函数名{ 
+	代码块
+	return N
+}
+
+# return 默认返回函数中最后一个命令的退出状态，也可以给定参数值，该参数值的范围是0-256之间
+# 如果没有return， 函数将返回最后一个Shell的退出值
+```
+
+func1.sh  :  函数的基本语法与调用
+
+```shell
+#!/bin/bash
+fun1 ()
+{
+        echo "fun1"
+}
+
+function fun2
+{
+        echo "func2"
+}
+
+# 调用函数
+fun1;fun2
+```
+
+### case 语句
 
 ```shell
 # 语法
@@ -1045,7 +1090,9 @@ case 变量 in
 条件2)
 	执行代码块2
 ;;
-....
+*)                     # default 如果以上条件不满足，默认执行 *) 下面的语句
+	执行代码块3
+;;
 esac
 
 # 每个代码块执行完毕要以;;结尾代表结束， case 结尾要以倒过来写的 esac 结束
@@ -1053,50 +1100,28 @@ esac
 
 ```shell
 #!/bin/bash
+read -p "性别: " gender
 
-read -p "NUM:" N
-case $N in
-1)
-	echo "one"
-;;
-2)
-	echo "two"
-;;
-3)
-	echo "three"
-;;
-*)
-	echo "Exit!"
-;;
+case $gender in
+        B|b|男)
+                echo "先生，您好"
+                ;;
+        G|g|女)
+                echo "女士，您好"
+                ;;
+        *)
+                echo "请输入性别"
 esac
 ```
 
-## 函数
-
-```shell
-#语法1
-函数名 (){
-	代码块
-	return N
-}
-
-#语法2
-function 函数名{
-	代码块
-	return N
-}
-```
-
-## 调试脚本
+### 调试脚本
 
 ```shell
 bash -a test.sh #   -a 一般用于排错，查看脚本的执行过程
 bash -n test.sh #   -n 用来查看脚本的语法是否有问题
 ```
 
-## 文件操作
-
-### sed命令
+## 十二、sed命令
 
 ```shell
 语法: sed [options] '{command}[flags]' [filename]
@@ -1111,7 +1136,7 @@ bash -n test.sh #   -n 用来查看脚本的语法是否有问题
 
 
 {command}：
-a ：新增， a 的后面可以接字串，而这些字串会在新的一行出现(目前的下一行)～
+a ：追加， a 的后面可以接字串，而这些字串会在新的一行出现(当前行的下一行)～
 c ：取代， c 的后面可以接字串，这些字串可以取代 n1,n2 之间的行！
 d ：删除，因为是删除啊，所以 d 后面通常不接任何咚咚；
 i ：插入， i 的后面可以接字串，而这些字串会在新的一行出现(目前的上一行)；
@@ -1119,8 +1144,8 @@ p ：列印，亦即将某个选择的数据印出。通常 p 会与参数 sed -
 s ：取代，可以直接进行取代的工作哩！通常这个 s 的动作可以搭配正规表示法！例如 1,20s/old/new/g 就是啦！
 y ：转换 N D P （大小写转换）
 
-flags
-数字                 表示新文本替换的内容
+[flags]
+数字                 表示新文本替换指定位置处的内容
 g:                  表示用新文本替换现有文本的全部实例
 p:                  表示打印原始的内容
 w filename:         将替换的结果写入文件
@@ -1156,6 +1181,9 @@ sed 'c\hello world' test.txt # 把每行的内容都改成 hello world
 sed '3c\hello world' test.txt # 把第三行的内容改成 hello world
 sed '2,4c\hello world' test.txt # 把第2,3,4行的内容先删除，替换成 hello world
 
+# 转换
+sed 'y/abc/CDF/' test.txt
+
 # 新增数据行
 5 the quick brown fox jumps over the lazy dog.dog.dog
 
@@ -1167,35 +1195,37 @@ sed 's/dog/cat/new_file.txt' test.txt # 把替换后的文件保存到 new_file.
 sed -n '$=' test.txt # 统计文件行号
 ```
 
-### awk命令
+## 十三、awk命令
 
 awk是一种可以处理数据、产生格式化报表的语言，它将每一行数据视为一条记录，每条记录以字段分隔符分隔，然后输出各个字段的值。
 
 ```shell
 语法:
-awk [options][BEGIN]{program}[END][file]
+awk [options]'[BEGIN]{program}[END]'[file]
 
 options
 -F	指定分隔符
 -f	调用脚本
 -v	定义变量 var=value
 
-[BEGIN]{program}[END]
+'[BEGIN]{program}[END]'
+注意：awk程序由左大括号和右大括号定义， 程序必须放在两个大括号之间。由于awk命令行假定程序是单文本字符串，所以必须将程序包括在单引号内。
 awk程序运行优先级是:
 	1) BEGIN : 		在开始执行数据流之前执行，可选项
 	2) program : 	数据流处理逻辑，必选项
 	3) END : 		处理完数据流后执行，可选项
 -------------------------------------------------------------------------------	
 awk 对字段(列)的提取
-$0 表示整行文本
-$1 文本的第一个字段
-$2 文本的第二个字段
-$N 文本的第N个字段
-$NF 文本的最后一个字段
+$0 表示全部文本
+$1 文本的第一列
+$2 文本的第二列
+$N 文本的第N列
+$NF 文本的最后一列
 
 awk '{print $0}' test.txt # 打印整个文本
-awk '{print $1}' test.txt # 打印文本第一列
-awk '{print $NF}' test.txt # 打印文本最后一列
+awk '{print $1}' test.txt # 打印文本第1列
+awk '{print $1, $6}' test.txt # 打印文本第1列和第6列
+awk '{print $NF}' test.txt # 打印文本最后1列
 
 -------------------------------------------------------------------------------
 - 支持内置变量
@@ -1214,24 +1244,29 @@ awk '{print $NF}' test.txt # 打印文本最后一列
   - FIELDWIDTHS 以空格分隔的数字列表，用空格定义每个数据字段的精确宽度
 
   
-awk 对行的提取
-awk 'print{$NR $0}' # 打印行号
-awk 'NR==3{print $0}' test.txt # 打印第三行的全部列
-awk -F ":" 'NR==1{print $1,$3,$5}' passwd # 按:分隔，打印 passwd第一行，第一三五列
+# awk 对行的提取
+awk 'NR==3{print $0}' test.txt # 打印第三行
+awk -F ":" 'NR==1{print $1,$3,$5}' /etc/passwd # 按:分隔，打印 passwd第一行，第一三五列
+egrep "^root" /etc/passwd|awk -F ":" '{print $1 "-" $3 "-" $NF}' # 自定义列之间的分隔符为 "-"
+awk -F: '$1=="root"{print $1 "-" $3 "-" $NF}' /etc/passwd # 打印第一列为root的行
+awk -F: '$1 ~ "^ro"{print $1 "-" $3 "-" $NF}' /etc/passwd # 或者是用模糊匹配的写法 ~ 是匹配符
+
+# 按座标提取
+awk -F: 'NR==1{print $1}' /etc/passwd # 打印第一行第一列的值
 
 
 -------------------------------------------------------------------------------
 awk 定义变量
-awk 'BEGIN{name="stanlong";print name}'
-awk -v 'count=0' 'BEGIN{count++; print count}'
+awk 'BEGIN{name="stanlong";print name}' # 方式1
+awk -v 'count=0' 'BEGIN{count++; print count}' # 方式2
 
 awk 定义数组
 awk 'BEGIN{array[1]="stanlong";array[2]=18;print array[1],array[2]}'
 
 awk 匹配
 awk -F: '$1=="root"{print $0}' passwd # 精确匹配
-awk -F: '$1 ~ "ro"{print $0}' passwd # 模糊匹配
-awk -F: '$1 ！= "root"{print $0}' passwd # 精确不匹配
+awk -F: '$1 ~ "^ro"{print $0}' passwd # 模糊匹配
+awk -F: '$1 != "root"{print $0}' passwd # 精确不匹配
 
 -------------------------------------------------------------------------------
 awk 流程控制
