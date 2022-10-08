@@ -10,6 +10,15 @@
 [root@node01 etc]#
 ```
 
+### hostname
+
+```shell
+[root@hadoop101 ~]# hostname   # 查看主机名
+hadoop101
+[root@hadoop101 ~]# hostname -i  # 查看本机IP
+192.168.6.101
+```
+
 ### type
 
 查看命令路径
