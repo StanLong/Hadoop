@@ -1,5 +1,9 @@
 # 第4章 集成Grafana
 
+grafana 最佳实战
+
+https://www.yuque.com/firefly-drki3/kb/kudxgs
+
 ## 4.1 部署Grafana
 
 1.下载Grafana安装包
