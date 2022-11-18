@@ -375,6 +375,15 @@ zip -q -r html.zip /home/html
   888 999
   ```
 
+### uptime 
+
+```shell
+[root@hadoop101 ~]# uptime
+ 08:47:35 up 34 days, 21:35,  7 users,  load average: 0.31, 0.41, 0.39
+```
+
+命令可以用来查看服务器已经运行了多久，当前登录的用户有多少，以及服务器在过去的1分钟、5分钟、15分钟的系统平均负载值。
+
 ### 目录相关
 
 ```shell
@@ -475,6 +484,39 @@ CentOS Linux release 7.4.1708 (Core)
 [root@node01 ~]# cat /proc/version
 Linux version 3.10.0-693.el7.x86_64 (builder@kbuilder.dev.centos.org) (gcc version 4.8.5 20150623 (Red Hat 4.8.5-16) (GCC) ) #1 SMP Tue Aug 22 21:09:27 UTC 2017
 ```
+
+### 获取运行的脚本名称
+
+```shell
+shell_name=$(echo ${0##*/}) # 使用字符串的最大匹配
+
+# 定义变量
+[root@node01 hive]# path=/opt/stanlong/hive
+# 最大匹配， 删除最后一个 / 及其左边所有的内容
+[root@node01 hive]# echo ${path##*/}
+hive
+```
+
+### 获取运行脚本的绝对路径
+
+```shell
+run_dir=$(dirname $(readlink -f $0))
+
+#dirname的用处是：输出已经去除了尾部的”/”字符部分的名称；如果名称中不包含”/”，则显示”.”(表示当前目录)。
+#例子：
+$ readlink -f deploy-small.sh
+/home/centos/tmp/706/deploy-small.sh
+$ dirname deploy-small.sh
+.
+$ dirname /home/centos/tmp/706/deploy-small.sh 
+/home/centos/tmp/706
+
+#把两个命令结合起来，就可以获取shell运行的目录
+$ dirname $(readlink -f deploy-small.sh)
+/home/centos/tmp/706
+```
+
+
 
 
 
