@@ -287,7 +287,7 @@ zip -q -r html.zip /home/html
   echo hello world
   echo hello world | tee file1.txt # 将 hello world 输出到屏幕，同时输出到文件 file1.txt, 默认会覆盖原文件
   cat file1
-  echo 999|tree -a file1.txt # 在文件file1.txt中追加 999
+  echo 999|tee -a file1.txt # 在文件file1.txt中追加 999
   cat file1
   ```
 
