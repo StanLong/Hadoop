@@ -43,7 +43,9 @@ ifconfig is hashed (/usr/sbin/ifconfig)
 
 - -d ：自定义分隔符， 默认为制表符 \t
 
-- -f :  与 -d  一起使用， 指定显示哪个区域
+- -s  : 与-d一起使用，如果加上-s表示只显示有分隔符的行
+
+- -f  :  与 -d  一起使用， 指定显示哪个区域
 
   以 /etc/passwd 为例，演示以上命令
 
@@ -61,6 +63,25 @@ ifconfig is hashed (/usr/sbin/ifconfig)
   截取ip地址
   [root@node01 ~]# ifconfig ens33 | grep -w "inet" | cut -d" " -f10  
   192.168.235.11
+  
+  [root@kermit ~]# cat pass
+  database:mysql:sqlserver:oracle
+  country:中国:美国:other
+  行业:互联网:金融
+  /home/ftpuser:/bin/bash
+  hello;yes;test
+  
+  [root@kermit ~]# cut -sd: -f1-2 pass #此处加了-s最后一行就不显示，因为它没有:符号
+  database:mysql
+  country:中国
+  行业:互联网
+  /home/ftpuser:/bin/bash
+  
+  [root@kermit ~]# cut -sd: -f2- pass #如果不指定尾列，表示输出从f2到最后的所有列
+  mysql:sqlserver:oracle
+  中国:美国:other
+  互联网:金融
+  /bin/bash
   ```
 
 ### tr
