@@ -250,6 +250,70 @@ Change: 2020-01-31 13:02:16.479957803 +0800
 zip -q -r html.zip /home/html
 ```
 
+### unzip
+
+```shell
+1、unzip test5.zip 解压压缩文件test5.zip到当前目录；
+
+[root@localhost test]# unzip test5.zip
+Archive:  test5.zip
+  inflating: test5.txt               
+[root@localhost test]# ll
+-rw-r--r-- 1 root root   50 Jul 16 14:50 test5.txt
+-rw-r--r-- 1 root root  216 Jul 17 14:28 test5.zip
+
+#######################################################################################################
+
+2、-l 表示在不解压的情况下查看压缩文件内的文件；
+
+[root@localhost test]# unzip -l test5.zip
+Archive:  test5.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+       50  07-16-2022 14:50   test5.txt
+---------                     -------
+       50                     1 file
+       
+#######################################################################################################
+
+3、-v 表示在不解压的情况下查看压缩文件内的文件，且显示更多信息（压缩比率等）；
+
+[root@localhost test]# unzip -v test5.zip
+Archive:  test5.zip
+ Length   Method    Size  Cmpr    Date    Time   CRC-32   Name
+--------  ------  ------- ---- ---------- ----- --------  ----
+      50  Defl:N       48   4% 07-16-2022 14:50 7fa7173c  test5.txt
+--------          -------  ---                            -------
+      50               48   4%                            1 file
+
+#######################################################################################################
+
+4、-q 表示不显示执行过程；
+
+[root@localhost data]# unzip -q test.zip
+
+#######################################################################################################
+
+5、-o 表示不询问用户，覆盖原有文件；
+
+[root@localhost data]# unzip test.zip
+Archive:  test.zip
+replace data/test/test1.txt? [y]es, [n]o, [A]ll, [N]one, [r]ename: ^Z
+[1]+  Stopped                 unzip test.zip
+[root@localhost data]# unzip -o test.zip
+Archive:  test.zip
+ extracting: data/test/test2.zip
+ 
+#######################################################################################################
+
+6、-d 表示指定文件解压缩后所要存储的目录(-d 后面必须接路径，不然会报错，且当路径不存在时会自动创建)
+[root@localhost data]# unzip  -d -q /data/test/test5  test.zip
+error:  must specify directory to which to extract with -d option
+[root@localhost data]# unzip -q -d /data/test/test5  test.zip
+[root@localhost data]# ll
+-rw-r--r-- 1 root  root     0 Jul 16 12:37 test.txt
+```
+
 ### jobs
 
 查看后台任务及任务编号
