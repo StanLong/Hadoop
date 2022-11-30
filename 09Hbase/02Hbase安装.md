@@ -261,3 +261,16 @@ node04: starting master, logging to /opt/stanlong/hbase/hbase-1.3.6/bin/../logs/
 http://node01:16010/master-status
 
 ![](./doc/04.png)
+
+## 补充：Hbase启停单个服务
+
+```shell
+# 启停 HMaster 服务
+hbase-daemon.sh start master
+hbase-daemon.sh stop master
+
+# 启停 HRegionServer
+hbase-daemon.sh start regionserver
+hbase-daemon.sh stop regionserver
+```
+
