@@ -1218,6 +1218,12 @@ sed -n '1,3p' test.txt
 1 the quick brown fox jumps over the lazy dog.
 2 the quick brown fox jumps over the lazy dog.
 3 the quick brown fox jumps over the lazy dog.
+
+# 打印第三行最后一行， 最后一行用 $表示
+sed -n '3,$p' test.txt 
+3 the quick brown fox jumps over the lazy dog.
+4 the quick brown fox jumps over the lazy dog.
+5 the quick brown fox jumps over the lazy dog.
 ```
 
 ## 十三、awk命令
