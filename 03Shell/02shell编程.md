@@ -1199,6 +1199,24 @@ sed 's/dog/cat/new_file.txt' test.txt # 把替换后的文件保存到 new_file.
 
 # 小技巧
 sed -n '$=' test.txt # 统计文件行号
+----------------------------------------------------------------------------------------------------------------------------
+# 只输出操作行
+# 打印第一行到第三行， 会发现第一行和第三行输出了两遍，不需要的行也输出了。
+sed '1,3p' test.txt 
+1 the quick brown fox jumps over the lazy dog.
+1 the quick brown fox jumps over the lazy dog.
+2 the quick brown fox jumps over the lazy dog.
+2 the quick brown fox jumps over the lazy dog.
+3 the quick brown fox jumps over the lazy dog.
+3 the quick brown fox jumps over the lazy dog.
+4 the quick brown fox jumps over the lazy dog.
+5 the quick brown fox jumps over the lazy dog.
+
+# 只打印第一行到第三行
+sed -n '1,3p' test.txt 
+1 the quick brown fox jumps over the lazy dog.
+2 the quick brown fox jumps over the lazy dog.
+3 the quick brown fox jumps over the lazy dog.
 ```
 
 ## 十三、awk命令
