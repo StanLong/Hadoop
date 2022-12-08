@@ -51,3 +51,10 @@ hadoop fsck /pstm_tmp/P01_01_TH8_psdm_IL3000/ -delete
 ```shell
 hdfs haadmin -transitionToActive nn2
 ```
+
+## 四、查看Yarn日志
+
+```shell
+yarn logs -applicationId application_1666001095165_0287
+```
+
