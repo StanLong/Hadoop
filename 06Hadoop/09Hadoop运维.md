@@ -15,7 +15,7 @@ hadoop fsck /pstm_tmp/P01_01_TH8_psdm_IL3000/ -delete
 
 ## 二、负载均衡
 
-配置 blance_list， 文件中 中写入hdfs磁盘使用率标红的IP地址和对应数目的磁盘使用率较低的IP地址
+配置 blance_list 文件， 文件0中写入hdfs磁盘使用率较高的IP地址和对应数目的磁盘使用率较低的IP地址
 
 配置好 blance_list 文件后， 在CPU使用率较低的机器上执行如下两条命令
 
@@ -51,3 +51,10 @@ hadoop fsck /pstm_tmp/P01_01_TH8_psdm_IL3000/ -delete
 ```shell
 hdfs haadmin -transitionToActive nn2
 ```
+
+## 四、查看Yarn日志
+
+```shell
+yarn logs -applicationId application_1666001095165_0287
+```
+
