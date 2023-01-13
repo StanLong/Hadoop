@@ -15,13 +15,13 @@ hadoop fsck /pstm_tmp/P01_01_TH8_psdm_IL3000/ -delete
 
 ## 二、负载均衡
 
-配置 blance_list 文件， 文件0中写入hdfs磁盘使用率较高的IP地址和对应数目的磁盘使用率较低的IP地址
+配置 balance_list 文件， 文件0中写入hdfs磁盘使用率较高的IP地址和对应数目的磁盘使用率较低的IP地址
 
-配置好 blance_list 文件后， 在CPU使用率较低的机器上执行如下两条命令
+配置好 balance_list 文件后， 在CPU使用率较低的机器上执行如下两条命令
 
 ```
 # hdfs dfsadmin -setBalancerBandwidth 52428800  # 设置宽带 50 M
-# hdfs balancer -policy datanode -threshold 5 -include -f blance_list
+# hdfs balancer -policy datanode -threshold 5 -include -f balance_list
 ```
 
 ### 补充知识
@@ -36,11 +36,11 @@ hadoop fsck /pstm_tmp/P01_01_TH8_psdm_IL3000/ -delete
 
   这个命令是datanode做balance或者mover时候一个比较核心的参数配置.
 
-2. hdfs balancer -policy datanode -threshold 5 -include -f blance_list
+2. hdfs balancer -policy datanode -threshold 5 -include -f balance_list
 
 -   -policy datanode 平衡策略：datanode或blockpool，默认：datanode，如果datanode均衡，则集群均衡
 -   -threshold 5 : 表示每个datanode上的磁盘使用量与集群中的总使用量相差不超过5%
--   -include -f blance_list 仅包括指定的数据节点
+-   -include -f balance_list 仅包括指定的数据节点
 
 参考地址： https://blog.csdn.net/moyefeng198436/article/details/113649445
 
