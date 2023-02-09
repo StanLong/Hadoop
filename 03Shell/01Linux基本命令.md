@@ -1,32 +1,109 @@
 ## Linux 基本命令
 
-### cd
+### date
 
-回到上一次所在的目录
-
-```shell
-[root@node01 stanlong]# cd -
-/etc
-[root@node01 etc]#
-```
-
-### hostname
+常用命令
 
 ```shell
-[root@hadoop101 ~]# hostname   # 查看主机名
-hadoop101
-[root@hadoop101 ~]# hostname -i  # 查看本机IP
-192.168.6.101
+# 查看系统日期及时间
+[root@node01 ~]# date
+Thu Feb  9 22:39:01 CST 2023
+
+# 以YYYY-MM-DD显示日期
+[root@node01 ~]# date +%F
+2023-02-09
+
+# 以MM/DD/YY显示日期
+[root@node01 ~]# date +%D
+02/09/23
+
+# 以MM/DD/YYYY显示日期
+[root@node01 ~]# date +%x
+02/09/2023
+
+# 获取系统年、月、日
+[root@node01 ~]# date +%Y
+2023
+[root@node01 ~]# date +%m
+02
+[root@node01 ~]# date +%d
+09
+
+# 获取系统星期值
+[root@node01 ~]#  date +%a
+Thu
+[root@node01 ~]# date +%A
+Thursday
+[root@node01 ~]# date +%u
+4
+[root@node01 ~]# date +%w
+4
+
 ```
 
-### type
-
-查看命令路径
+**1、命令详解**
 
 ```
-[root@gmall opt]# type ifconfig
-ifconfig is hashed (/usr/sbin/ifconfig)
+用法：#date [参数选项] [+格式]
+或者：date [-u|–utc|–universal] [MMDDhhmm[[CC]YY][.ss]]
 ```
+
+**2、参数说明**
+
+| 参数                   | 参数说明                                 |
+| ---------------------- | ---------------------------------------- |
+| -d, --date=STRING      | 显示 datestr 中所设定的时间 (非系统时间) |
+| -s, --set=STRING       | 将系统时间设为 datestr 中所设定的时间    |
+| -u, --utc, --universal | 打印或设置协调世界时（UTC）              |
+| –version               | 显示版本编号                             |
+| –help                  | 显示辅助讯息                             |
+
+**3、时间格式符号**
+
+| 符号 | 符号说明                                           |
+| ---- | -------------------------------------------------- |
+| %    | 印出 %                                             |
+| %n   | 下一行                                             |
+| %t   | 跳格                                               |
+| %H   | 小时(00…23)                                        |
+| %I   | 小时(01…12)                                        |
+| %k   | 小时(0…23)                                         |
+| %l   | 小时(1…12)                                         |
+| %M   | 分钟(00…59)                                        |
+| %p   | 显示本地 AM 或 PM                                  |
+| %r   | 直接显示时间 (12 小时制，格式为 hh:mm:ss [AP]M)    |
+| %R   | 24小时制方式显示时间，相当于%H:%M                  |
+| %s   | 从 1970 年 1 月 1 日 00:00:00 UTC 到目前为止的秒数 |
+| %S   | 秒(00…60)                                          |
+| %T   | 直接显示时间 (24 小时制)                           |
+| %X   | 相当于 %H:%M:%S                                    |
+| %z   | 数字方式显示时区                                   |
+| %Z   | 字母缩写方式显示时区                               |
+
+**4、日期格式符号**
+
+| 符号 | 符号说明                                                |
+| ---- | ------------------------------------------------------- |
+| %a   | 星期几 ，缩写(Sun…Sat)                                  |
+| %A   | 星期几 ，完整英文星期(Sunday…Saturday)                  |
+| %b   | 月份 (Jan…Dec)                                          |
+| %B   | 月份 (January…December)                                 |
+| %c   | 直接显示日期与时间                                      |
+| %d   | 日 (01…31)                                              |
+| %D   | 直接显示日期 (mm/dd/yy)                                 |
+| %e   | 一个月中的第几天，类似%_d                               |
+| %F   | 完整的日期，相当于%Y-%m-%d                              |
+| %h   | 同 %b                                                   |
+| %j   | 一年中的第几天 (001…366)                                |
+| %m   | 月份 (01…12)                                            |
+| %u   | 一周中的第几天 (1…7) (1是星期一)                        |
+| %U   | 一年中的第几周 (00…53) (以 Sunday 为一周的第一天的情形) |
+| %w   | 一周中的第几天 (0…6)(0是星期天)                         |
+| %W   | 一年中的第几周 (00…53) (以 Monday 为一周的第一天的情形) |
+| %x   | 直接显示日期 (mm/dd/yy)                                 |
+| %y   | 年份的最后两位数字 (00.99)                              |
+| %Y   | 完整年份 (0000…9999)                                    |
+
 ### file
 查看命令文件类型
 
@@ -568,12 +645,39 @@ zookeeper      	0:off	1:off	2:on	3:on	4:on	5:on	6:off
 ### 查看操作系统版本
 
 ```shell
+# 查看系统的发行版本
 [root@node01 ~]# cat /etc/redhat-release
 CentOS Linux release 7.4.1708 (Core)
 
 # 查看内核版本
 [root@node01 ~]# cat /proc/version
 Linux version 3.10.0-693.el7.x86_64 (builder@kbuilder.dev.centos.org) (gcc version 4.8.5 20150623 (Red Hat 4.8.5-16) (GCC) ) #1 SMP Tue Aug 22 21:09:27 UTC 2017
+
+# 查看系统信息
+[root@node01 ~]# cat /proc/version
+Linux version 3.10.0-693.el7.x86_64 (builder@kbuilder.dev.centos.org) (gcc version 4.8.5 20150623 (Red Hat 4.8.5-16) (GCC) ) #1 SMP Tue Aug 22 21:09:27 UTC 2017
+
+# 获取系统信息
+[root@node01 ~]# cat /etc/os-release
+NAME="CentOS Linux"
+VERSION="7 (Core)"
+ID="centos"
+ID_LIKE="rhel fedora"
+VERSION_ID="7"
+PRETTY_NAME="CentOS Linux 7 (Core)"
+ANSI_COLOR="0;31"
+CPE_NAME="cpe:/o:centos:centos:7"
+HOME_URL="https://www.centos.org/"
+BUG_REPORT_URL="https://bugs.centos.org/"
+
+CENTOS_MANTISBT_PROJECT="CentOS-7"
+CENTOS_MANTISBT_PROJECT_VERSION="7"
+REDHAT_SUPPORT_PRODUCT="centos"
+REDHAT_SUPPORT_PRODUCT_VERSION="7"
+
+# 获取操作系统内核信息
+[root@node01 ~]# uname -a
+Linux node01 3.10.0-693.el7.x86_64 #1 SMP Tue Aug 22 21:09:27 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
 ### 获取运行的脚本名称
