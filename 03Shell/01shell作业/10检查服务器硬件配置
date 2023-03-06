@@ -1,3 +1,5 @@
+# 检查服务器硬件配置
+```shell
 #!/bin/bash
 declare -r run_dir=$(dirname $(readlink -f $0))
 
@@ -33,3 +35,4 @@ done
 
 sort $run_dir/type_speed.tmp | uniq -dc | tr -s " "
 rm -f $run_dir/type_speed.tmp
+```
