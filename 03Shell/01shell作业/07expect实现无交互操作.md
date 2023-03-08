@@ -38,3 +38,30 @@ EOF
 echo "Long Great CHINA"
 ```
 
+## 实例
+
+```shell
+#!/bin/bash
+
+password1="gaoxn0130W"
+password2="111111"
+
+function root_nopass_shell(){
+    host_ip=$1
+    shift
+    shell_command="$@"
+    expect <<EOF
+spawn ssh root@$host_ip $shell_command
+expect {
+"yes/no" { send "yes\r"; exp_continue}
+"*password:" { send "$password1\r" }
+}
+expect eof
+EOF
+}
+
+root_nopass_shell "$@"
+
+```
+
+for ip in `cat ip_list.txt`;do echo $ip; bash ssh.sh $ip dmidecode | grep "System Information" -A9 | egrep "Manufacturer|Product";done
