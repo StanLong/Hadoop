@@ -711,6 +711,8 @@ $ dirname $(readlink -f deploy-small.sh)
 /home/centos/tmp/706
 ```
 
+无交互修改用户密码
+echo '111111'|passwd --stdin root
 
 
 
