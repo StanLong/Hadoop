@@ -1,4 +1,4 @@
-09/03/2022 21:19:32:264 : 2473 : MESSAGE : /opt/intel/oneapi/installer/installer is run with arguments: --log-dir /tmp/root/intel_oneapi_installer/2022.09.03.21.19.24.674 --product-id intel.oneapi.lin.basekit.product --product-ver 2022.2.0-262 --package-path /root/l_BaseKit_p_2022.2.0.262_offline/packages --cli
+dir /tmp/root/intel_oneapi_installer/2022.09.03.21.19.24.674 --product-id intel.oneapi.lin.basekit.product --product-ver 2022.2.0-262 --package-path /root/l_BaseKit_p_2022.2.0.262_offline/packages --cli
 09/03/2022 21:19:32:264 : 2473 : MESSAGE : Installer is started in CLI mode
 09/03/2022 21:19:32:264 : 2473 : MESSAGE : Installer executable location is /opt/intel/oneapi/installer/installer, version is 4.1.1.0-291
 09/03/2022 21:19:32:264 : 2473 : MESSAGE : Package manager executable location is /opt/intel/packagemanager/1.0/packagemanager, version is 4.1.5-296
