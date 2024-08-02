@@ -95,16 +95,16 @@ ens33:2: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
 
 ### 3、配置RS(Real Server)
 
-4. 先调整RS的响应和通告级别（每一台RS都配）
+1. 先调整RS的响应和通告级别（每一台RS都配）
 
    ```shell
-echo 1 > /proc/sys/net/ipv4/conf/ens33/arp_ignore
+   echo 1 > /proc/sys/net/ipv4/conf/ens33/arp_ignore
    echo 2 > /proc/sys/net/ipv4/conf/ens33/arp_announce
    echo 1 > /proc/sys/net/ipv4/conf/all/arp_ignore
    echo 2 > /proc/sys/net/ipv4/conf/all/arp_announce
    ```
-   
-5. 再配置RS的VIP（每一台RS都配）
+
+2. 再配置RS的VIP（每一台RS都配）
 
    这里记录了node02上的操作，在node03上做同样的操作即可
 
@@ -116,7 +116,7 @@ echo 1 > /proc/sys/net/ipv4/conf/ens33/arp_ignore
            inet 192.168.235.100  netmask 255.255.255.255
            loop  txqueuelen 1  (Local Loopback)
    ```
-   
+
 3. 启动两台RS上的httpd
 
    ```shell
@@ -126,28 +126,28 @@ echo 1 > /proc/sys/net/ipv4/conf/ens33/arp_ignore
    [root@node02 ~]# service httpd start
    # 启动成功后在浏览器里访问 192.168.235.12 默认端口80
    ```
-   
+
    ![](./doc/02.png) ![](./doc/10.png)
 
   ### 4、实验现象
 
    ```shell
-   [root@node01 ~]# ipvsadm -A -t 192.168.235.100:80 -s rr # 增加一台虚拟服务器192.168.235.100:80，走tcp协议，调度算法采用轮询
-   [root@node01 ~]# ipvsadm -ln #  显示内核虚拟服务器表，输出IP 地址和端口的数字形式
-   IP Virtual Server version 1.2.1 (size=4096)
-   Prot LocalAddress:Port Scheduler Flags
-     -> RemoteAddress:Port           Forward Weight ActiveConn InActConn
-   TCP  192.168.235.100:80 rr
-   # 在内核虚拟服务器表的一条记录里添加一条新的真实服务器192.168.235.12:80, 指定LVS 的工作模式为直接路由模式（也是LVS的默认模式）, 默认权重是1
-   [root@node01 ~]# ipvsadm -a -t 192.168.235.100:80 -r 192.168.235.12:80 -g -w 1 
-   [root@node01 ~]# ipvsadm -a -t 192.168.235.100:80 -r 192.168.235.13:80 -g -w 2
-   [root@node01 ~]# ipvsadm -ln
-   IP Virtual Server version 1.2.1 (size=4096)
-   Prot LocalAddress:Port Scheduler Flags
-     -> RemoteAddress:Port           Forward Weight ActiveConn InActConn
-   TCP  192.168.235.100:80 rr
-     -> 192.168.235.12:80            Route   1      0          0         
-     -> 192.168.235.13:80            Route   2      0          0      
+[root@node01 ~]# ipvsadm -A -t 192.168.235.100:80 -s rr # 增加一台虚拟服务器192.168.235.100:80，走tcp协议，调度算法采用轮询
+[root@node01 ~]# ipvsadm -ln #  显示内核虚拟服务器表，输出IP 地址和端口的数字形式
+IP Virtual Server version 1.2.1 (size=4096)
+Prot LocalAddress:Port Scheduler Flags
+  -> RemoteAddress:Port           Forward Weight ActiveConn InActConn
+TCP  192.168.235.100:80 rr
+# 在内核虚拟服务器表的一条记录里添加一条新的真实服务器192.168.235.12:80, 指定LVS 的工作模式为直接路由模式（也是LVS的默认模式）, 默认权重是1
+[root@node01 ~]# ipvsadm -a -t 192.168.235.100:80 -r 192.168.235.12:80 -g -w 1 
+[root@node01 ~]# ipvsadm -a -t 192.168.235.100:80 -r 192.168.235.13:80 -g -w 2
+[root@node01 ~]# ipvsadm -ln
+IP Virtual Server version 1.2.1 (size=4096)
+Prot LocalAddress:Port Scheduler Flags
+  -> RemoteAddress:Port           Forward Weight ActiveConn InActConn
+TCP  192.168.235.100:80 rr
+  -> 192.168.235.12:80            Route   1      0          0         
+  -> 192.168.235.13:80            Route   2      0          0      
    ```
 
    配置完成后即时生效， 在浏览器里访问 192.168.235.100. 不断刷新可看到 node02和node03返回的页面
