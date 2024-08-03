@@ -122,7 +122,7 @@ ens33:2: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
    ```shell
    # httpd 静态的webserver 服务
    [root@node02 ~]# yum install httpd -y  # 安装httpd
-   [root@node02 ~]# echo "from 192.168.235.12" /var/www/html/index.html
+   [root@node02 ~]# echo "from 192.168.235.12" >> /var/www/html/index.html
    [root@node02 ~]# service httpd start
    # 启动成功后在浏览器里访问 192.168.235.12 默认端口80
    ```
