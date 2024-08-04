@@ -6,7 +6,7 @@
 
 ## 集群规划
 
-|        |                                             |
+| 节点   | 服务配置                                    |
 | ------ | ------------------------------------------- |
 | node01 | nginx， memcached                           |
 | node02 | httpd，apache-tomcat-7.0.42-windows-x64.zip |

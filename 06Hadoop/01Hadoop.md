@@ -1,6 +1,11 @@
 # Hadoop
 
-## 简介
+Hadoop是一个由Apache基金会所开发的分布式系统基础架构，主要就是解决数据存储和数据分析计算的问题（通过HDFS和MapReduce实现）
+
+## 一、四大模块
+
+- Hadoop Common
+  - The common utilities that support the other Hadoop modules
 
 - 分布式存储系统HDFS
   - 提供了高可靠性，高扩展性和高吞吐率的数据存储服务
@@ -9,19 +14,19 @@
 - 分布式资源管理框架YARN
   - 负责集群资源的管理和调度
 
-## HDFS
+## 二、HDFS
 
 优点：高容错性，适合批处理，适合处理大数据，可构建在廉价的机器上
 
 缺点：低延迟数据访问，小文件存取，并发写入、文件随机修改
 
-### 存储模型
+### 1、存储模型
 
-1. HDFS系统中，文件线性按字节切割成块（Block），且每个块都有偏移量（offset）和id
+1. 在HDFS系统中，文件线性按字节切割成块（Block），且每个块都有偏移量（offset）和id
 
    ![](./doc/01.png)
 
-2. 各文件block大小可以不一样，比如A的块大小为4KB，B的块大小为8KB，但是每个文件中，除了最后一个块大小可以与其余块不同，其余块大小必须相同
+2. 除了最后一个块大小可以与其余块不同，其余块大小必须相同
 
 3. block块应根据硬件的I/O特性调整，在Hadoop 1.x版本时，block块大小默认为64MB，在Hadoop 2.x版本时，block块大小默认为128MB
 
@@ -33,7 +38,7 @@
 
 7. 文件是一次写入多次读取的，且不支持修改文件，相当于只读。不修改的原因很简单，因为这会造成block块大小不一致，offset不成规律。但是允许在文件后追加数据，因为这不会更改前面block块的大小，不影响offset
 
-### 架构模型
+### 2、架构模型
 
 1. HDFS是主从架构（Master/Slave）
 2. 由一个Namenode（主）和一些Datanode（从）组成
@@ -53,6 +58,11 @@
 
 - 基于内存存储
   - 基于内存存储，不会和磁盘发生交换
+  - 内存数据掉电易失，需要持久化操作
+    - NameNode的metadata信息在启动后会加载到内存
+    - metadata存储到磁盘的文件名为 “fsimage”
+    - Block的位置信息不会保存到fsimage
+    - edits记录对metadata的操作日志
 - 主要功能
   - 接受客户端的读写服务
   - 收集DataNode汇报的Block信息
@@ -61,34 +71,44 @@
   - 文件大小，时间
   - 文件包含哪些Block, Block列表（偏移量和位置信息）
   - Block副本保存在哪个DataNode（由DataNode启动时上报）
-  - metadata存储到磁盘文件名为"fsimage"
-  - Block的位置信息不会保存到fsimage(其是保存在内存中)
-  - edits记录对medadata的操作日志
 
 #### DataNode
 
-- 存储数据(Block)
+- 以文件形式存储数据(Block)到本地磁盘目录
+- 同时存储Block的元数据信息
 - 启动DN线程的时候会向NN汇报block信息
 - 通过向NN发送心跳保持与其联系(3秒一次)，如果NN 10分钟没有收到DN的心跳，则认为其已经lost，并copy其上的block到其他 DN
 
 #### SecondaryNameNode
 
 - 主要负责下载NameNode中的fsImage文件和Edits文件，并合并生成新的fsImage文件，并推送给NameNode， 减少NN启动时间
+- SNN执行合并的时机
+  - 根据配置文件设置的时间间隔 fs.checkpoint.period， 默认 3600 秒
+  - 根据配置文件设置 edits log 大小 fs.checkpoint.size 规定edits 文件的最大值，默认是64MB
 
 ![](./doc/04.png)
 
 #### 安全模式
 
-```
-当 Hadoop的NameNode节点启动时，会进入安全模式阶段。在此阶段，DataNode会向NameNode上传它们数据块的列表，让 NameNode得到块的位置信息，并对每个文件对应的数据块副本进行统计。当最小副本条件满足时，即一定比例的数据块都达到最小副本数，系统就会退出安全模式，而这需要一定的延迟时间。当最小副本条件未达到要求时，就会对副本数不足的数据块安排DataNode进行复制，直至达到最小副本数。而在安全模式下，系统会处于只读状态，NameNode不会处理任何块的复制和删除命令。
-```
+1. namenode启动的时候，首先将映像文件（fsimage）载入内存，并执行编辑日志（edits）中的各项操作。
+2.  一旦在内存中成功建立文件系统元数据的映射，则创建一个新的fsimage文件（这个操作不需要SecondaryNameNode）和一个空的编辑日志。
+3. 此刻namenode运行在安全模式。即namenode的文件系统对于客户端来说是只读的（显示目录、显示文件内容等。写、删除、重命名都会失败）
+4. 在此阶段Namenode手机各个datanode的报告，当数据块达到最小副本数以上时，会被认为是“安全”的，在一定比例（可设置）的数据块被确定为“安全”后，再过若干时间，安全模式结束
+5. 当检测到副本数不足的数据块时，该块会被复制直到最小副本数，系统中数据块的位置并不是由namenode维护的，而是以块列表示形式存储在datanode中。
 
 #### Block的副本放置策略
 
 - 第一个副本：放置在上传文件的DN; 如果是集群外提交，则随机挑选一台磁盘不太满，cpu不太忙的节点
+
 - 第二个副本：放置在于第一个副本不同的机架的节点上
+
 - 第三个副本：与第二个副本相同的机架的节点
+
 - 更多副本：随机节点
+
+  如图：灰色方块代表副本
+
+  ![](https://pic2.zhimg.com/80/v2-b8a118f0d7bdce58f6aaf0a24ba27455_720w.webp)
 
 #### 读写流程
 
@@ -115,7 +135,7 @@
 
   ![](./doc/05.png)
 
-## MapReduce
+## 三、MapReduce
 
  mapreduce是hadoop中一个批量计算的框架, 包括MapTask和ReduceTask。MapTask的输出是ReduceTask的输入，所以只有MapTask执行完了才能执行ReduceTask
 
@@ -167,7 +187,7 @@ redu：对shuff的结果计算，数据清洗和处理，
 - 资源管理和调度强耦合，其他计算框架需要重复实现资源管理
 - 不同框架对资源不能全局管理
 
-## YARN
+## 四、YARN
 
  Apache Yarn（Yet Another Resource Negotiator的缩写）是hadoop集群资源管理器系统，Yarn从hadoop 2引入，最初是为了改善MapReduce的实现，解耦资源与计算。但是它具有通用性，同样执行其他分布式计算模式。
 
