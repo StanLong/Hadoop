@@ -37,7 +37,6 @@ export PATH=$PATH:$JAVA_HOME/bin:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$ZOOKEEPER_H
 
 ```shell
 #!/bin/bash
-#!/bin/bash
 start() { 
     #启动hadoop ha集群
     echo ----------------启动zk集群------------------
@@ -105,6 +104,13 @@ stop() {
             ssh $i zkServer.sh stop
             sleep 1s
     done
+
+	echo ----------------关机------------------
+    for i in node{02..04} node01
+    do
+            ssh $i poweroff
+    done
+
 } 
 
 case "$1" in 

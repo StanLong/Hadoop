@@ -148,6 +148,263 @@ node04
 3394 QuorumPeerMain
 ```
 
+## 四、配置hadoop-ha
+
+### 1、环境检查
+
+安装jdk， 检查 /etc/hosts/， 做ssh免密，检查主机名，检查时间是否同步
+
+### 2、解压
+
+```shell
+[root@node01 ~]# tar -zxf hadoop-3.4.0.tar.gz -C /opt
+```
+
+### 3、配置hadoop环境变量
+
+```shell
+[root@node01 ~]# vi ~/.bashrc 
+export HADOOP_HOME=/opt/hadoop-3.4.0
+export PATH=$PATH:$JAVA_HOME/bin:$HADOOP_HOME/bin:$HADOOP_HOME/sbin
+
+# 使环境变量生效
+[root@node01 ~]# source /etc/profile
+
+# 输入ha能看到命令提示说明环境变量配置成功
+[root@node01 ~]# ha
+hadoop             hadoop.cmd         hadoop-daemon.sh   hadoop-daemons.sh  halt               hardlink           hash      
+```
+
+### 4、hadoop配置Java环境
+
+```shell
+[root@node01 ~]# cd $HADOOP_HOME/etc/hadoop
+[root@node01 hadoop]# vi hadoop-env.sh 
+# 配置JAVA_HOME
+export JAVA_HOME=/usr/lib/jvm/jdk-1.8.0_421-oracle-x64
+
+# 在  # export HDFS_NAMENODE_USER=hdfs 添加如下几行， 通过使用export HDFS_NAMENODE_USER=hdfs来限制哪个用户可以执行namenode命令
+export HDFS_NAMENODE_USER=root
+export HDFS_DATANODE_USER=root
+export HDFS_SECONDARYNAMENODE_USER=root
+export YARN_RESOURCEMANAGER_USER=root
+export YARN_NODEMANAGER_USER=root
+export HDFS_JOURNALNODE_USER=root
+export HDFS_ZKFC_USER=root
+```
+
+### 5、配置core-site.xml
+
+```xml
+<configuration>
+    <!-- 规划了namenode在哪启动 -->
+    <property>
+        <name>fs.defaultFS</name>
+        <value>hdfs://hacluster</value>
+    </property>
+    <!-- 配置NN数据存放路径,目录必须为空 -->
+    <property>
+        <name>hadoop.tmp.dir</name>
+        <value>/var/data/hadoop/ha/data</value>
+    </property>
+    <!-- zookeeper集群信息 -->
+    <property>
+        <name>ha.zookeeper.quorum</name>
+        <value>node01:2181,node02:2181,node03:2181</value>
+    </property>
+</configuration>
+```
+
+### 6、配置hdfs-site.xml
+
+```xml
+<configuration>
+    <!-- 设置了三个节点，副本数设为2 -->
+    <property>
+        <name>dfs.replication</name>
+        <value>2</value>
+    </property>
+    <!-- HA模式不需要规划secondaryName -->
+    <!-- <property>
+        <name>dfs.namenode.secondary.http-address</name>
+        <value>node02:50090</value>
+    </property> -->
+    
+    <!-- 第一步：配置逻辑到物理的映射 -->
+    <!-- namenode HA集群的别名 -->
+    <property>
+        <name>dfs.nameservices</name>
+        <value>hacluster</value>
+    </property>
+    <!-- HA集群下的两个namenode的别名nn1,nn2 -->
+    <property>
+        <name>dfs.ha.namenodes.hacluster</name>
+        <value>nn1,nn2</value>
+    </property>
+    <!-- RPC通信的地址 -->
+    <property>
+        <name>dfs.namenode.rpc-address.hacluster.nn1</name>
+        <value>node01:9000</value>
+    </property>
+    <property>
+        <name>dfs.namenode.rpc-address.hacluster.nn2</name>
+        <value>node02:9000</value>
+    </property>
+    <!-- http通信地址 -->
+    <property>
+        <name>dfs.namenode.http-address.hacluster.nn1</name>
+        <value>node01:9870</value>
+    </property>
+    <property>
+        <name>dfs.namenode.http-address.hacluster.nn2</name>
+        <value>node02:9870</value>
+    </property>
+
+    <!-- 第二步：配置JNN -->
+    <property>
+        <name>dfs.namenode.shared.edits.dir</name>
+        <value>qjournal://node01:8485;node02:8485;node03:8485/hacluster</value>
+    </property>
+    <!-- journalNode 存放edit.log文件的路径 -->
+    <property>
+        <name>dfs.journalnode.edits.dir</name>
+        <value>/var/data/hadoop/ha/jnn</value>
+    </property>
+    
+       
+    <!-- 第三步：故障切换实现代理的方法 -->
+    <property>
+        <name>dfs.client.failover.proxy.provider.hacluster</name>
+    <value>org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider</value>
+    </property>
+    <!-- zkfc进程进行回调需要免秘钥 -->
+    <property>
+        <name>dfs.ha.fencing.methods</name>
+        <value>sshfence</value>
+    </property>
+    <!-- zkfc进程进行回调需要免秘钥，私钥路径 -->
+    <property>
+        <name>dfs.ha.fencing.ssh.private-key-files</name>
+        <value>/root/.ssh/id_rsa</value>
+    </property>
+    <!-- 开启zookeeper的自动故障转移功能 -->
+    <property>
+        <name>dfs.ha.automatic-failover.enabled</name>
+        <value>true</value>
+    </property>
+</configuration>
+```
+
+### 7、配置worker
+
+```shell
+# node02 和 node03 做为datanode
+sed -i '/localhost/d' $HADOOP_HOME/etc/hadoop/workers
+
+cat > $HADOOP_HOME/etc/hadoop/workers << EOF
+node02
+node03
+node04
+EOF
+```
+
+### 8、分发
+
+将node01上的 /opt/hadoop-3.4.0 和 ~/.bashrc里关于hadoop的环境配置都分发到node02，node03，node04上
+
+### 9、运行
+
+1. 先启动 journalnode
+
+   ```shell
+   for ip in node{01..03};do echo $ip;ssh $ip "hadoop-daemon.sh start journalnode";done
+   ```
+
+2. 格式化namenode
+
+   ```shell
+   [root@node01 ~]# hdfs namenode -format
+   ```
+
+3. 启动namenode， 让NN和JNN同步数据
+
+   ```shell
+   [root@node01 ~]# hadoop-daemon.sh start namenode  # 主
+   [root@node02 ~]# hdfs namenode -bootstrapStandby  # 备
+   ```
+
+4. 格式化zookeeper
+
+   ```shell
+   [root@node01 ~]# hdfs zkfc -formatZK
+   
+   # 格式化的日志里会有这样一行提示
+   2024-08-05 23:20:30,981 INFO ha.ActiveStandbyElector: Successfully created /hadoop-ha/hacluster in ZK.
+   
+   # 进入到zk的客户端可以看到更详细的信息
+   [root@node03 ~]# zkCli.sh
+   [zk: localhost:2181(CONNECTED) 0] ls /
+   [hadoop-ha, zookeeper]
+   [zk: localhost:2181(CONNECTED) 2] ls /hadoop-ha
+   [hacluster]
+   [zk: localhost:2181(CONNECTED) 3] ls /hadoop-ha/hacluster
+   []
+   ```
+
+5. 启动集群
+
+   ```shell
+   [root@node01 ~]# start-dfs.sh
+   
+   # 各节点进程如下， 与节点规划一致
+   [root@node01 ~]# for ip in node{01..04};do echo $ip;ssh $ip jps;done
+   node01
+   5700 NameNode
+   5256 JournalNode
+   8009 DFSZKFailoverController
+   8348 Jps
+   node02
+   7091 DFSZKFailoverController
+   1332 QuorumPeerMain
+   5388 JournalNode
+   6252 DataNode
+   6175 NameNode
+   7407 Jps
+   node03
+   6116 DataNode
+   1320 QuorumPeerMain
+   6968 Jps
+   5373 JournalNode
+   node04
+   6650 Jps
+   5902 DataNode
+   1327 QuorumPeerMain
+   ```
+
+   网页访问 node01:9870 ， node02:9870 观察现象
+
+6. 测试
+
+   在avtice节点上分别kill掉 namenode 和 zkfc，观察主备切换情况
+
+   ```shell
+   # namenode 和 zkf 的启停方式
+   hadoop-daemon.sh start namenode
+   hadoop-daemon.sh stop namenode
+   hadoop-daemon.sh start zkfc
+   hadoop-daemon.sh stop zkfc
+   ```
+
+   
+
+
+
+
+
+
+
+
+
 
 
 
