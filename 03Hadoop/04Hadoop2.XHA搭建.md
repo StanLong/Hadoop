@@ -1,4 +1,4 @@
-# Hadoop HA搭建
+# Hadoop2.X HA搭建
 
 ## HA背景
 
@@ -54,7 +54,7 @@
 export HADOOP_HOME=/opt/stanlong/hadoop/hadoop-2.9.2 # HADOOP-HA环境变量
 export PATH=$PATH:$JAVA_HOME/bin:$HADOOP_HOME/bin:$HADOOP_HOME/sbin
 
-使环境变量生效
+# 使环境变量生效
 [root@node01 bin]# source /etc/profile
 
 # 输入ha能看到命令提示说明环境变量配置成功
