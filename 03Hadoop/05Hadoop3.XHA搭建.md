@@ -4,10 +4,10 @@
 
 |        | NN     | DN   | ZK   | ZKFC | JNN  | RS   | NM   | JobHistory |
 | ------ | ------ | ---- | ---- | ---- | ---- | ---- | ---- | ---------- |
-| node01 | NN(主) |      |      | ZKFC | JNN  | RS   | NM   |            |
-| node02 | NN(备) | DN   | ZK   | ZKFC | JNN  | RS   | NM   |            |
-| node03 |        | DN   | ZK   |      | JNN  |      | NM   | JobHistory |
-| node04 |        | DN   | ZK   |      |      |      |      |            |
+| node01 | NN(主) |      |      | ZKFC | JNN  |      |      |            |
+| node02 | NN(备) | DN   | ZK   | ZKFC | JNN  |      | NM   |            |
+| node03 |        | DN   | ZK   |      | JNN  | RS   | NM   | JobHistory |
+| node04 |        | DN   | ZK   |      |      | RS   | NM   |            |
 
 **角色说明**
 
@@ -148,7 +148,7 @@ node04
 3394 QuorumPeerMain
 ```
 
-## 四、配置hadoop-ha
+## 四、配置HDFS
 
 ### 1、环境检查
 
@@ -395,69 +395,193 @@ EOF
    hadoop-daemon.sh stop zkfc
    ```
 
+
+## 五、配置MR和YARN
+
+### 1、配置mapred-site.xml
+
+```xml
+<configuration>
+    <!-- mapreduce.framework.name 默认使local，可根据自己的配置选择yarn或者yarn-tez -->
+    <property>
+        <name>mapreduce.framework.name</name>
+        <value>yarn</value>
+    </property>
    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    <!-- 3.X版本新特性，不加会报错 -->
+    <!-- 为 MR 程序主进程添加环境变量 -->
+    <property>
+        <name>yarn.app.mapreduce.am.env</name>
+        <value>HADOOP_MAPRED_HOME=/opt/hadoop-3.4.0/etc/hadoop:/opt/hadoop-3.4.0/share/hadoop/common/lib/*:/opt/hadoop-3.4.0/share/hadoop/common/*:/opt/hadoop-3.4.0/share/hadoop/hdfs:/opt/hadoop-3.4.0/share/hadoop/hdfs/lib/*:/opt/hadoop-3.4.0/share/hadoop/hdfs/*:/opt/hadoop-3.4.0/share/hadoop/mapreduce/*:/opt/hadoop-3.4.0/share/hadoop/yarn:/opt/hadoop-3.4.0/share/hadoop/yarn/lib/*:/opt/hadoop-3.4.0/share/hadoop/yarn/*</value>
+    </property>
+    <!-- 为 Map 添加环境变量 -->
+    <property>
+        <name>mapreduce.map.env</name>
+        <value>/opt/hadoop-3.4.0/etc/hadoop:/opt/hadoop-3.4.0/share/hadoop/common/lib/*:/opt/hadoop-3.4.0/share/hadoop/common/*:/opt/hadoop-3.4.0/share/hadoop/hdfs:/opt/hadoop-3.4.0/share/hadoop/hdfs/lib/*:/opt/hadoop-3.4.0/share/hadoop/hdfs/*:/opt/hadoop-3.4.0/share/hadoop/mapreduce/*:/opt/hadoop-3.4.0/share/hadoop/yarn:/opt/hadoop-3.4.0/share/hadoop/yarn/lib/*:/opt/hadoop-3.4.0/share/hadoop/yarn/*</value>
+    </property>
+    <!-- 为 Reduce 添加环境变量 -->
+    <property>
+        <name>mapreduce.reduce.env</name>
+        <value>HADOOP_MAPRED_HOME=/opt/hadoop-3.4.0/etc/hadoop:/opt/hadoop-3.4.0/share/hadoop/common/lib/*:/opt/hadoop-3.4.0/share/hadoop/common/*:/opt/hadoop-3.4.0/share/hadoop/hdfs:/opt/hadoop-3.4.0/share/hadoop/hdfs/lib/*:/opt/hadoop-3.4.0/share/hadoop/hdfs/*:/opt/hadoop-3.4.0/share/hadoop/mapreduce/*:/opt/hadoop-3.4.0/share/hadoop/yarn:/opt/hadoop-3.4.0/share/hadoop/yarn/lib/*:/opt/hadoop-3.4.0/share/hadoop/yarn/*</value>
+    </property>
+    <!-- ################################### 以上配置可以完整的跑一个hadoop3.X 自带的 wordcount 程序 ################################### -->
+    
+</configuration>
+```
+
+### 2、配置yarn-site.xml
+
+```xml
+<configuration>
+    <!-- reduce阶段拉取数据 -->
+    <property>
+        <name>yarn.nodemanager.aux-services</name>
+        <value>mapreduce_shuffle</value>
+    </property>
+    <!-- 开启resourcemanager自动故障转移 -->
+    <property>
+       <name>yarn.resourcemanager.ha.enabled</name>
+       <value>true</value>
+    </property>
+    <!-- yarn.resourcemanager.zk-address is deprecated. Instead, use hadoop.zk.address -->
+    <property>
+       <name>hadoop.zk.address</name>
+       <value>node02:2181,node03:2181,node04:2181</value>
+    </property>
+
+   <!-- 配置RS集群标识 -->
+    <property>
+       <name>yarn.resourcemanager.cluster-id</name>
+       <value>cluster1</value>
+    </property>
+    
+    <!-- 逻辑节点到物理节点的映射 -->
+    <!-- 根据规划RS配置到node03和node04上 -->
+    <property>
+       <name>yarn.resourcemanager.ha.rm-ids</name>
+       <value>rm1,rm2</value>
+    </property>
+    <property>
+       <name>yarn.resourcemanager.hostname.rm1</name>
+       <value>node03</value>
+    </property>
+    <property>
+       <name>yarn.resourcemanager.hostname.rm2</name>
+       <value>node04</value>
+    </property>
+    
+    <!--配置rm1-->
+    <property>
+        <name>yarn.resourcemanager.address.rm1</name>
+        <value>node03:8032</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.scheduler.address.rm1</name>
+        <value>node03:8030</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.webapp.address.rm1</name>
+        <value>node03:8088</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.resource-tracker.address.rm1</name>
+        <value>node03:8031</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.admin.address.rm1</name>
+        <value>node03:8033</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.ha.admin.address.rm1</name>
+        <value>node03:23142</value>
+    </property>
+    <!--配置rm2-->
+    <property>
+        <name>yarn.resourcemanager.address.rm2</name>
+        <value>node04:8032</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.scheduler.address.rm2</name>
+        <value>node04:8030</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.webapp.address.rm2</name>
+        <value>node04:8088</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.resource-tracker.address.rm2</name>
+        <value>node04:8031</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.admin.address.rm2</name>
+        <value>node04:8033</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.ha.admin.address.rm2</name>
+        <value>node04:23142</value>
+    </property> 
+
+    <!-- 版本新特性，不加会报错 -->
+    <!-- 环境变量名单 -->
+    <property>
+        <name>yarn.nodemanager.env-whitelist</name>
+        <value>JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,CLASSPATH_PREPEND_DISTCACHE,HADOOP_YARN_HOME,HADOOP_MAPRED_HOME</value>
+    </property>
+    
+    <!-- ################################### 以上配置可以完整的跑一个hadoop3.X 自带的 wordcount 程序 ################################### -->
+
+</configuration>
+```
+
+### 3、分发
+
+将修改后的 mapred-site.xml 和 yarn-site.xml 分发到集群的节点节点上
+
+### 4、运行
+
+1. 运行
+
+   ```shell
+   [root@node01 ~]# start-yarn.sh
+   ```
+
+   网页访问 http://node03:8088/cluster ， http://node04:8088/cluster  观察现象
+
+2. 测试
+
+   ```shell
+   #准备测试数据
+   [root@node01 ~]# cat test.txt 
+   the quick brown fox jumps over the lazy dog
+   the quick brown fox jumps over the lazy dog
+   the quick brown fox jumps over the lazy dog
+   the quick brown fox jumps over the lazy cat
+   the quick brown fox jumps over the lazy dog
+   
+   # 测试数据上传到hdfs
+   [root@node01 ~]# hdfs dfs -mkdir -p /user/root
+   [root@node01 ~]# hdfs dfs -put test.txt /user/root
+   
+   # 执行hadoop自带的 wordcount
+   [root@node01 ~]# cd /opt/hadoop-3.4.0/share/hadoop/mapreduce
+   [root@node01 mapreduce]# hadoop jar hadoop-mapreduce-examples-3.4.0.jar wordcount /user/root/test.txt /tmp/wc/output
+   
+   # 查看执行结果 part-r-00000： r 代表reduce生成的文件 00000 是指这个文件是第一个reduce执行完成后生成的
+   [root@node01 mapreduce]# hdfs dfs -ls /tmp/wc/output
+Found 2 items
+   -rw-r--r--   2 root supergroup          0 2024-08-06 22:00 /tmp/wc/output/_SUCCESS
+   -rw-r--r--   2 root supergroup         63 2024-08-06 22:00 /tmp/wc/output/part-r-00000
+   [root@node01 mapreduce]# hdfs dfs -cat /tmp/wc/output/part-r-00000
+   brown	5
+   cat	1
+   dog	4
+   fox	5
+   jumps	5
+   lazy	5
+   over	5
+   quick	5
+   the	10
+   ```
+   
+   如果有报错到 http://node03:8042/logs/userlogs 查看报错日志
 

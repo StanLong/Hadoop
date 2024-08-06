@@ -163,7 +163,7 @@ SM：sort&merge 合并排序，对map的而结果进行合并排序操作
 
 shuff：对相同的key值的数据移动到同一个block中
 
-redu：对shuff的结果计算，数据清洗和处理，
+reduce：对shuff的结果计算，数据清洗和处理，
 
 ### MR角色
 
@@ -175,6 +175,7 @@ redu：对shuff的结果计算，数据清洗和处理，
 #### TaskTracker
 
 - 负责任务的运行
+- 从
 
 #### Client
 
