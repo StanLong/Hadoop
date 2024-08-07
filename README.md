@@ -182,7 +182,7 @@ https://zaixianwangyebianji.bmcx.com/
 		</tr>
 		<tr>
 			<td>
-				<span><span><span><span><span><span>apache-hive-2.3.9-bin<br />
+				<span><span><span><span><span><span>apache-hive-3.1.3-bin<br />
 </span> </span> </span> </span> </span> </span> 
 			</td>
 			<td>
