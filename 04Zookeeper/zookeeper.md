@@ -1,30 +1,30 @@
 # zookeeper
 为分布式应用提供协调服务的Apache项目
 
-## 特点
+## 一、特点
 1. zookeeper：一个领导者 leader，多个跟随者follwoer组成的集群
 2. 集群中只要有半数以上的节点存活，zookeeper集群就能正常服务
 3. 全局数据一致，每个server保存一份相同的数据副本，clinet无论连接到哪个server，数据都是一致的
 4. 更新请求顺序进行，来自同一个clinet的更新请求按其发送顺序依次进行
 5. 数据更新原子性，一次数据要么更新成功，要么更新失败
 6. 实时性，在一定时间范围内，clinet能读到最新数据
-7. 集群中只要有过半的机器是正常工作的，那么整个集群对外就是可用的。也就是说如果有2个zookeeper，那么只要有1个死了zookeeper就不能用了，因为1没有过半，所以2个zookeeper的死亡容忍度为0；同理，要是有3个zookeeper，一个死了，还剩下2个正常的，过半了，所以3个zookeeper的容忍度为1；同理你多列举几个：2->0;3->1;4->1;5->2;6->2会发现一个规律，2n和2n-1的容忍度是一样的，都是n-1，所以为了更加高效，zookeeper集群节点配置个数应该是奇数
+7. 集群中只要有过半的机器是正常工作的，那么整个集群对外就是可用的。也就是说如果有2个zookeeper，那么只要有1个死了zookeeper就不能用了，因为1没有过半，所以2个zookeeper的死亡容忍度为0；同理，要是有3个zookeeper，一个死了，还剩下2个正常的，过半了，所以3个zookeeper的容忍度为1；同理多列举几个：2->0;3->1;4->1;5->2;6->2会发现一个规律，2n和2n-1的容忍度是一样的，都是n-1，所以为了更加高效，zookeeper集群节点配置个数应该是奇数
 
-## 集群规划
+## 二、集群规划
 
 | node01    | node02    | node03    |
 | --------- | --------- | --------- |
 | zookeeper | zookeeper | zookeeper |
 
-## 部署zookeeper
+## 三、部署zookeeper
 
-### 解压
+### 1、解压
 
 ```shell
 [root@node01 ~]# tar -zxf zookeeper-3.4.11.tar.gz -C /opt/stanlong/
 ```
 
-### 配置环境变量
+### 2、配置环境变量
 
 ```shell
 [root@node01 zookeeper-3.4.11]# pwd
@@ -39,7 +39,7 @@ export PATH=$PATH:$JAVA_HOME/bin:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$ZOOKEEPER_H
 zkCleanup.sh  zkCli.cmd     zkCli.sh      zkEnv.cmd     zkEnv.sh      zkServer.cmd  zkServer.sh 
 ```
 
-### 编辑配置文件
+### 3、编辑配置文件
 
 注意所有的注释都不要写在键值对后面
 
@@ -88,7 +88,7 @@ server.2=192.168.235.12:2888:3888
 server.3=192.168.235.13:2888:3888
 ```
 
-### 配置myid文件
+### 4、配置myid文件
 
 ```shell
 [root@node01 ~]# mkdir -p /var/data/zk
@@ -100,82 +100,68 @@ server.3=192.168.235.13:2888:3888
 [root@node03 ~]# echo 3 > /var/data/zk/myid # 把配置的server数字覆盖到数据目录myid这个文件
 ```
 
-### 配置日志路径
+### 5、配置日志路径
 
-```shell
-# 新建日志目录
-[root@node01 zookeeper-3.4.11]# pwd
-/opt/stanlong/zookeeper/zookeeper-3.4.11
-[root@node01 zookeeper-3.4.11]# mkdir logs
+1. 3.4.11 版本日志配置如下
 
-----------------------------------------------------------------------------------
-# 修改log4j.properties
-[root@node01 conf]# pwd
-/opt/stanlong/zookeeper/zookeeper-3.4.11/conf
-[root@node01 conf]# vi log4j.properties 
+   ```shell
+   # 新建日志目录
+   [root@node01 zookeeper-3.4.11]# pwd
+   /opt/stanlong/zookeeper/zookeeper-3.4.11
+   [root@node01 zookeeper-3.4.11]# mkdir logs
+   
+   ----------------------------------------------------------------------------------
+   # 修改log4j.properties
+   [root@node01 conf]# pwd
+   /opt/stanlong/zookeeper/zookeeper-3.4.11/conf
+   [root@node01 conf]# vi log4j.properties 
+   
+   # 原配置
+   zookeeper.root.logger=INFO, CONSOLE
+    
+   # 修改后的配置
+   zookeeper.root.logger=INFO, ROLLINGFILE
+   ----------------------------------------------------------------------------------
+   # 修改bin/zkEnv.sh
+   [root@node01 bin]# pwd
+   /opt/stanlong/zookeeper/zookeeper-3.4.11/bin
+   [root@node01 bin]# vi zkEnv.sh 
+   
+   # 以下是原配置
+   if [ "x${ZOO_LOG_DIR}" = "x" ]
+   then
+       ZOO_LOG_DIR="."
+   fi
+    
+   if [ "x${ZOO_LOG4J_PROP}" = "x" ]
+   then
+       ZOO_LOG4J_PROP="INFO,CONSOLE"
+   fi
+    
+    
+   # 以下是修改后配置
+   if [ "x${ZOO_LOG_DIR}" = "x" ]
+   then
+       ZOO_LOG_DIR="/opt/stanlong/zookeeper/zookeeper-3.4.11/logs"
+   fi
+    
+   if [ "x${ZOO_LOG4J_PROP}" = "x" ]
+   then
+       ZOO_LOG4J_PROP="INFO,ROLLINGFILE"
+   fi
+   ```
 
-# 原配置
-zookeeper.root.logger=INFO, CONSOLE
- 
-# 修改后的配置
-zookeeper.root.logger=INFO, ROLLINGFILE
-----------------------------------------------------------------------------------
-# 修改bin/zkEnv.sh
-[root@node01 bin]# pwd
-/opt/stanlong/zookeeper/zookeeper-3.4.11/bin
-[root@node01 bin]# vi zkEnv.sh 
+2. 3.8.4 日志配置
 
-# 以下是原配置
-if [ "x${ZOO_LOG_DIR}" = "x" ]
-then
-    ZOO_LOG_DIR="."
-fi
- 
-if [ "x${ZOO_LOG4J_PROP}" = "x" ]
-then
-    ZOO_LOG4J_PROP="INFO,CONSOLE"
-fi
- 
- 
-# 以下是修改后配置
-if [ "x${ZOO_LOG_DIR}" = "x" ]
-then
-    ZOO_LOG_DIR="/opt/stanlong/zookeeper/zookeeper-3.4.11/logs"
-fi
- 
-if [ "x${ZOO_LOG4J_PROP}" = "x" ]
-then
-    ZOO_LOG4J_PROP="INFO,ROLLINGFILE"
-fi
-```
+   3.8.4 的日志文件改成了lockbak.xml 
 
-### 分发zookeeper
+### 6、分发zookeeper
 
-分发脚本参考 23自定义集群脚本/分发脚本
+将 /opt/stanlong/zookeeper-3.4.11/ 和相关环境变量分发到 node02、node03, 并配置环境变量生效
 
-```shell
-[root@node01 myshell]# ./rsyncd.sh /opt/stanlong/zookeeper-3.4.11/
-```
+## 四、运行zookeeper
 
-**配置node02，03上的环境变量**
-
-```shell
-[root@node02 ~]# vi /etc/profile
-80 export ZOOKEEPER_HOME=/opt/stanlong/zookeeper-3.4.11
-81 export PATH=$PATH:$JAVA_HOME/bin:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$ZOOKEEPER_HOME/bin
-```
-
-**使node02，03上的环境变量生效**
-
-```shell
-[root@node02 ~]# source /etc/profile
-[root@node02 ~]# zk
-zkCleanup.sh  zkCli.cmd     zkCli.sh      zkEnv.cmd     zkEnv.sh      zkServer.cmd  zkServer.sh 
-```
-
-## 操作zookeeper
-
-### 启动zookeeper
+### 1、启动zookeeper
 
 按node01,  node02，node03的顺序启动(其实顺序无所谓)
 
@@ -208,7 +194,7 @@ Using config: /opt/stanlong/zookeeper-3.4.11/bin/../conf/zoo.cfg
 Mode: follower # 其他节点都被选为 follower
 ```
 
-### 启动客户端
+### 2、启动客户端
 
 ```shell
 [root@node02 ~]# zkCli.sh
@@ -217,7 +203,7 @@ WATCHER::
 WatchedEvent state:SyncConnected type:None path:null
 [zk: localhost:2181(CONNECTED) 0]
 ```
-### 创建节点
+### 3、创建节点
 
 ```shell
 [zk: localhost:2181(CONNECTED) 1] get /
@@ -250,28 +236,26 @@ ephemeralOwner = 0x1000057e5030000
 dataLength = 6
 numChildren = 0
 ```
-### 删除节点
+### 4、删除节点
 
 ```shell
 [zk: localhost:2181(CONNECTED) 3] delete /hadoop-ha
 [zk: localhost:2181(CONNECTED) 3] rmr /hadoop-ha # 递归删除
 ```
 
-### 退出客户端
+### 5、退出客户端
 
 ```
 [zk: localhost:2181(CONNECTED) 0] quit
 ```
-### 停止zookeeper
+### 6、停止zookeeper
 
 ```shell
 [root@node02 ~]# zkServer.sh stop
-ZooKeeper JMX enabled by default
-Using config: /opt/zookeeper-3.4.11/bin/../conf/zoo.cfg
-Stopping zookeeper ... STOPPED
 ```
 
-# zookeeper配置参数解读
+## 附录：zookeeper默认配置参数解读
+
 ```shell
 # The number of milliseconds of each tick
 tickTime=2000  --2s心跳一次
@@ -284,24 +268,9 @@ syncLimit=5    --5 个心跳桢，
 # the directory where the snapshot is stored.
 # do not use /tmp for storage, /tmp here is just
 # example sakes.
-dataDir=/opt/zookeeper-3.4.11/zkData
+dataDir=/tmp/data -- 默认数据保存路径，这个需要手动修改
 # the port at which the clients will connect
 clientPort=2181 -- 客户端端口号
-# the maximum number of client connections.
-# increase this if you need to handle more clients
-#maxClientCnxns=60
-#
-# Be sure to read the maintenance section of the
-# administrator guide before turning on autopurge.
-#
-# http://zookeeper.apache.org/doc/current/zookeeperAdmin.html#sc_maintenance
-#
-# The number of snapshots to retain in dataDir
-#autopurge.snapRetainCount=3
-# Purge task interval in hours
-# Set to "0" to disable auto purge feature
-#autopurge.purgeInterval=1
-
 ```
 
 

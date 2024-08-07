@@ -1,5 +1,7 @@
 # Hive
 
+Hive下载地址： https://archive.apache.org/dist/hive/
+
 Hive 是基于Hadoop的一个数据仓库工具，可以将结构化的数据文件映射成一张表，并提供类SQL的查询功能。
 
 本质是：将HQL转化成MapReduce程序
