@@ -1,7 +1,13 @@
 # 集群环境信息
 
-- 操作系统版本：CentOS 7
-- 内存：物理内存8G。虚拟机四个节点，node01 4G, node02 2G, node03 1G, node04 1G。每个节点交换分区大小8G
+- 操作系统版本：CentOS 7.4
+
+- 内存：物理内存16G。
+
+  共虚拟机四个节点
+
+  - node01 8G、 node02 4G、 node03 2G、 node04 2G。每个节点交换分区大小16G
+
 - 硬盘：各虚拟机节点硬盘大小200G
 
 https://zaixianwangyebianji.bmcx.com/
@@ -31,8 +37,8 @@ https://zaixianwangyebianji.bmcx.com/
 			</td>
 		</tr>
 		<tr>
-			<td rowspan="7">
-				<span><span><span><span><span><span>hadoop2.10.2<br />
+			<td rowspan="8">
+				<span><span><span><span><span><span>hadoop3.4.0<br />
 </span> </span> </span> </span> </span> </span> 
 			</td>
 			<td>
@@ -54,7 +60,7 @@ https://zaixianwangyebianji.bmcx.com/
 		</tr>
 		<tr>
 			<td>
-				<span><span><span><span><span><span><span>D</span><span>N</span><br />
+				<span><span><span><span><span><span><br />
 </span> </span> </span> </span> </span> </span> 
 			</td>
 			<td>
@@ -72,7 +78,7 @@ https://zaixianwangyebianji.bmcx.com/
 		</tr>
 		<tr>
 			<td>
-				<span><span><span><span><span><span><span>Z</span><span>K</span><br />
+				<span><span><span><span><span><span><br />
 </span> </span> </span> </span> </span> </span> 
 			</td>
 			<td>
@@ -84,7 +90,7 @@ https://zaixianwangyebianji.bmcx.com/
 </span> </span> </span> </span> </span> </span> 
 			</td>
 			<td>
-				<span><span><span><span><span><span><br />
+				<span><span><span><span><span><span><span>Z</span><span>K</span><br />
 </span> </span> </span> </span> </span> </span> 
 			</td>
 		</tr>
@@ -126,38 +132,52 @@ https://zaixianwangyebianji.bmcx.com/
 		</tr>
 		<tr>
 			<td>
+				<span><span><span><span><span><span><br />
+</span> </span> </span> </span> </span> </span> 
+			</td>
+			<td>
+				<span><span><span><span><span><span><br />
+</span> </span> </span> </span> </span> </span> 
+			</td>
+			<td>
 				<span><span><span><span><span><span><span>R</span><span>S</span><br />
 </span> </span> </span> </span> </span> </span> 
 			</td>
 			<td>
-				<span><span><span><span><span><span>RS<br />
-</span> </span> </span> </span> </span> </span> 
-			</td>
-			<td>
-				<span><span><span><span><span><span><br />
-</span> </span> </span> </span> </span> </span> 
-			</td>
-			<td>
-				<span><span><span><span><span><span><br />
+				<span><span><span><span><span><span><span>R</span><span>S</span><br />
 </span> </span> </span> </span> </span> </span> 
 			</td>
 		</tr>
 		<tr>
 			<td>
-				<span><span><span><span><span><span><span>NM</span><br />
-</span> </span> </span> </span> </span> </span> 
-			</td>
-			<td>
-				<span><span><span><span><span><span>NM<br />
-</span> </span> </span> </span> </span> </span> 
-			</td>
-			<td>
-				<span><span><span><span><span><span>NM<br />
-</span> </span> </span> </span> </span> </span> 
-			</td>
-			<td>
 				<span><span><span><span><span><span><br />
 </span> </span> </span> </span> </span> </span> 
+			</td>
+			<td>
+				<span><span><span><span><span><span>NM<br />
+</span> </span> </span> </span> </span> </span> 
+			</td>
+			<td>
+				<span><span><span><span><span><span>NM<br />
+</span> </span> </span> </span> </span> </span> 
+			</td>
+			<td>
+				<span><span><span><span><span><span><span>N</span><span>M</span><br />
+</span> </span> </span> </span> </span> </span> 
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<br />
+			</td>
+			<td>
+				<br />
+			</td>
+			<td>
+				JobHistory
+			</td>
+			<td>
+				<br />
 			</td>
 		</tr>
 		<tr>
@@ -244,7 +264,7 @@ https://zaixianwangyebianji.bmcx.com/
 		</tr>
 		<tr>
 			<td>
-				<span><span><span><span><span><span>mysql 5.7</span></span></span></span></span></span>
+				<span><span><span><span><span><span>mysql 5.7</span></span></span></span></span></span> 
 			</td>
 			<td>
 				<span><span><span><span><span><span>Server/Client</span></span> </span> </span> </span> </span> 
