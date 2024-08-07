@@ -402,30 +402,31 @@ EOF
 
 ```xml
 <configuration>
+    
     <!-- mapreduce.framework.name 默认使local，可根据自己的配置选择yarn或者yarn-tez -->
     <property>
         <name>mapreduce.framework.name</name>
         <value>yarn</value>
     </property>
    
+    
     <!-- 3.X版本新特性，不加会报错 -->
     <!-- 为 MR 程序主进程添加环境变量 -->
     <property>
         <name>yarn.app.mapreduce.am.env</name>
-        <value>HADOOP_MAPRED_HOME=/opt/hadoop-3.4.0/etc/hadoop:/opt/hadoop-3.4.0/share/hadoop/common/lib/*:/opt/hadoop-3.4.0/share/hadoop/common/*:/opt/hadoop-3.4.0/share/hadoop/hdfs:/opt/hadoop-3.4.0/share/hadoop/hdfs/lib/*:/opt/hadoop-3.4.0/share/hadoop/hdfs/*:/opt/hadoop-3.4.0/share/hadoop/mapreduce/*:/opt/hadoop-3.4.0/share/hadoop/yarn:/opt/hadoop-3.4.0/share/hadoop/yarn/lib/*:/opt/hadoop-3.4.0/share/hadoop/yarn/*</value>
+        <value>${HADOOP_HOME}</value>
     </property>
     <!-- 为 Map 添加环境变量 -->
     <property>
         <name>mapreduce.map.env</name>
-        <value>/opt/hadoop-3.4.0/etc/hadoop:/opt/hadoop-3.4.0/share/hadoop/common/lib/*:/opt/hadoop-3.4.0/share/hadoop/common/*:/opt/hadoop-3.4.0/share/hadoop/hdfs:/opt/hadoop-3.4.0/share/hadoop/hdfs/lib/*:/opt/hadoop-3.4.0/share/hadoop/hdfs/*:/opt/hadoop-3.4.0/share/hadoop/mapreduce/*:/opt/hadoop-3.4.0/share/hadoop/yarn:/opt/hadoop-3.4.0/share/hadoop/yarn/lib/*:/opt/hadoop-3.4.0/share/hadoop/yarn/*</value>
+        <value>${HADOOP_HOME}</value>
     </property>
     <!-- 为 Reduce 添加环境变量 -->
     <property>
         <name>mapreduce.reduce.env</name>
-        <value>HADOOP_MAPRED_HOME=/opt/hadoop-3.4.0/etc/hadoop:/opt/hadoop-3.4.0/share/hadoop/common/lib/*:/opt/hadoop-3.4.0/share/hadoop/common/*:/opt/hadoop-3.4.0/share/hadoop/hdfs:/opt/hadoop-3.4.0/share/hadoop/hdfs/lib/*:/opt/hadoop-3.4.0/share/hadoop/hdfs/*:/opt/hadoop-3.4.0/share/hadoop/mapreduce/*:/opt/hadoop-3.4.0/share/hadoop/yarn:/opt/hadoop-3.4.0/share/hadoop/yarn/lib/*:/opt/hadoop-3.4.0/share/hadoop/yarn/*</value>
+        <value>${HADOOP_HOME}</value>
     </property>
     <!-- ################################### 以上配置可以完整的跑一个hadoop3.X 自带的 wordcount 程序 ################################### -->
-    
 </configuration>
 ```
 
@@ -521,7 +522,7 @@ EOF
         <value>node04:23142</value>
     </property> 
 
-    <!-- 版本新特性，不加会报错 -->
+	<!-- 3.X版本新特性，不加会报错 -->
     <!-- 环境变量名单 -->
     <property>
         <name>yarn.nodemanager.env-whitelist</name>
@@ -584,4 +585,79 @@ Found 2 items
    ```
    
    如果有报错到 http://node03:8042/logs/userlogs 查看报错日志
+
+## 六、配置历史日志
+
+### 1、配置mapred-site.xml
+
+```xml
+    <!-- 配置历史服务的内部通讯地址和web访问地址 -->
+    <property>
+        <name>mapreduce.jobhistory.address</name>
+        <value>node03:10020</value>
+    </property>
+    <property>
+        <name>mapreduce.jobhistory.webapp.address</name>
+        <value>node03:19888</value>
+    </property>
+    <!-- 作业运行过程中产生的日志保存路径 -->
+    <property>
+        <name>mapreduce.jobhistory.intermediate-done-dir</name>
+        <value>/mr-history/tmp</value>
+    </property>
+    <property>
+        <name>mapreduce.jobhistory.done-dir</name>
+        <value>/mr-history/done</value>
+    </property>
+    <!-- 日志保存24小时 -->
+    <property>
+        <name>mapreduce.job.userlog.retain.hours</name>
+        <value>24</value>
+    </property>
+```
+
+### 2、配置yarn-site.xml
+
+```xml
+    <!-- 开启日志聚合 -->
+    <property>
+        <name>yarn.log-aggregation-enable</name>
+        <value>true</value>
+    </property>
+    <!-- 日志保存一天 -->
+    <property>
+        <name>yarn.log-aggregation.retain-seconds</name>
+        <value>86400</value>
+    </property>
+    <!-- 日志聚合目录, 默认这个保存hdfs目录是 /tmp/logs  -->
+    <property>
+        <name>yarn.nodemanager.remote-app-log-dir</name>
+        <value>/tmp/app-logs</value>
+    </property>
+```
+
+### 3、运行
+
+1. 运行
+
+   ```shell
+   # 按节点规划历史服务器配置在了 node03 节点， 所以只能在 node03 上启动 historyserver， 其他节点启不来
+   [root@node03 ~]# mapred --daemon start historyserver
+   ```
+
+2. 测试
+
+   重新执行一下wordcount测试程序，然后在网页上能正常访问  http://node03:19888/jobhistory ，则历史日志服务配置成功
+
+   
+
+
+
+
+
+
+
+
+
+
 
