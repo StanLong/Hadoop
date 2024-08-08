@@ -441,25 +441,3 @@ alias beeline="beeline -u jdbc:hive2://node01:10000  -n root -p root"
    
    # 可知node02正确连接到了node01上元数据服务，且可以查询数据
    ```
-
-## 五、查看Hive日志
-
-默认文件存放路径
-
-```shell
-[root@node01 conf]# pwd
-/opt/stanlong/hive/apache-hive-1.2.1-bin/conf
-[root@node01 conf]# vi hive-log4j.properties.template 
-18 hive.log.threshold=ALL
-19 hive.root.logger=INFO,DRFA
-20 hive.log.dir=${java.io.tmpdir}/${user.name}
-21 hive.log.file=hive.log
-```
-
-可知默认日志文件 /${java.io.tmpdir}/${user.name}/hive.log，在本例中也就是 /tmp/root/hive.log
-
-```shell
-[root@node01 conf]# cd /tmp/root/
-[root@node01 root]# ll
--rw-r--r-- 1 root root 383198 Jan 25 06:06 hive.log
-```
