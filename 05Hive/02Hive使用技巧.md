@@ -153,7 +153,7 @@ export HADOOP_HEAPSIZE=2048
 
 ## 五、Hive其他操作命令
 
-### 1、查看HDFS文件系统
+### 1、执行HDFS命令
 
 ```shell
 hive> dfs -ls /;

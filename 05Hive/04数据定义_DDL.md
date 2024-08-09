@@ -223,96 +223,153 @@
   ```
 
 
-### 2、表结构案例
+### 2、建表案例
 
-1. **数据文件准备**
+#### (1)、普通表建表
 
-   ```mysql
-   [root@node02 ~]# vi dept.txt
-   10	ACCOUNTING	1700
-   20	RESEARCH	1800
-   30	SALES	1900
-   40	OPERATIONS	1700
-   
-   [root@node02 ~]# vi emp.txt
-   7369	SMITH	CLERK	7902	1980-12-17	800.00		20
-   7499	ALLEN	SALESMAN	7698	1981-2-20	1600.00	300.00	30
-   7521	WARD	SALESMAN	7698	1981-2-22	1250.00	500.00	30
-   7566	JONES	MANAGER	7839	1981-4-2	2975.00		20
-   7654	MARTIN	SALESMAN	7698	1981-9-28	1250.00	1400.00	30
-   7698	BLAKE	MANAGER	7839	1981-5-1	2850.00		30
-   7782	CLARK	MANAGER	7839	1981-6-9	2450.00		10
-   7788	SCOTT	ANALYST	7566	1987-4-19	3000.00		20
-   7839	KING	PRESIDENT		1981-11-17	5000.00		10
-   7844	TURNER	SALESMAN	7698	1981-9-8	1500.00	0.00	30
-   7876	ADAMS	CLERK	7788	1987-5-23	1100.00		20
-   7900	JAMES	CLERK	7698	1981-12-3	950.00		30
-   7902	FORD	ANALYST	7566	1981-12-3	3000.00		20
-   7934	MILLER	CLERK	7782	1982-1-23	1300.00		10
-   
-   [root@node02 ~]# vi stu.txt
-   1001	ss1
-   1002	ss2
-   1003	ss3
-   1004	ss4
-   1005	ss5
-   1006	ss6
-   1007	ss7
-   1008	ss8
-   1009	ss9
-   1010	ss10
-   1011	ss11
-   1012	ss12
-   1013	ss13
-   1014	ss14
-   1015	ss15
-   1016	ss16
-   ```
+- 内部表和外部表
 
-#### （1）、内部表和外部表
-
-在删除表的时候，**内部表的元数据和数据会被一起删除**，而外部表只删除元数据，不删除数据。
-
-```mysql
--- 创建部门表
-create table if not exists dept( -- 内部表
-    deptno  int
-   ,dname   string
-   ,loc     int
-)row format delimited fields terminated by '\t';
-
-
--- 创建部门表
-create external table if not exists dept( -- 外部表
-    deptno  int
-   ,dname   string
-   ,loc     int
-)row format delimited fields terminated by '\t';
-```
-
-查看表结构
-
-```mysql
-hive> desc formatted dept;
-```
-
-内外部表相互转换
-
-- 外转内
+  在删除表的时候，**内部表的元数据和数据会被一起删除**，而外部表只删除元数据，不删除数据。
 
   ```mysql
-  alter table dept set tblproperties('EXTERNAL'='FALSE');
-  | Table Type:                   | MANAGED_TABLE      -- 内部表
+  -- 创建部门表
+  create table if not exists dept( -- 内部表
+      deptno  int
+     ,dname   string
+     ,loc     int
+  )row format delimited fields terminated by '\t';
+  
+  
+  -- 创建部门表
+  create external table if not exists dept( -- 外部表
+      deptno  int
+     ,dname   string
+     ,loc     int
+  )row format delimited fields terminated by '\t';
   ```
 
-- 内转外
+  查看表结构
 
   ```mysql
-  alter table dept set tblproperties('EXTERNAL'='TRUE');
-  | Table Type:                   | EXTERNAL_TABLE     -- 外部表      
+  hive> desc formatted dept;
   ```
 
-注意：('EXTERNAL'='TRUE')和('EXTERNAL'='FALSE')为固定写法，区分大小写
+  内外部表相互转换
+
+  - 外转内
+
+    ```mysql
+    alter table dept set tblproperties('EXTERNAL'='FALSE');
+    | Table Type:                   | MANAGED_TABLE      -- 内部表
+    ```
+
+  - 内转外
+
+    ```mysql
+    alter table dept set tblproperties('EXTERNAL'='TRUE');
+    | Table Type:                   | EXTERNAL_TABLE     -- 外部表      
+    ```
+
+  注意：('EXTERNAL'='TRUE')和('EXTERNAL'='FALSE')为固定写法，区分大小写
+
+#### (2)、create table as select
+
+```mysql
+hive> create table dept1 as select * from dept;
+```
+
+#### (3)、create table like
+
+```shell
+hive> create table dept2 like dept;
+```
+
+### 3、查看表
+
+- 语法
+
+  ```mysql
+  # 展示所有表， like通配表达式说明：*表示任意个任意字符（select语句用%），|表示或的关系
+  SHOW TABLES [IN database_name] LIKE ['identifier_with_wildcards'];
+  
+  # 查看表信息 EXTENDED：展示详细信息 ， FORMATTED：对详细信息进行格式化的展示
+  DESCRIBE [EXTENDED | FORMATTED] [db_name.]table_name
+  ```
+
+- 案例
+
+  ```mysql
+  # 展示所有匹配到的表
+  show tables like 'dept*';
+  show tables in db_hive1 like 'dept*';
+  
+  # 查看单个表明细
+  desc dept;
+  desc extended dept;
+  desc formatted dept;
+  ```
+
+### 4、修改表
+
+#### (1)、修改表名
+
+- 语法
+
+  ```mysql
+  ALTER TABLE table_name RENAME TO new_table_name
+  ```
+
+- 案例
+
+  ```mysql
+  alter table ods_emp rename to dwd_emp;
+  ```
+
+#### (2)、修改表
+
+- 语法
+
+  修改列信息（只修改元数据，HDFS不受影响）
+
+  ```mysql
+  # 增加列，该语句允许用户增加新的列，新增列的位置位于末尾
+  ALTER TABLE table_name ADD [COLUMN] col_old_name col_new_name column_type [COMMENT col_comment] [FIRST|AFTER column_name]
+  
+  # 更新列，该语句允许用户修改指定列的列名、数据类型、注释信息以及在表中的位置
+  ALTER TABLE table_name change [COLUMN] col_old_name col_new_name column_type [COMMENT col_comment] [FIRST|AFTER column_name]
+  
+  # 替换列，该语句允许用户用新的列集替换表中原有的全部列
+  ALTER TABLE table_name REPLACE COLUMNS (col_name data_type [COMMENT col_comment], ...)
+  ```
+
+- 案例
+
+  ```mysql
+  -- 添加字段age
+  alter table stu add columns(age int);
+  
+  -- 修改字段顺序(先关闭校验)
+  set hive.metastore.disallow.incomptible.col.type.changes=false;
+  alter table stu change column age age int after id;
+  
+  -- 替换成原来一样的表
+  alter table stu replace columns (id int,name string);
+  ```
+
+### 5、删除清空表
+
+- 语法
+
+  ```mysql
+  -- 删除表
+  DROP TABLE [IF EXISTS] table_name;
+  
+  -- 清空表
+  TRUNCATE [TABLE] table_name
+  -- truncate只能清空内部表的数据，不能删除外部表中数据
+  ```
+
+  
 
 #### 分区表
 
@@ -512,12 +569,6 @@ FAILED: SemanticException [Error 10061]: Numerator should not be bigger than den
 
 ### 改表
 
-#### 重命名表
-
-```sql
-alter table ods_emp rename to dwd_emp;
-```
-
 #### 新增修改列
 
 ```sql
@@ -556,10 +607,3 @@ hive> desc dwd_emp;
 +--------------------------+-----------------------+-----------------------+--+
 ```
 
-### 清空表
-
-只能清空内部表
-
-```sql
-truncate table 表名
-```
