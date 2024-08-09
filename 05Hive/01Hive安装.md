@@ -73,6 +73,9 @@ Hive 默认自带一个嵌入式 derby 数据库，这个数据库是用java编�
    ```shell
    ... 省略掉文件中的注释
    
+   # 提前调一下堆内存，避免Hive执行聚合函数的时候报OOM
+   export HADOOP_HEAPSIZE=2048
+   
    # 配置hive需要的第三方jar包路径，不然启动hive可能会报错
    export HIVE_AUX_JARS_PATH=/opt/stanlong/hadoop-ha/hadoop-2.10.2/share/hadoop/common
    
