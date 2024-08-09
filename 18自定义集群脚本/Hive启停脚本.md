@@ -26,6 +26,7 @@ function hive_start()
     server2pid=$(check_process HiveServer2 10000)
     cmd="nohup hive --service hiveserver2 >$HIVE_LOG_DIR/hiveServer2.log 2>&1 &"
     [ -z "$server2pid" ] && eval $cmd || echo "HiveServer2服务已启动"
+    sleep 10
 }
  
 function hive_stop()
