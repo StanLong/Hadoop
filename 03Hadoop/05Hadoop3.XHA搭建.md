@@ -212,6 +212,22 @@ export HDFS_ZKFC_USER=root
         <name>ha.zookeeper.quorum</name>
         <value>node01:2181,node02:2181,node03:2181</value>
     </property>
+    
+    <!-- ############### 避免执行 start-dfs.sh 启动后，journalnode 还没启动完成， namenode 就用完了启动次数，导致namenode启不来  ############### -->
+    <!--配置nn连接journal的重试次数和时间间隔 -->
+    <property>
+        <name>ipc.client.connect.max.retries</name>
+        <value>200</value>
+    </property>
+    <!-- 时间间隔10s -->
+    <property>
+        <name>ipc.client.connect.retry.interval</name>
+        <value>10000</value>
+    </property>
+    <property>
+        <name>ipc.client.connect.timeout</name>
+        <value>90000</value>
+    </property>
 </configuration>
 ```
 
