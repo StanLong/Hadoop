@@ -371,10 +371,98 @@ order by c1 desc;
 3.4.2 按照如下格式显示学生的语文、数学、英语三科成绩，没有成绩的输出为0，按照学生的有效平均成绩降序显示
 
 ```mysql
+## 方法一：
+-- nvl(a,b)：如果a不为null，则返回a，否则返回b
+-- coalesce：增强版的nvl
 
+select
+    t4.stu_id,
+    nvl(t1.score, 0) `语文`,
+    nvl(t2.score, 0) `数学`,
+    nvl(t3.score, 0) `英语`,
+    t4.cnt           `有效课程数`,
+    t4.avg_score     `平均成绩`
+from
+(
+    select
+        stu_id
+       ,nvl(score, 0) as score
+    from score_info
+    where course_id="01"
+)t1
+full outer join 
+(
+    select
+        stu_id
+       ,nvl(score, 0) as score
+    from score_info
+    where course_id="02"
+)t2
+on t1.stu_id = t2.stu_id
+full outer join 
+(
+    select
+        stu_id
+       ,nvl(score, 0) as score
+    from score_info
+    where course_id="03"
+)t3
+on nvl(t1.stu_id, t2.stu_id) = t3.stu_id
+right outer join
+(
+    select
+        stu_id
+       ,count(stu_id) as cnt
+       ,avg(score) as avg_score
+    from score_info
+    group by stu_id
+)t4
+on t4.stu_id = coalesce(t1.stu_id, t2.stu_id, t3.stu_id)
+order by t4.avg_score desc;
+
+
+## 方法二：
+-- sum(if())：有条件的聚合
+select
+    si.stu_id,
+    sum(if(ci.course_name='语文',si.score,0))  `语文`,
+    sum(if(ci.course_name='数学',si.score,0))  `数学`,
+    sum(if(ci.course_name='英语',si.score,0))  `英语`,
+    count(*)  `有效课程数`,
+    avg(si.score)  `平均成绩`
+from
+    score_info si
+join
+    course_info ci
+on
+    si.course_id=ci.course_id
+group by
+    si.stu_id
+order by
+  `平均成绩` desc;
 ```
 
 3.4.3 查询一共参加三门课程且其中一门为语文课程的学生的id和姓名
+
+```mysql
+select
+    t1.stu_id
+   ,t2.stu_name
+from
+(
+    select
+        stu_id
+       ,count(*) as cnt
+    from score_info
+    where course_id='01'
+    group by stu_id
+    having cnt = 3
+)t1
+left outer join student_info t2
+on t1.stu_id = t2.stu_id
+```
+
+
 
 ## 第四章 复杂查询
 
