@@ -447,47 +447,412 @@ order by
 ```mysql
 select
     t1.stu_id
-   ,t2.stu_name
+   ,t3.stu_name
 from
 (
     select
         stu_id
        ,count(*) as cnt
     from score_info
-    where course_id='01'
     group by stu_id
     having cnt = 3
 )t1
-left outer join student_info t2
-on t1.stu_id = t2.stu_id
+inner join
+(
+    select
+        stu_id
+    from score_info
+    where course_id="01"
+)t2
+on t1.stu_id=t2.stu_id
+left outer join student_info t3
+on t2.stu_id = t3.stu_id
 ```
-
-
 
 ## 第四章 复杂查询
 
-4.1 子查询
+### 4.1 子查询
+
 4.1.1 查询所有课程成绩均小于60分的学生的学号、姓名
+
+```mysql
+select
+    stu_id
+   ,stu_name
+from student_info
+where stu_id not in
+(
+    select 
+        stu_id
+    from score_info
+    where score >= 60
+);
+```
+
 4.1.2 查询没有学全所有课的学生的学号、姓名
+
+```mysql
+select
+    s.stu_id,
+    s.stu_name
+from student_info s
+left join score_info sc on s.stu_id = sc.stu_id
+group by s.stu_id, s.stu_name
+having count(course_id) < (select count(course_id) from course_info)
+order by s.stu_id;
+```
+
 4.1.3 查询出只选修了三门课程的全部学生的学号和姓名
+
+```mysql
+select
+    s.stu_id,
+    s.stu_name
+from student_info s
+left join score_info sc on s.stu_id = sc.stu_id
+group by s.stu_id, s.stu_name
+having count(course_id) = 3
+order by s.stu_id;
+```
 
 ## 第五章 多表查询
 
-5.1 表联结
+### 5.1 表联结
+
 5.1.1 查询有两门以上的课程不及格的同学的学号及其平均成绩
+
+```mysql
+select
+    stu_id
+   ,sum(if(score<60, 1, 0)) as c1
+   ,avg(score) as avg_score
+from score_info
+group by stu_id
+having sum(if(score<60, 1, 0))>=2
+```
+
 5.1.2 查询所有学生的学号、姓名、选课数、总成绩
+
+```mysql
+select
+    t1.stu_id
+   ,t1.stu_name
+   ,count(t2.stu_id) as c1
+   ,sum(nvl(score, 0)) as c2
+from student_info t1
+left outer join score_info t2
+on t1.stu_id = t2.stu_id
+group by t1.stu_id, t1.stu_name;
+```
+
 5.1.3 查询平均成绩大于85的所有学生的学号、姓名和平均成绩
+
+```mysql
+select 
+    t1.stu_id
+   ,t1.stu_name
+   ,avg(nvl(score, 0)) as avg_score
+from student_info t1
+left outer join score_info t2
+on t1.stu_id = t2.stu_id
+group by t1.stu_id, t1.stu_name
+having avg(nvl(score, 0))>85
+```
+
 5.1.4 查询学生的选课情况：学号，姓名，课程号，课程名称
+
+```mysql
+select
+    t1.stu_id
+   ,t1.stu_name
+   ,t3.course_id
+   ,t3.course_name
+from student_info t1
+left outer join score_info t2
+on t1.stu_id = t2.stu_id
+left outer join course_info t3
+on t2.course_id = t3.course_id
+```
+
 5.1.5 查询出每门课程的及格人数和不及格人数
+
+```mysql
+select
+    course_id
+   ,sum(if(score>=60, 1, 0)) as `及格人数`
+   ,sum(if(score<60, 1, 0)) as `不及格人数`
+from score_info
+group by course_id;
+```
+
 5.1.6 查询课程编号为03且课程成绩在80分以上的学生的学号和姓名及课程信息
-5.2 多表连接
+
+```mysql
+select
+    t1.stu_id
+   ,t2.stu_name
+   ,t1.score
+   ,t3.course_id
+   ,t3.course_name
+from
+(
+    select 
+        stu_id
+       ,course_id
+       ,score
+    from score_info
+    where course_id="03" and score>80
+)t1
+inner join student_info t2
+on t1.stu_id = t2.stu_id
+inner join course_info t3
+on t1.course_id = t3.course_id
+```
+
+### 5.2 多表连接
+
 5.2.1 课程编号为"01"且课程分数小于60，按分数降序排列的学生信息
+
+```mysql
+select
+    t1.stu_id
+   ,t2.stu_name
+   ,t2.sex
+   ,t2.birthday      
+   ,t3.course_name
+   ,t1.score
+from
+(
+    select 
+        stu_id
+       ,score
+       ,course_id
+    from score_info
+    where course_id="01" and score<60
+)t1
+inner join student_info t2
+on t1.stu_id = t2.stu_id
+inner join course_info t3
+on t1.course_id = t3.course_id
+order by t1.score desc
+```
+
 5.2.2 查询所有课程成绩在70分以上的学生的姓名、课程名称和分数，按分数升序排列
+
+```mysql
+select
+    s.stu_id,
+    s.stu_name,
+    c.course_name,
+    s2.score
+from student_info s
+join (
+    select
+        stu_id,
+        sum(if(score >= 70,0,1)) flage
+    from score_info
+    group by stu_id
+    having flage =0
+    ) t1
+on s.stu_id = t1.stu_id
+left join score_info s2 on s.stu_id = s2.stu_id
+left join course_info c on s2.course_id = c.course_id;
+```
+
 5.2.3 查询该学生不同课程的成绩相同的学生编号、课程编号、学生成绩
+
+```mysql
+select 
+    sc1.stu_id
+   ,sc1.course_id
+   ,sc1.score
+from score_info sc1
+join score_info sc2 on sc1.stu_id = sc2.stu_id
+    and sc1.course_id <> sc2.course_id
+    and sc1.score = sc2.score;
+```
+
 5.2.4 查询课程编号为“01”的课程比“02”的课程成绩高的所有学生的学号
+
+```mysql
+select 
+    t1.stu_id
+   ,t1.score
+   ,t2.score
+from
+(
+    select 
+        stu_id
+       ,score 
+    from score_info
+    where course_id="01"
+)t1
+inner join 
+(
+    select 
+        stu_id
+       ,score
+    from score_info
+    where course_id="02"
+    
+)t2
+on t1.stu_id = t2.stu_id
+where t1.score > t2.score
+```
+
 5.2.5 查询学过编号为“01”的课程并且也学过编号为“02”的课程的学生的学号、姓名
+
+```mysql
+select
+    t1.stu_id
+   ,t3.stu_name
+from
+(
+    select
+        stu_id
+       ,score
+    from score_info
+    where course_id = "01"
+)t1
+inner join
+(
+    select
+        stu_id
+       ,score
+    from score_info
+    where course_id = "02"
+)t2
+on t1.stu_id = t2.stu_id
+inner join student_info t3
+on t1.stu_id = t3.stu_id
+```
+
 5.2.6 查询学过“李体音”老师所教的所有课的同学的学号、姓名
+
+```mysql
+select 
+    t1.stu_id
+   ,si.stu_name
+from
+(
+    select 
+        stu_id
+    from score_info si
+    where course_id in
+    (
+        select 
+            course_id
+        from course_info c
+        join teacher_info t
+            on c.tea_id = t.tea_id
+        where tea_name = '李体音' --李体音教的所有课程
+    )
+    group by stu_id
+    having count(*) = ( -- 这段逻辑保证该学生把李体音所教的课程都学习了
+        select 
+            count(1)
+        from course_info c
+        join teacher_info t
+            on c.tea_id = t.tea_id
+        where tea_name = '李体音' --李体音教的所有课程
+    )
+) t1
+left join student_info si
+    on t1.stu_id = si.stu_id;
+```
+
 5.2.7 查询学过“李体音”老师所讲授的任意一门课程的学生的学号、姓名
+
+```mysql
+select 
+    t1.stu_id
+   ,si.stu_name
+from
+(
+    select 
+        stu_id
+    from score_info si
+    where course_id in
+    (
+        select 
+            course_id
+        from course_info c
+        join teacher_info t
+            on c.tea_id = t.tea_id
+        where tea_name = '李体音' --李体音教的所有课程
+    )
+    group by stu_id
+) t1
+left join student_info si
+    on t1.stu_id = si.stu_id;
+```
+
 5.2.8 查询没学过"李体音"老师讲授的任一门课程的学生姓名
+
+```mysql
+select 
+    stu_id
+   ,stu_name
+from student_info
+where stu_id not in
+(
+    select stu_id
+    from score_info si
+    where course_id in
+    (
+        select course_id
+        from course_info c
+                join teacher_info t
+                        on c.tea_id = t.tea_id
+        where tea_name = '李体音'
+    )
+    group by stu_id
+);
+```
+
 5.2.9 查询至少有一门课与学号为“001”的学生所学课程相同的学生的学号和姓名
+
+```mysq
+select 
+    t1.stu_id
+   ,t2.stu_name
+from score_info t1
+inner join student_info t2
+on t1.stu_id = t2.stu_id
+where t1.course_id in
+(
+    select 
+        course_id
+    from score_info
+    where stu_id = "001"
+)
+and t1.stu_id != "001"
+group by t1.stu_id, t2.stu_name
+```
+
 5.2.10 按平均成绩从高到低显示所有学生的所有课程的成绩以及平均成绩
+
+```mysql
+select
+    t1.stu_id
+   ,t1.stu_name
+   ,t3.course_name
+   ,nvl(t4.avg_score, 0) as avg_score
+from student_info t1
+left outer join score_info t2
+    on t1.stu_id = t2.stu_id
+left outer join course_info t3
+on t2.course_id = t3.course_id
+left outer join
+(
+    select
+        stu_id
+       ,avg(score) as avg_score
+    from score_info
+    left outer join course_info
+    group by stu_id
+)t4
+on t1.stu_id = t4.stu_id
+order by avg_score desc;
+```
+
