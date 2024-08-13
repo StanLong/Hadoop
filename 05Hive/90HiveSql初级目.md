@@ -812,7 +812,7 @@ where stu_id not in
 
 5.2.9 查询至少有一门课与学号为“001”的学生所学课程相同的学生的学号和姓名
 
-```mysq
+```mysql
 select 
     t1.stu_id
    ,t2.stu_name
