@@ -6,14 +6,14 @@
 
 - 语法
 
-  ```shell
+  ```mysql
   CREATE DATABASE [IF NOT EXISTS] database_name
   [COMMENT database_comment]
   [LOCATION hdfs_path]
   [WITH DBPROPERTIES (property_name=property_value, ...)];
   ```
 
-  字段介绍： ([ ] 中括号中内容为创建库时的可选项)
+  字段介绍： (`[ ]` 中括号中内容为创建库时的可选项)
 
   - COMMENT：数据库描述
   - LOCATION：指定数据库存放在 HDFS 的目录，默认存储在 hive 所指定的地址 /user/hive/warehouse/目录下，HDFS中数据库通常统一为 *.db。比如创建了一个 test库，在HDFS中默认地址为：/user/hive/warehouse/test.db
@@ -62,7 +62,7 @@
 
 - 语法
 
-  ```shell
+  ```mysql
   --修改dbproperties
   ALTER DATABASE database_name SET DBPROPERTIES (property_name=property_value, ...);
   --修改location
@@ -73,7 +73,7 @@
 
 - 案例
 
-  ```shell
+  ```mysql
   hive> alter database mydb set dbproperties('createtime'='20210127');
   No rows affected (0.394 seconds)
   hive> desc database extended mydb;
