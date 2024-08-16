@@ -270,10 +270,8 @@ hive (default)> dfs -get /user/hive/warehouse/student/month=201709/000000_0
 ```
 
 ```shell
-// 如果查询的数据量特别大，在执行查询前可以先指定内存
+# 如果查询的数据量特别大，在执行查询前可以先指定内存
 export HADOOP_CLIENT_OPTS="-Xmx5120M"
-// 指定导出文件的分隔符
+# 指定导出文件的分隔符
 beeline --outputformat=dsv --delimiterForDsv="|" -f query.sql > result.csv
 ```
-
-## 

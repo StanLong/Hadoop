@@ -51,8 +51,8 @@ Time taken: 2.834 seconds, Fetched: 1 row(s)
 
 查看当前所有参数的配置信息
 
-```
-| system:sun.boot.library.path=/usr/lib/jvm/jdk-1.8.0_421-oracle-x64/jre/lib/amd64 |
+```mysql
+hive> set;
 +----------------------------------------------------+
 |                        set                         |
 +----------------------------------------------------+

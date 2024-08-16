@@ -1,5 +1,7 @@
 # HiveSql 中级题
 
+所有题目均在本地模式下完成：  set mapreduce.framework.name=local;
+
 ## 第一章 环境准备
 
 ### 1.1 用户信息表
@@ -962,3 +964,35 @@ where rk=1;
 | 1010            | 2021-10-08            | 51950.00                                   | 黄金会员                         |
 
 #### 2.4.2 代码实现
+
+```mysql
+select
+    user_id
+   ,create_date
+   ,sum_so_far
+   ,case
+      when sum_so_far >= 100000 then '钻石会员'
+      when sum_so_far >= 80000 then '白金会员'
+      when sum_so_far >= 50000 then '黄金会员'
+      when sum_so_far >= 30000 then '白银会员'
+      when sum_so_far >= 10000 then '青铜会员'
+      when sum_so_far >= 0 then '普通会员'
+    end vip_level
+FROM
+(
+    select
+        user_id
+       ,create_date
+       ,sum(total_amount_per_day) over(partition by user_id order by create_date rows between unbounded preceding and current row) as sum_so_far
+    from 
+    (
+        -- 按题目要求，这是每个用户在每天的消费金额。 （每天的消费金额和每次的消费金额不一样）
+         select user_id,
+             create_date,
+             sum(total_amount) total_amount_per_day
+         from order_info
+         group by user_id, create_date
+    )t1
+)t2
+```
+
