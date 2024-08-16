@@ -986,7 +986,7 @@ FROM
        ,sum(total_amount_per_day) over(partition by user_id order by create_date rows between unbounded preceding and current row) as sum_so_far
     from 
     (
-        -- 按题目要求，这是每个用户在每天的消费金额。 （每天的消费金额和每次的消费金额不一样）
+        -- 按题目要求，这是用户每天的消费金额。 （每天的消费金额和每次的消费金额不一样）
          select user_id,
              create_date,
              sum(total_amount) total_amount_per_day
@@ -996,3 +996,14 @@ FROM
 )t2
 ```
 
+### 2.5 查询首次下单后第二天连续下单的用户比率
+
+#### 2.5.1 题目需求
+
+从订单信息表(order_info)中查询首次下单后第二天仍然下单的用户占所有下单用户的比例，结果保留一位小数，使用百分数显示，期望结果如下：
+
+| percentage |
+| ---------- |
+| 70.0%      |
+
+#### 2.5.2 代码实现
