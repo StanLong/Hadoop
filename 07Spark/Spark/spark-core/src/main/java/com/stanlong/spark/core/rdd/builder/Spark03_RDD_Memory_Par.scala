@@ -17,7 +17,7 @@ object Spark03_RDD_Memory_Par {
         // makeRDD 参数一表示序列，参数二表示分区的数量，不传表示使用默认值，默认值和CPU核数相同。
         val rdd = sc.makeRDD(List(1,2,3,4), 2)
 
-        // 计算数据分区位置的源码
+        // 【数据是如何保存到哪个分区的】源码
         // (0 until numSlices).iterator.map{ i =>
         //     val start = ((i * length)/numSlices).toInt
         //     val end = (((i+1) * length)/numSlices).toInt
