@@ -17,25 +17,27 @@ object Spark01_RDD_Serial {
         search.getMatch1(rdd).collect().foreach(println)
         sc.stop()
     }
-}
 
-// 类的构造参数其实就是类的属性，构造参数需要进行闭包检测，其实就等同于类进行闭包检测
-class Search(query:String) extends Serializable {
-    def isMatch(s: String): Boolean = {
-        s.contains(query)
-    }
 
-    // 函数序列化案例
-    def getMatch1 (rdd: RDD[String]): RDD[String] = {
-        rdd.filter(this.isMatch)
-        // rdd.filter(isMatch)
-    }
+    // 类的构造参数其实就是类的属性 【val search = new Search("h") 相当于调用了类的有参构造方法】，
+    // 构造参数需要进行闭包检测，其实就等同于类进行闭包检测
+    class Search(query:String) extends Serializable {
+        def isMatch(s: String): Boolean = {
+            s.contains(query)
+        }
 
-    // 属性序列化案例
-    def getMatch2(rdd: RDD[String]): RDD[String] = {
-        rdd.filter(x => x.contains(this.query))
-        // rdd.filter(x => x.contains(query))
-        val q = query
-        rdd.filter(x => x.contains(q))
+        // 函数序列化案例
+        def getMatch1 (rdd: RDD[String]): RDD[String] = {
+            rdd.filter(this.isMatch)
+            // rdd.filter(isMatch)
+        }
+
+        // 属性序列化案例
+        def getMatch2(rdd: RDD[String]): RDD[String] = {
+            rdd.filter(x => x.contains(this.query))
+            // rdd.filter(x => x.contains(query))
+            val q = query
+            rdd.filter(x => x.contains(q))
+        }
     }
 }
