@@ -585,7 +585,7 @@ EOF
    
    # 查看执行结果 part-r-00000： r 代表reduce生成的文件 00000 是指这个文件是第一个reduce执行完成后生成的
    [root@node01 mapreduce]# hdfs dfs -ls /tmp/wc/output
-Found 2 items
+   Found 2 items
    -rw-r--r--   2 root supergroup          0 2024-08-06 22:00 /tmp/wc/output/_SUCCESS
    -rw-r--r--   2 root supergroup         63 2024-08-06 22:00 /tmp/wc/output/part-r-00000
    [root@node01 mapreduce]# hdfs dfs -cat /tmp/wc/output/part-r-00000
@@ -599,7 +599,7 @@ Found 2 items
    quick	5
    the	10
    ```
-   
+
    如果有报错到 http://node03:8042/logs/userlogs 查看报错日志
 
 ## 六、配置历史日志
