@@ -55,9 +55,9 @@ Hive 默认自带一个嵌入式 derby 数据库，这个数据库是用java编�
 
 1. 创建hive元数据库并上传mysql的jdbc驱动包
 
-   ```shell
+   ```mysql
    -- 创建 metastore 
-   mysql> CREATE DATABASE IF NOT EXISTS metastore default charset utf8 COLLATE utf8_general_ci;
+   mysql> CREATE DATABASE IF NOT EXISTS hivedb default charset utf8 COLLATE utf8_general_ci;
    
    -- 上传mysql驱动包到 /opt/stanlong/hive/apache-hive-1.2.2-bin/lib 
    ```
@@ -108,7 +108,7 @@ Hive 默认自带一个嵌入式 derby 数据库，这个数据库是用java编�
        <!-- 元数据库的链接地址 mysql -->
        <property>
            <name>javax.jdo.option.ConnectionURL</name>
-           <value>jdbc:mysql://192.168.235.11:3306/metastore?createDatabaseIfNotExist=true&amp;useSSL=false&amp;characterEncoding=UTF-8</value>
+           <value>jdbc:mysql://192.168.235.11:3306/hivedb?createDatabaseIfNotExist=true&amp;useSSL=false&amp;characterEncoding=UTF-8</value>
        </property>
        <!-- 指定mysql连接信息 -->
        <property>
@@ -154,7 +154,7 @@ Hive 默认自带一个嵌入式 derby 数据库，这个数据库是用java编�
      Initialization script completed
      schemaTool completed
      
-     # 初始化完成之后会在mysql的 metastore 库里看到相关的hive元数据表,表TBLS和DBS保存了hive表和相关的数据库信息
+     # 初始化完成之后会在mysql的 hivedb 库里看到相关的hive元数据表,表TBLS和DBS保存了hive表和相关的数据库信息
      ```
 
      - 启动hive
@@ -169,7 +169,7 @@ Hive 默认自带一个嵌入式 derby 数据库，这个数据库是用java编�
 
      - 测试
 
-     ```shell
+     ```mysql
      hive (default)> create table stu(id int, name string);
      hive (default)> insert into stu values(1, "ss");
      hive (default)> select * from stu;
@@ -177,7 +177,7 @@ Hive 默认自带一个嵌入式 derby 数据库，这个数据库是用java编�
 
 ### 3、远程模式
 
-#### (1)、hiveserver2 服务
+#### 3.1、hiveserver2 服务
 
 Hive 的 hiveserver2 服务提供了 jdbc/odbc接口，为用户提供了远程访问Hive数据的功能。由于不同的访问用户涉及到不同的权限，这里补充一个用户说明
 
@@ -281,21 +281,23 @@ Transaction isolation: TRANSACTION_REPEATABLE_READ
 alias beeline="beeline -u jdbc:hive2://node01:10000  -n root -p root"
 ```
 
-#### (2)、metastore 服务
+#### 3.2、metastore 服务
 
-1. metastore运行模式
+Hive的metastore服务的作用是为Hive CLI或者Hiveserver2提供元数据访问接口。
 
-   Hive的metastore服务的作用是为Hive CLI或者Hiveserver2提供元数据访问接口。
+##### 3.2.1 metastore  模式介绍
+
+1. metastore 的两种运行模式
 
    metastore有两种运行模式，分别为嵌入式模式和独立服务模式。下面分别对两种模式进行说明：
 
    （1）嵌入式模式
 
-   ![](https://img-blog.csdnimg.cn/direct/cae485b4315e4cdd9db3dcc6fedd64db.png)
+   ![](./doc/27.png)
 
    （2）独立服务模式
 
-   ![](https://img-blog.csdnimg.cn/direct/cab145f875fd4ef2bf9da22c8c1466cc.png)
+   ![](./doc/28.png)
 
    生产环境中，不推荐使用嵌入式模式。因为其存在以下两个问题：
 
@@ -303,14 +305,14 @@ alias beeline="beeline -u jdbc:hive2://node01:10000  -n root -p root"
 
    （2）每个客户端都需要用户元数据库的读写权限，元数据库的安全得不到很好的保证。
 
-   metastore的两种部署模式
+2. metastore 的两种部署模式
 
-   （1）嵌入式模式
+   （1）嵌入式模式部署
 
-   ​    嵌入式模式下，只需保证Hiveserver2和每个Hive CLI的配置文件hive-site.xml中包含连接元数据库所需要的以下参数即可
+    嵌入式模式下，只需保证Hiveserver2和每个Hive CLI的配置文件hive-site.xml中包含连接元数据库所需要的以下参数即可
 
    ```xml
-   <!-- 元数据库的链接地址 mysql -->
+       <!-- 元数据库的链接地址 mysql -->
        <property>
            <name>javax.jdo.option.ConnectionURL</name>
            <value>jdbc:mysql://192.168.235.11:3306/metastore?createDatabaseIfNotExist=true&amp;useSSL=false&amp;characterEncoding=UTF-8</value>
@@ -330,14 +332,14 @@ alias beeline="beeline -u jdbc:hive2://node01:10000  -n root -p root"
        </property>
    ```
 
-   （2）独立服务模式
+   （2）独立服务模式部署
 
    独立服务模式需做以下配置：
 
    首先，保证metastore服务端的配置文件hive-site.xml中包含连接元数据库所需的以下参数：
 
    ```xml
-   <!-- 元数据库的链接地址 mysql -->
+       <!-- 元数据库的链接地址 mysql -->
        <property>
            <name>javax.jdo.option.ConnectionURL</name>
            <value>jdbc:mysql://192.168.235.11:3306/metastore?createDatabaseIfNotExist=true&amp;useSSL=false&amp;characterEncoding=UTF-8</value>
@@ -367,80 +369,80 @@ alias beeline="beeline -u jdbc:hive2://node01:10000  -n root -p root"
    </property>
    ```
 
-2. 按节点规划部署
+##### 3.2.2、部署服务
 
-   将 node01 上的/opt/hive-3.1.3 同步到 node02上，配置环境变量并修改 node02上的hive.xml如下
+将 node01 上的/opt/hive-3.1.3 同步到 node02上，配置环境变量并修改 node02上的hive.xml如下
 
-   ```xml
-   <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-   <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
-   <configuration>
-       <!-- ################################### node02 上的hive作为客户端，采用metastore的独立部署模式 ###################################-->
-       <!-- 配置hive文件在hdfs上的保存路径 -->
-       <property>
-           <name>hive.metastore.warehouse.dir</name>
-           <value>/user/hivedb/warehouse</value>
-       </property>
-       
-       <!-- 指定hiveserver2连接的host -->
-       <property>
-           <name>hive.server2.thrift.bind.host</name>
-           <value>node01</value>
-       </property>
-       <!-- 指定hiveserver2连接的端口号 -->
-       <property>
-           <name>hive.server2.thrift.port</name>
-           <value>10000</value>
-       </property>
-       
-       <!-- 指定metastore服务的地址 -->
-       <property>
-           <name>hive.metastore.uris</name>
-           <value>thrift://node01:9083</value>
-       </property>
-       
-       <!-- ################################### hive公共配置 ###################################-->
-       <!-- 表头信息配置 -->
-       <property>
-           <name>hive.cli.print.header</name>
-           <value>true</value>
-       </property>
-       <!-- 显示当前数据库 -->
-       <property>
-           <name>hive.cli.print.current.db</name>
-           <value>true</value>
-       </property>
-   
-   </configuration>
-   ```
+```xml
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+    <!-- ################################### node02 上的hive作为客户端，采用metastore的独立部署模式 ###################################-->
+    <!-- 配置hive文件在hdfs上的保存路径 -->
+    <property>
+        <name>hive.metastore.warehouse.dir</name>
+        <value>/user/hivedb/warehouse</value>
+    </property>
+    
+    <!-- 指定hiveserver2连接的host -->
+    <property>
+        <name>hive.server2.thrift.bind.host</name>
+        <value>node01</value>
+    </property>
+    <!-- 指定hiveserver2连接的端口号 -->
+    <property>
+        <name>hive.server2.thrift.port</name>
+        <value>10000</value>
+    </property>
+    
+    <!-- 指定metastore服务的地址 -->
+    <property>
+        <name>hive.metastore.uris</name>
+        <value>thrift://node01:9083</value>
+    </property>
+    
+    <!-- ################################### hive公共配置 ###################################-->
+    <!-- 表头信息配置 -->
+    <property>
+        <name>hive.cli.print.header</name>
+        <value>true</value>
+    </property>
+    <!-- 显示当前数据库 -->
+    <property>
+        <name>hive.cli.print.current.db</name>
+        <value>true</value>
+    </property>
 
-3. 运行
+</configuration>
+```
 
-   ```shell
-   # node01 上启动 metastore 服务
-   [root@node01 ~]# nohup hive --service metastore > /dev/null 2>&1 &
-   [root@node01 ~]# jobs
-   [1]-  Running                 nohup hiveserver2 > /dev/null 2>&1 &
-   [2]+  Running                 nohup hive --service metastore > /dev/null 2>&1 &
-   
-   # node02 上启动hive并执行查询语句
-   [root@node02 ~]# beeline -u jdbc:hive2://node01:10000  -n root -p root
-   0: jdbc:hive2://node01:10000> show tables;
-   +-----------+
-   | tab_name  |
-   +-----------+
-   | stu       |
-   +-----------+
-   1 row selected (0.379 seconds)
-   0: jdbc:hive2://node01:10000> select * from stu;
-   +---------+-----------+
-   | stu.id  | stu.name  |
-   +---------+-----------+
-   | 1       | ss        |
-   +---------+-----------+
-   1 row selected (0.792 seconds)
-   0: jdbc:hive2://node01:10000> !exit
-   Closing: 0: jdbc:hive2://node01:10000
-   
-   # 可知node02正确连接到了node01上元数据服务，且可以查询数据
-   ```
+运行测试
+
+```shell
+# node01 上启动 metastore 服务
+[root@node01 ~]# nohup hive --service metastore > /dev/null 2>&1 &
+[root@node01 ~]# jobs
+[1]-  Running                 nohup hiveserver2 > /dev/null 2>&1 &
+[2]+  Running                 nohup hive --service metastore > /dev/null 2>&1 &
+
+# node02 上启动hive并执行查询语句
+[root@node02 ~]# beeline -u jdbc:hive2://node01:10000  -n root -p root
+0: jdbc:hive2://node01:10000> show tables;
++-----------+
+| tab_name  |
++-----------+
+| stu       |
++-----------+
+1 row selected (0.379 seconds)
+0: jdbc:hive2://node01:10000> select * from stu;
++---------+-----------+
+| stu.id  | stu.name  |
++---------+-----------+
+| 1       | ss        |
++---------+-----------+
+1 row selected (0.792 seconds)
+0: jdbc:hive2://node01:10000> !exit
+Closing: 0: jdbc:hive2://node01:10000
+
+# 可知node02正确连接到了node01上元数据服务，且可以查询数据
+```
