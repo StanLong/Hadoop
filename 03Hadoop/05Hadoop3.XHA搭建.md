@@ -314,7 +314,7 @@ export HDFS_ZKFC_USER=root
 ### 7、配置worker
 
 ```shell
-# node02 和 node03 做为datanode
+# node02 、node03 、node03 做为datanode
 sed -i '/localhost/d' $HADOOP_HOME/etc/hadoop/workers
 
 cat > $HADOOP_HOME/etc/hadoop/workers << EOF
