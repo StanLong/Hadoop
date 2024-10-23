@@ -547,6 +547,16 @@ EOF
     
     <!-- ################################### 以上配置可以完整的跑一个hadoop3.X 自带的 wordcount 程序 ################################### -->
 
+    <!-- 关闭yarn对物理内存和虚拟内存的限制检查 -->
+    <property>
+        <name>yarn.nodemanager.pmem-check-enabled</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>yarn.nodemanager.vmem-check-enabled</name>
+        <value>false</value>
+    </property>
+
 </configuration>
 ```
 
