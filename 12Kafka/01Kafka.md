@@ -1,16 +1,16 @@
 # Kafka
 
-## 定义
+## 一、定义
 
 Kafka 是一个分布式的基于发布/订阅模式的**消息队列**，主要应用于大数据实时处理领域。实现异步，削峰，解耦的功能
 
-## 架构
+## 二、架构
 
 ![](./doc/01.png)
 
 ![](./doc/02.png)
 
-## 组件
+## 三、组件
 
 - **Producer** 
 
@@ -52,149 +52,39 @@ Kafka 是一个分布式的基于发布/订阅模式的**消息队列**，主要
 
   Follower跟随Leader，所有写请求都通过Leader路由，数据变更会广播给所有Follower，Follower与Leader保持数据同步。如果Leader失效，则从Follower中选举出一个新的Leader。当Follower与Leader挂掉、卡住或者同步太慢，leader会把这个follower从“in sync replicas”（ISR）列表中删除，重新创建一个Follower
 
-## 节点规划
+## 四、节点规划
 
-2.13是scala的版本号，2.5.0是kafka的版本号
+2.13是scala的版本号，3.8.0是kafka的版本号
 
-| kafka_2.13-2.5.0 | node01 | node02 | node03 |
+| kafka_2.13-3.8.0 | node01 | node02 | node03 |
 | ---------------- | ------ | ------ | ------ |
 | kafka            | kafka  | kafka  | kafka  |
 
-## 安装
+## 五、安装
+
+### 1、解压
 
 ```shell
-[root@node01 ~]# tar -zxf kafka_2.13-2.5.0.tgz -C /opt/stanlong/kafka/
-[root@node01 kafka]# cd /opt/stanlong/kafka/
-[root@node01 kafka]# mv kafka_2.13-2.5.0/ kafka
-[root@node01 kafka]# ll
-total 0
-drwxr-xr-x 6 root root 89 Apr  8  2020 kafka
+[root@node01 ~]# tar -zxf kafka_2.13-3.8.0.tgz -C /opt/stanlong/kafka/
 ```
 
-## 修改配置文件
+### 2、修改配置文件
 
 ```shell
-[root@node01 config]# pwd
-/opt/stanlong/kafka/kafka/config
-[root@node01 config]# vi server.properties
+[root@node01 config]# vi /opt/stanlong/kafka/kafka/config/server.properties
 ```
 
 ```properties
-# Licensed to the Apache Software Foundation (ASF) under one or more
-# contributor license agreements.  See the NOTICE file distributed with
-# this work for additional information regarding copyright ownership.
-# The ASF licenses this file to You under the Apache License, Version 2.0
-# (the "License"); you may not use this file except in compliance with
-# the License.  You may obtain a copy of the License at
-#
-#    http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-# see kafka.server.KafkaConfig for additional details and defaults
-
+# 配置文件主要更改三个地方，其他不改动的地方略过
 ############################# Server Basics #############################
 
 # The id of the broker. This must be set to a unique integer for each broker.
 broker.id=1
-advertised.host.name=node01
-############################# Socket Server Settings #############################
-
-# The address the socket server listens on. It will get the value returned from 
-# java.net.InetAddress.getCanonicalHostName() if not configured.
-#   FORMAT:
-#     listeners = listener_name://host_name:port
-#   EXAMPLE:
-#     listeners = PLAINTEXT://your.host.name:9092
-# 主机名为0.0.0.0表示绑定所有的网卡
-listeners=PLAINTEXT://0.0.0.0:9092
-
-# Hostname and port the broker will advertise to producers and consumers. If not set, 
-# it uses the value for "listeners" if configured.  Otherwise, it will use the value
-# returned from java.net.InetAddress.getCanonicalHostName().
-advertised.listeners=PLAINTEXT://node01:9092
-
-# Maps listener names to security protocols, the default is for them to be the same. See the config documentation for more details
-#listener.security.protocol.map=PLAINTEXT:PLAINTEXT,SSL:SSL,SASL_PLAINTEXT:SASL_PLAINTEXT,SASL_SSL:SASL_SSL
-
-# The number of threads that the server uses for receiving requests from the network and sending responses to the network
-num.network.threads=3
-
-# The number of threads that the server uses for processing requests, which may include disk I/O
-num.io.threads=8
-
-# The send buffer (SO_SNDBUF) used by the socket server
-socket.send.buffer.bytes=102400
-
-# The receive buffer (SO_RCVBUF) used by the socket server
-socket.receive.buffer.bytes=102400
-
-# The maximum size of a request that the socket server will accept (protection against OOM)
-socket.request.max.bytes=104857600
-
 
 ############################# Log Basics #############################
 
 # A comma separated list of directories under which to store log files
 log.dirs=/var/data/kafka
-
-# The default number of log partitions per topic. More partitions allow greater
-# parallelism for consumption, but this will also result in more files across
-# the brokers.
-num.partitions=1
-
-# The number of threads per data directory to be used for log recovery at startup and flushing at shutdown.
-# This value is recommended to be increased for installations with data dirs located in RAID array.
-num.recovery.threads.per.data.dir=1
-
-############################# Internal Topic Settings  #############################
-# The replication factor for the group metadata internal topics "__consumer_offsets" and "__transaction_state"
-# For anything other than development testing, a value greater than 1 is recommended to ensure availability such as 3.
-offsets.topic.replication.factor=1
-transaction.state.log.replication.factor=1
-transaction.state.log.min.isr=1
-
-############################# Log Flush Policy #############################
-
-# Messages are immediately written to the filesystem but by default we only fsync() to sync
-# the OS cache lazily. The following configurations control the flush of data to disk.
-# There are a few important trade-offs here:
-#    1. Durability: Unflushed data may be lost if you are not using replication.
-#    2. Latency: Very large flush intervals may lead to latency spikes when the flush does occur as there will be a lot of data to flush.
-#    3. Throughput: The flush is generally the most expensive operation, and a small flush interval may lead to excessive seeks.
-# The settings below allow one to configure the flush policy to flush data after a period of time or
-# every N messages (or both). This can be done globally and overridden on a per-topic basis.
-
-# The number of messages to accept before forcing a flush of data to disk
-#log.flush.interval.messages=10000
-
-# The maximum amount of time a message can sit in a log before we force a flush
-#log.flush.interval.ms=1000
-
-############################# Log Retention Policy #############################
-
-# The following configurations control the disposal of log segments. The policy can
-# be set to delete segments after a period of time, or after a given size has accumulated.
-# A segment will be deleted whenever *either* of these criteria are met. Deletion always happens
-# from the end of the log.
-
-# The minimum age of a log file to be eligible for deletion due to age
-log.retention.hours=168
-
-# A size-based retention policy for logs. Segments are pruned from the log unless the remaining
-# segments drop below log.retention.bytes. Functions independently of log.retention.hours.
-#log.retention.bytes=1073741824
-
-# The maximum size of a log segment file. When this size is reached a new log segment will be created.
-log.segment.bytes=1073741824
-
-# The interval at which log segments are checked to see if they can be deleted according
-# to the retention policies
-log.retention.check.interval.ms=300000
 
 ############################# Zookeeper #############################
 
@@ -203,24 +93,10 @@ log.retention.check.interval.ms=300000
 # server. e.g. "127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002".
 # You can also append an optional chroot string to the urls to specify the
 # root directory for all kafka znodes.
-zookeeper.connect=node01:2181,node02:2181,node03:2181
-
-# Timeout in ms for connecting to zookeeper
-zookeeper.connection.timeout.ms=18000
-
-
-############################# Group Coordinator Settings #############################
-
-# The following configuration specifies the time, in milliseconds, that the GroupCoordinator will delay the initial consumer rebalance.
-# The rebalance will be further delayed by the value of group.initial.rebalance.delay.ms as new members join the group, up to a maximum of max.poll.interval.ms.
-# The default value for this is 3 seconds.
-# We override this to 0 here as it makes for a better out-of-the-box experience for development and testing.
-# However, in production environments the default value of 3 seconds is more suitable as this will help to avoid unnecessary, and potentially expensive, rebalances during application startup.
-group.initial.rebalance.delay.ms=0
-delete.topic.enable=true
+zookeeper.connect=node01:9092,node02:9092,node03:9092
 ```
 
-## 分发kafka
+### 3、分发kafka
 
 ```shell
 [root@node01 kafka]# pwd
@@ -230,11 +106,11 @@ delete.topic.enable=true
 
 分发完成后到`node02，node03`上去，改 `server.properties` 里`broker.id`的值分别为` 2，3`
 
-## 启动kafka
+### 4、启动kafka
 
 kafka依赖zookeeper，需要先启动 zookeeper.  参考 27自定义集群脚本/启动Hadoop-HA.md
 
-**kafka 群启脚本**
+**kafka 启动脚本**
 
 ```shell
 [root@node01 appmain]# pwd
@@ -244,20 +120,19 @@ kafka依赖zookeeper，需要先启动 zookeeper.  参考 27自定义集群脚�
 
 ```shell
 #!/bin/bash
-# 注意=左右不要有空格
 KAFKA_HOME="/opt/stanlong/kafka/kafka"
 case $1 in
 "start"){
-	for i in node01 node02 node03 node04
+	for i in node{01..03}
 	do
-		echo "***********$i***********"
+		echo "***********启动 $i Kafka***********"
 		ssh $i "$KAFKA_HOME/bin/kafka-server-start.sh -daemon $KAFKA_HOME/config/server.properties"
 	done
 };;
 "stop"){
-	for i in node01 node02 node03 node04
+	for i in node{01..03}
 	do
-		echo "***********$i***********"
+		echo "***********停止 $i Kafka***********"
 		ssh $i "$KAFKA_HOME/bin/kafka-server-stop.sh"
 	done
 };;
@@ -273,7 +148,6 @@ esac
  --------启动 node01 Kafka-------
  --------启动 node02 Kafka-------
  --------启动 node03 Kafka-------
- --------启动 node04 Kafka-------
 # 启动成功后，各节点可以查看到Kafka的进程
 [root@node01 myshell]# ./cluster-jps.sh 
 --------- node01 ----------
@@ -282,43 +156,38 @@ esac
 5924 Kafka
 --------- node03 ----------
 6075 Kafka
---------- node04 ----------
-6693 Kafka
 ```
 
-## 常用命令
+## 六、常用命令
+
+### 1、创建topic
 
 ```shell
-[root@node01 kafka]# pwd
-/opt/stanlong/kafka/kafka
-```
-
-### 创建topic
-
-```shell
-[root@node01 kafka]# bin/kafka-topics.sh --zookeeper node02:2181 --create --replication-factor 3 --partitions 1 --topic first-topic
+[root@node01 kafka]# bin/kafka-topics.sh --bootstrap-server node02:9092 --create --replication-factor 3 --partitions 1 --topic first-topic
 Created topic first-topic.
+
+# --replication-factor 3 注意副本的数量不能超过 borker 节点的数量
 ```
 
-### 查看 topic列表
+### 2、查看 topic列表
 
 ```shell
-[root@node01 kafka]# bin/kafka-topics.sh --zookeeper node02:2181 --list
+[root@node01 kafka]# bin/kafka-topics.sh --bootstrap-server node02:9092 --list
 first
 first-topic
 [root@node01 kafka]# 
 ```
 
-### 查看 Topic 详情
+### 3、查看 Topic 详情
 
 ```shell
-[root@node01 kafka]# bin/kafka-topics.sh --zookeeper node02:2181 --describe --topic first-topic
+[root@node01 kafka]# bin/kafka-topics.sh --bootstrap-server node02:9092 --describe --topic first-topic
 Topic: first-topic	PartitionCount: 1	ReplicationFactor: 3	Configs: 
 	Topic: first-topic	Partition: 0	Leader: 2	Replicas: 2,1,3	Isr: 2,1,3
 [root@node01 kafka]# 
 ```
 
-### 生产者发送消息
+### 4、生产者发送消息
 
 ```shell
 [root@node01 kafka]# bin/kafka-console-producer.sh --broker-list node02:9092 --topic first-topic
@@ -326,7 +195,7 @@ Topic: first-topic	PartitionCount: 1	ReplicationFactor: 3	Configs:
 >
 ```
 
-### 消费者消费消息
+### 5、消费者消费消息
 
 ```shell
 [root@node02 kafka]# bin/kafka-console-consumer.sh --bootstrap-server node02:9092 --from-beginning --topic first-topic
@@ -335,29 +204,27 @@ Hello
 --from-beginning: 会把topic里以往的数据都读出来
 ```
 
-### topic新增分区
+### 6、topic新增分区
 
 注意，topic分区只能新增，不能减少
 
 ```shell
-[root@node01 kafka]# bin/kafka-topics.sh --zookeeper node02:2181 --alter --partitions 2 --topic first-topic
+[root@node01 kafka]# bin/kafka-topics.sh --bootstrap-server node02:9092 --alter --partitions 2 --topic first-topic
 WARNING: If partitions are increased for a topic that has a key, the partition logic or ordering of the messages will be affected
 Adding partitions succeeded!
 
-[root@node01 kafka]#  bin/kafka-topics.sh --zookeeper node02:2181 --describe --topic first-topic
+[root@node01 kafka]#  bin/kafka-topics.sh --bootstrap-server node02:9092 --describe --topic first-topic
 Topic: first-topic	PartitionCount: 2	ReplicationFactor: 3	Configs: 
 	Topic: first-topic	Partition: 0	Leader: 2	Replicas: 2,1,3	Isr: 2,1,3
 	Topic: first-topic	Partition: 1	Leader: 3	Replicas: 3,1,2	Isr: 3,1,2
 ```
 
-**ISR**
+ISR说明：Leader维护了一个动态的 in-sync replica set(ISR)，意为和leader保持同步的follower集合。当ISR中的follower完成数据同步之后，leader就会给follower发送ack。如果follower长时间未向leader同步数据，则该follower将被踢出ISR。该时间阈值有replica.lag.time.max.ms参数设定。leader发生故障之后，就会从ISR中选举出新的leader
 
-Leader维护了一个动态的 in-sync replica set(ISR)，意为和leader保持同步的follower集合。当ISR中的follower完成数据同步之后，leader就会给follower发送ack。如果follower长时间未向leader同步数据，则该follower将被踢出ISR。该时间阈值有replica.lag.time.max.ms参数设定。leader发生故障之后，就会从ISR中选举出新的leader
-
-### 删除topic
+### 7、删除topic
 
 ```shell
-[root@node01 kafka]# bin/kafka-topics.sh --zookeeper node02:2181 --delete --topic first-topic
+[root@node01 kafka]# bin/kafka-topics.sh --bootstrap-server node02:9092 --delete --topic first-topic
 Topic first is marked for deletion.
 Note: This will have no impact if delete.topic.enable is not set to true.
 [root@node01 kafka]# 
