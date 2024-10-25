@@ -556,6 +556,24 @@ EOF
         <name>yarn.nodemanager.vmem-check-enabled</name>
         <value>false</value>
     </property>
+    
+    <!-- 开启日志聚集功能 -->
+    <property>
+        <name>yarn.log-aggregation-enable</name>
+        <value>true</value>
+    </property>
+    
+    <!-- 设置日志聚集服务器地址 -->
+    <property>  
+        <name>yarn.log.server.url</name>  
+        <value>http://node01:19888/jobhistory/logs</value>
+    </property>
+    
+    <!-- 设置日志保留时间为7天 -->
+    <property>
+        <name>yarn.log-aggregation.retain-seconds</name>
+        <value>604800</value>
+    </property>
 
 </configuration>
 ```

@@ -1,48 +1,47 @@
 # Flume
 
-## 定义
+## 一、定义
 
 Flume是Cloudera提供的一个高可用的，高可靠的，分布式的海量日志采集、聚合和传输的系统。Flume基于流式架构，灵活简单
 
-## 架构图
+## 二、架构图
 
 ![](./doc/01.png)
 
-## 组件
+## 三、组件
 
-### Agent
+- Agent
 
-Agent是一个JVM进程，它以事件的形式将数据从源头送至目的，是Flume数据传输的基本单元。
+  Agent是一个JVM进程，它以事件的形式将数据从源头送至目的，是Flume数据传输的基本单元。
 
-Agent主要有3个部分组成，Source、Channel、Sink。
+  Agent主要有3个部分组成，Source、Channel、Sink。
 
-#### Source
+- Source
 
-Source是负责接收数据到Flume Agent的组件。Source组件可以处理各种类型、各种格式的日志数据，包括avro、thrift、exec、jms、spooling directory、netcat、sequence generator、syslog、http、legacy。
+  Source是负责接收数据到Flume Agent的组件。Source组件可以处理各种类型、各种格式的日志数据，包括avro、thrift、exec、jms、spooling directory、netcat、sequence generator、syslog、http、legacy。
 
-#### Channel
+- Channel
 
-Channel是位于Source和Sink之间的缓冲区。因此，Channel允许Source和Sink运作在不同的速率上。Channel是线程安全的，可以同时处理几个Source的写入操作和几个Sink的读取操作。
+  Channel是位于Source和Sink之间的缓冲区。因此，Channel允许Source和Sink运作在不同的速率上。Channel是线程安全的，可以同时处理几个Source的写入操作和几个Sink的读取操作。
 
-Flume自带两种Channel：Memory Channel和File Channel。
+  Flume自带两种Channel：Memory Channel和File Channel。
 
-Memory Channel是内存中的队列。Memory Channel在不需要关心数据丢失的情景下适用。如果需要关心数据丢失，那么Memory Channel就不应该使用，因为程序死亡、机器宕机或者重启都会导致数据丢失。
+  - Memory Channel是内存中的队列。Memory Channel在不需要关心数据丢失的情景下适用。如果需要关心数据丢失，那么Memory Channel就不应该使用，因为程序死亡、机器宕机或者重启都会导致数据丢失。
+  - File Channel将所有事件写到磁盘。因此在程序关闭或机器宕机的情况下不会丢失数据。
 
-File Channel将所有事件写到磁盘。因此在程序关闭或机器宕机的情况下不会丢失数据。
+- Sink
 
-#### Sink
+  Sink不断地轮询Channel中的事件且批量地移除它们，并将这些事件批量写入到存储或索引系统、或者被发送到另一个Flume Agent。
 
-Sink不断地轮询Channel中的事件且批量地移除它们，并将这些事件批量写入到存储或索引系统、或者被发送到另一个Flume Agent。
+  Sink是完全事务性的。在从Channel批量删除数据之前，每个Sink用Channel启动一个事务。批量事件一旦成功写出到存储系统或下一个Flume Agent，Sink就利用Channel提交事务。事务一旦被提交，该Channel从自己的内部缓冲区删除事件。
 
-Sink是完全事务性的。在从Channel批量删除数据之前，每个Sink用Channel启动一个事务。批量事件一旦成功写出到存储系统或下一个Flume Agent，Sink就利用Channel提交事务。事务一旦被提交，该Channel从自己的内部缓冲区删除事件。
+  Sink组件目的地包括hdfs、logger、avro、thrift、ipc、file、null、HBase、solr、自定义。
 
-Sink组件目的地包括hdfs、logger、avro、thrift、ipc、file、null、HBase、solr、自定义。
+- Event
 
-### Event
+  传输单元，Flume数据传输的基本单元，以事件的形式将数据从源头送至目的地
 
-传输单元，Flume数据传输的基本单元，以事件的形式将数据从源头送至目的地
-
-## 拓扑结构
+## 四、拓扑结构
 
 ![](./doc/02.png)
 
@@ -52,66 +51,36 @@ Sink组件目的地包括hdfs、logger、avro、thrift、ipc、file、null、HBa
 
 ![](./doc/05.png)
 
-## 节点规划
+## 五、节点规划
 
 | flume-1.9.0 | node01     | node02     |
 | ----------- | ---------- | ---------- |
 | flume 采集  | flume 采集 |            |
 | flume消费   |            | flume 消费 |
 
-## 安装
+## 六、安装
+
+### 1、解压
 
 ```shell
 [root@node01 ~]# tar -zxf apache-flume-1.9.0-bin.tar.gz -C /opt/stanlong/flume/
+
+# 如果hadoop是 3.x 版本的，那需要删除flume lib包下的 guava-11.0.2.jar ，避免冲突
 ```
 
-## 修改配置文件
+### 2、修改配置文件
 
 ```shell
 [root@node01 conf]# pwd
 /opt/stanlong/flume/apache-flume-1.9.0-bin/conf
 [root@node01 conf]# cp flume-env.sh.template flume-env.sh
+
+# 配置Java环境
 [root@node01 conf]# vi flume-env.sh
 export JAVA_HOME=/usr/java/jdk1.8.0_65
 ```
 
-```sh
-# Licensed to the Apache Software Foundation (ASF) under one
-# or more contributor license agreements.  See the NOTICE file
-# distributed with this work for additional information
-# regarding copyright ownership.  The ASF licenses this file
-# to you under the Apache License, Version 2.0 (the
-# "License"); you may not use this file except in compliance
-# with the License.  You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-# If this file is placed at FLUME_CONF_DIR/flume-env.sh, it will be sourced
-# during Flume startup.
-
-# Enviroment variables can be set here.
-
-export JAVA_HOME=/usr/java/jdk1.8.0_65
-
-# Give Flume more memory and pre-allocate, enable remote monitoring via JMX
-# export JAVA_OPTS="-Xms100m -Xmx2000m -Dcom.sun.management.jmxremote"
-
-# Let Flume write raw event data and configuration information to its log files for debugging
-# purposes. Enabling these flags is not recommended in production,
-# as it may result in logging sensitive user information or encryption secrets.
-# export JAVA_OPTS="$JAVA_OPTS -Dorg.apache.flume.log.rawdata=true -Dorg.apache.flume.log.printconfig=true "
-
-# Note that the Flume conf directory is always included in the classpath.
-#FLUME_CLASSPATH=""
-```
-
-## 分发flume到其他节点
+### 3、分发
 
 分发脚本参考 25自定义集群脚本/分发脚本.md
 
@@ -119,7 +88,7 @@ export JAVA_HOME=/usr/java/jdk1.8.0_65
 [root@node01 flume]# ~/myshell/rsyncd.sh apache-flume-1.9.0-bin/
 ```
 
-## 官方案例-监控端口
+## 七、官方案例-监控端口
 
 - 案例需求：
 
@@ -222,7 +191,7 @@ export JAVA_HOME=/usr/java/jdk1.8.0_65
   Event: { headers:{} body: 48 65 6C 6C 6F 20 46 6C 75 6D 65                Hello Flume }
   ```
 
-## flume对接kafka
+## 八、flume对接kafka
 
 **Channel** 采用Kafka Channel，省去了Sink，提高了效率。
 
@@ -242,13 +211,11 @@ a1.sources.r1.interval = 1000
 a1.sources.r1.charset = UTF-8
 
 
-
 #具体定义channel
 a1.channels.c1.type = org.apache.flume.channel.kafka.KafkaChannel
-a1.channels.c1.kafka.bootstrap.servers = node01:9092,node02:9092,node03:9092:node04:9092
+a1.channels.c1.kafka.bootstrap.servers = node01:9092,node02:9092,node03:9092
 a1.channels.c1.kafka.topic=topic-event
 a1.channels.c1.parseAsFlumeEvent=false
-# a1.channels.c1.kafka.consumer.group.id = flume-consumer
 
 
 #组装source、channel

@@ -4,6 +4,10 @@
 
 ```shell
 #!/bin/bash
+if [ $# -lt 1 ];then
+    echo "Please input Operation: start or stop"
+fi
+
 start() { 
     #启动hadoop ha集群
     echo "----------------启动zk集群------------------"
