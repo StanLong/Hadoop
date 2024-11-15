@@ -25,7 +25,7 @@ public class TimestampAndTableNameInterceptor implements Interceptor {
         String table = jsonObject.getString("table");
         String ts = jsonObject.getString("ts");
 
-        headers.put("taleName", table);
+        headers.put("tableName", table);
         headers.put("timestamp", ts + "000");
         return event;
     }
