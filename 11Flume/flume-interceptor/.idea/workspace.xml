@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="34894129-e6fd-4fb1-9181-3c6daa8c220a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gmall/flume/interceptor/TimestampAndTableNameInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gmall/flume/interceptor/TimestampAndTableNameInterceptor.java" afterDir="false" />
-    </list>
+    <list default="true" id="34894129-e6fd-4fb1-9181-3c6daa8c220a" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -79,6 +77,7 @@
       <workItem from="1729667370668" duration="2810000" />
       <workItem from="1729735976590" duration="3869000" />
       <workItem from="1729836441026" duration="1414000" />
+      <workItem from="1731736253988" duration="284000" />
     </task>
     <servers />
   </component>
