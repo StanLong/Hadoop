@@ -11,3 +11,10 @@ v.
 
 
 
+DBMS :  列式存储数据库
+
+OLAP :   在线分析处理查询
+
+*QPS* = req/sec = 请求数/秒，即每秒的响应请求数，即每秒查询率
+
+index  granularity(索引粒度)

@@ -140,7 +140,7 @@ FROM format(JSONEachRow, '{"common":{"ar":"230000","ba":"iPhone","ch":"Appstore"
 
 
 
-SHOW CREATE TABLE user_log
+SHOW CREATE TABLE user_log;
 ```
 
 
