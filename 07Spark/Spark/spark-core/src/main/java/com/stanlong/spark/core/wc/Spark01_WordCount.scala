@@ -10,7 +10,7 @@ object Spark01_WordCount {
         val sc = new SparkContext(sparkConf)
 
         // 执行业务操作
-        val lines = sc.textFile("datas/*") // 读取文件
+        val lines = sc.textFile("datas/1.txt") // 读取文件
         val words = lines.flatMap(_.split(" ")) // 获取一行一行的数据,扁平化操作：将数据按空格隔开
         val wordGroup = words.groupBy(word => word) // 根据单词进行分组， 便于统计
         val wordToCount = wordGroup.map{ // 对分组后的数据进行转换

@@ -5,8 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4be87b42-cab4-4375-9dbc-6a59daf8708d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../../08clickhouse/kafka数据到clickhouse.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../08clickhouse/kafka数据到clickhouse.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../08clickhouse/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../08clickhouse/readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../07Spark/Spark/spark-core/src/main/java/com/stanlong/spark/core/wc/Spark01_WordCount.scala" beforeDir="false" afterPath="$PROJECT_DIR$/../../07Spark/Spark/spark-core/src/main/java/com/stanlong/spark/core/wc/Spark01_WordCount.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,6 +61,15 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RunManager">
+    <configuration name="KafkaDemoApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="Kafka-Java" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.stanlong.KafkaDemoApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -79,6 +88,7 @@
       <updated>1726136959099</updated>
       <workItem from="1733054429706" duration="4428000" />
       <workItem from="1733191459688" duration="7000" />
+      <workItem from="1733449004116" duration="64000" />
     </task>
     <servers />
   </component>
