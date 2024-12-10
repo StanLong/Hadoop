@@ -1,3 +1,5 @@
+server:
+  port: 8070
 spring:
   kafka:
     bootstrap-servers: node02:9092
@@ -37,5 +39,3 @@ spring:
       missing-topics-fatal: false
   profiles:
     active: dev
-server:
-  port: 8070

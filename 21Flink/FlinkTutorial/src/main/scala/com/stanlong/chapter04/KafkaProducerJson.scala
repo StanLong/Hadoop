@@ -34,7 +34,6 @@ object KafkaProducerJson {
             map.put("item",shuffle(goods.toList).head)
             map.put("action",shuffle(action.toList).head)
             map.put("times",ts)
-            println(map)
 
             // 参考地址：https://blog.csdn.net/OldDirverHelpMe/article/details/103713625
             val jsons = JSON.toJSONString(JavaConverters.mapAsJavaMapConverter(map).asJava,new Array[SerializeFilter](0))

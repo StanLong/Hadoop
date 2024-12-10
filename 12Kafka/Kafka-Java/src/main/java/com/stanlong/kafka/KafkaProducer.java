@@ -16,7 +16,9 @@ public class KafkaProducer {
     private KafkaTemplate<String, Object> kafkaTemplate;
 
     //自定义topic
-    public static final String TOPIC_TEST = "topic.test";
+    public static final String TOPIC_TEST = "test";
+
+    public static final String TOPIC_GROUP1 = "group10";
 
 
     public void send(Object obj) {

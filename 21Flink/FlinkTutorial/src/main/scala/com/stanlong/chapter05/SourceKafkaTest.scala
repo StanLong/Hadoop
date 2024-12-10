@@ -29,15 +29,7 @@ object SourceKafkaTest {
                 .sum(1)    // 对分组后的数据的第二个字段进行累加
         reslut.print() */
 
-        // flink kafka json
-        val eventJsonStream = kafkaStream.map(
-            mapJson => {
-                val user = JSON.parseObject(mapJson).getString("user")
-                val url = JSON.parseObject(mapJson).getString("url")
-                val timestamp = JSON.parseObject(mapJson).getLong("timestamp");
-            }
-        ).map(data => (data, 1))
-        eventJsonStream.print()
+
 
         env.execute()
     }

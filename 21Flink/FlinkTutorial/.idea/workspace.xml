@@ -5,8 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1c1294ed-1860-4b57-8a9f-a52709c7377f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../../07Spark/Spark/spark-core/src/main/java/com/stanlong/spark/core/wc/Spark01_WordCount.scala" beforeDir="false" afterPath="$PROJECT_DIR$/../../07Spark/Spark/spark-core/src/main/java/com/stanlong/spark/core/wc/Spark01_WordCount.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../12Kafka/Kafka-Java/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../12Kafka/Kafka-Java/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../12Kafka/Kafka-Java/src/main/java/com/stanlong/controller/KafkaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../12Kafka/Kafka-Java/src/main/java/com/stanlong/controller/KafkaController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../12Kafka/Kafka-Java/src/main/java/com/stanlong/kafka/KafkaConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../12Kafka/Kafka-Java/src/main/java/com/stanlong/kafka/KafkaConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../12Kafka/Kafka-Java/src/main/java/com/stanlong/kafka/KafkaProducer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../12Kafka/Kafka-Java/src/main/java/com/stanlong/kafka/KafkaProducer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../12Kafka/Kafka-Java/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../12Kafka/Kafka-Java/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter04/KafkaProducerJson.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter04/KafkaProducerJson.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter05/SourceKafkaTest.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter05/SourceKafkaTest.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../flink对接kafka消费者.md" beforeDir="false" afterPath="$PROJECT_DIR$/../flink对接kafka消费者.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../flink对接kafka生产者.md" beforeDir="false" afterPath="$PROJECT_DIR$/../flink对接kafka生产者.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +59,11 @@
     "Application.BatchWordCount.executor": "Run",
     "Application.BoundedStreamWordCount.executor": "Run",
     "Application.BoundedStreamWordCount02.executor": "Run",
+    "Application.KafkaConsumerJson.executor": "Run",
     "Application.KafkaProducerJson.executor": "Run",
+    "Application.RebalanceTest.executor": "Run",
+    "Application.RescaleExample.executor": "Run",
+    "Application.ShuffleTest.executor": "Run",
     "Application.SourceCustom.executor": "Run",
     "Application.SourceKafkaTest.executor": "Run",
     "Application.Test.executor": "Run",
@@ -80,7 +91,20 @@
       <recent name="com.stanlong.chapter02" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.KafkaProducerJson">
+  <component name="RunManager" selected="Application.RebalanceTest">
+    <configuration name="KafkaConsumerJson" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter04.KafkaConsumerJson" />
+      <module name="FlinkTutorial" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.stanlong.chapter04.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="KafkaProducerJson" type="Application" factoryName="Application" temporary="true">
       <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter04.KafkaProducerJson" />
       <module name="FlinkTutorial" />
@@ -94,8 +118,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SourceCustom" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter05.SourceCustom" />
+    <configuration name="RebalanceTest" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter05.RebalanceTest" />
       <module name="FlinkTutorial" />
       <extension name="coverage">
         <pattern>
@@ -107,8 +131,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SourceKafkaTest" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter05.SourceKafkaTest" />
+    <configuration name="RescaleExample" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter05.RescaleExample" />
       <module name="FlinkTutorial" />
       <extension name="coverage">
         <pattern>
@@ -120,21 +144,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.stanlong.datasource.Test" />
-      <module name="FlinkTutorial" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.stanlong.datasource.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TransKeyBy" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter05.TransKeyBy" />
+    <configuration name="ShuffleTest" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter05.ShuffleTest" />
       <module name="FlinkTutorial" />
       <extension name="coverage">
         <pattern>
@@ -148,11 +159,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.RebalanceTest" />
+        <item itemvalue="Application.ShuffleTest" />
+        <item itemvalue="Application.RescaleExample" />
         <item itemvalue="Application.KafkaProducerJson" />
-        <item itemvalue="Application.SourceKafkaTest" />
-        <item itemvalue="Application.Test" />
-        <item itemvalue="Application.SourceCustom" />
-        <item itemvalue="Application.TransKeyBy" />
+        <item itemvalue="Application.KafkaConsumerJson" />
       </list>
     </recent_temporary>
   </component>
@@ -180,7 +191,11 @@
       <workItem from="1733280145415" duration="18000" />
       <workItem from="1733280202463" duration="4738000" />
       <workItem from="1733296105476" duration="18758000" />
-      <workItem from="1733449072267" duration="8366000" />
+      <workItem from="1733449072267" duration="9950000" />
+      <workItem from="1733464917526" duration="52000" />
+      <workItem from="1733465433440" duration="24000" />
+      <workItem from="1733476852104" duration="40000" />
+      <workItem from="1733740759972" duration="5239000" />
     </task>
     <servers />
   </component>

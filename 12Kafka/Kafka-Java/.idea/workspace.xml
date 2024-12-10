@@ -5,8 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4be87b42-cab4-4375-9dbc-6a59daf8708d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../../07Spark/Spark/spark-core/src/main/java/com/stanlong/spark/core/wc/Spark01_WordCount.scala" beforeDir="false" afterPath="$PROJECT_DIR$/../../07Spark/Spark/spark-core/src/main/java/com/stanlong/spark/core/wc/Spark01_WordCount.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/stanlong/controller/KafkaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stanlong/controller/KafkaController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/stanlong/kafka/KafkaConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stanlong/kafka/KafkaConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/stanlong/kafka/KafkaProducer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stanlong/kafka/KafkaProducer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../21Flink/FlinkTutorial/src/main/scala/com/stanlong/chapter04/KafkaProducerJson.scala" beforeDir="false" afterPath="$PROJECT_DIR$/../../21Flink/FlinkTutorial/src/main/scala/com/stanlong/chapter04/KafkaProducerJson.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../21Flink/FlinkTutorial/src/main/scala/com/stanlong/chapter05/SourceKafkaTest.scala" beforeDir="false" afterPath="$PROJECT_DIR$/../../21Flink/FlinkTutorial/src/main/scala/com/stanlong/chapter05/SourceKafkaTest.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../21Flink/flink对接kafka消费者.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../21Flink/flink对接kafka消费者.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../21Flink/flink对接kafka生产者.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../21Flink/flink对接kafka生产者.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,7 +56,13 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;JUnit.TestKafkaJson.testKafkaProducer.executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Spring Boot.KafkaDemoApplication.executor&quot;: &quot;Run&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -61,7 +74,23 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.TestKafkaJson.testKafkaProducer">
+    <configuration name="TestKafkaJson.testKafkaProducer" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Kafka-Java" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.stanlong.kafka.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.stanlong.kafka" />
+      <option name="MAIN_CLASS_NAME" value="com.stanlong.kafka.TestKafkaJson" />
+      <option name="METHOD_NAME" value="testKafkaProducer" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="KafkaDemoApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="Kafka-Java" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.stanlong.KafkaDemoApplication" />
@@ -69,6 +98,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.TestKafkaJson.testKafkaProducer" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -89,6 +123,13 @@
       <workItem from="1733054429706" duration="4428000" />
       <workItem from="1733191459688" duration="7000" />
       <workItem from="1733449004116" duration="64000" />
+      <workItem from="1733463955285" duration="359000" />
+      <workItem from="1733464355993" duration="37000" />
+      <workItem from="1733464421584" duration="493000" />
+      <workItem from="1733464971574" duration="459000" />
+      <workItem from="1733465460237" duration="1482000" />
+      <workItem from="1733476894206" duration="1674000" />
+      <workItem from="1733740702971" duration="42000" />
     </task>
     <servers />
   </component>

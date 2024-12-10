@@ -1,6 +1,3 @@
-# flink_kafka消费者_json
-
-```scala
 package com.stanlong.chapter04
 
 import com.alibaba.fastjson.JSON
@@ -44,5 +41,3 @@ object KafkaConsumerJson {
         env.execute()
     }
 }
-```
-
