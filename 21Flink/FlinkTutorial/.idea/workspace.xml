@@ -5,15 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1c1294ed-1860-4b57-8a9f-a52709c7377f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../../12Kafka/Kafka-Java/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../12Kafka/Kafka-Java/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../12Kafka/Kafka-Java/src/main/java/com/stanlong/controller/KafkaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../12Kafka/Kafka-Java/src/main/java/com/stanlong/controller/KafkaController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../12Kafka/Kafka-Java/src/main/java/com/stanlong/kafka/KafkaConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../12Kafka/Kafka-Java/src/main/java/com/stanlong/kafka/KafkaConsumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../12Kafka/Kafka-Java/src/main/java/com/stanlong/kafka/KafkaProducer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../12Kafka/Kafka-Java/src/main/java/com/stanlong/kafka/KafkaProducer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../12Kafka/Kafka-Java/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../12Kafka/Kafka-Java/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter04/KafkaProducerJson.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter04/KafkaProducerJson.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter05/SourceKafkaTest.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter05/SourceKafkaTest.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../flink对接kafka消费者.md" beforeDir="false" afterPath="$PROJECT_DIR$/../flink对接kafka消费者.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../flink对接kafka生产者.md" beforeDir="false" afterPath="$PROJECT_DIR$/../flink对接kafka生产者.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,50 +46,53 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.BatchWordCount.executor": "Run",
-    "Application.BoundedStreamWordCount.executor": "Run",
-    "Application.BoundedStreamWordCount02.executor": "Run",
-    "Application.KafkaConsumerJson.executor": "Run",
-    "Application.KafkaProducerJson.executor": "Run",
-    "Application.RebalanceTest.executor": "Run",
-    "Application.RescaleExample.executor": "Run",
-    "Application.ShuffleTest.executor": "Run",
-    "Application.SourceCustom.executor": "Run",
-    "Application.SourceKafkaTest.executor": "Run",
-    "Application.Test.executor": "Run",
-    "Application.TransKeyBy.executor": "Run",
-    "Application.TransReduce.executor": "Run",
-    "Application.TransTupleAggregation.executor": "Run",
-    "Maven.FlinkTutorial [package].executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Global Libraries",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.29770115",
-    "settings.editor.selected.configurable": "MavenSettings",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.BatchWordCount.executor&quot;: &quot;Run&quot;,
+    &quot;Application.BoundedStreamWordCount.executor&quot;: &quot;Run&quot;,
+    &quot;Application.BoundedStreamWordCount02.executor&quot;: &quot;Run&quot;,
+    &quot;Application.BroadcastTest.executor&quot;: &quot;Run&quot;,
+    &quot;Application.KafkaConsumerJson.executor&quot;: &quot;Run&quot;,
+    &quot;Application.KafkaProducerJson.executor&quot;: &quot;Run&quot;,
+    &quot;Application.RebalanceTest.executor&quot;: &quot;Run&quot;,
+    &quot;Application.RescaleExample.executor&quot;: &quot;Run&quot;,
+    &quot;Application.ShuffleTest.executor&quot;: &quot;Run&quot;,
+    &quot;Application.SinkToFileTest.executor&quot;: &quot;Run&quot;,
+    &quot;Application.SourceCustom.executor&quot;: &quot;Run&quot;,
+    &quot;Application.SourceKafkaTest.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Test.executor&quot;: &quot;Run&quot;,
+    &quot;Application.TransCustomPartitioner.executor&quot;: &quot;Run&quot;,
+    &quot;Application.TransKeyBy.executor&quot;: &quot;Run&quot;,
+    &quot;Application.TransReduce.executor&quot;: &quot;Run&quot;,
+    &quot;Application.TransTupleAggregation.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.FlinkTutorial [package].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Global Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.29770115&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.stanlong.chapter02" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.RebalanceTest">
-    <configuration name="KafkaConsumerJson" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter04.KafkaConsumerJson" />
+  <component name="RunManager" selected="Application.BatchWordCount">
+    <configuration name="BatchWordCount" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter02.BatchWordCount" />
       <module name="FlinkTutorial" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.stanlong.chapter04.*" />
+          <option name="PATTERN" value="com.stanlong.chapter02.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -105,12 +100,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="KafkaProducerJson" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter04.KafkaProducerJson" />
+    <configuration name="BroadcastTest" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter05.BroadcastTest" />
       <module name="FlinkTutorial" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.stanlong.chapter04.*" />
+          <option name="PATTERN" value="com.stanlong.chapter05.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -131,8 +126,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="RescaleExample" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter05.RescaleExample" />
+    <configuration name="SinkToFileTest" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter05.SinkToFileTest" />
       <module name="FlinkTutorial" />
       <extension name="coverage">
         <pattern>
@@ -144,8 +139,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ShuffleTest" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter05.ShuffleTest" />
+    <configuration name="TransCustomPartitioner" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter05.TransCustomPartitioner" />
       <module name="FlinkTutorial" />
       <extension name="coverage">
         <pattern>
@@ -159,11 +154,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.BatchWordCount" />
+        <item itemvalue="Application.SinkToFileTest" />
+        <item itemvalue="Application.TransCustomPartitioner" />
+        <item itemvalue="Application.BroadcastTest" />
         <item itemvalue="Application.RebalanceTest" />
-        <item itemvalue="Application.ShuffleTest" />
-        <item itemvalue="Application.RescaleExample" />
-        <item itemvalue="Application.KafkaProducerJson" />
-        <item itemvalue="Application.KafkaConsumerJson" />
       </list>
     </recent_temporary>
   </component>
@@ -196,6 +191,11 @@
       <workItem from="1733465433440" duration="24000" />
       <workItem from="1733476852104" duration="40000" />
       <workItem from="1733740759972" duration="5239000" />
+      <workItem from="1733795864294" duration="4561000" />
+      <workItem from="1734146861967" duration="149000" />
+      <workItem from="1734156151952" duration="610000" />
+      <workItem from="1734193359016" duration="21000" />
+      <workItem from="1734353785027" duration="2687000" />
     </task>
     <servers />
   </component>
