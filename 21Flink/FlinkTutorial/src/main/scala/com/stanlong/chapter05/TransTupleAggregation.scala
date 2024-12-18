@@ -10,7 +10,8 @@ object TransTupleAggregation {
             ("a", 1), ("a", 3), ("b", 10), ("b", 4)
         )
 
-        //stream.keyBy(_._1).sum(1).print() //对元组的索引 1 位置数据求和
+        // 不加引号就是索引 ，加引号就是位置
+        // stream.keyBy(_._1).sum(1).print() //对元组的索引 1 位置数据求和
         // stream.keyBy(_._1).sum("_2").print()  // 对元组的第 2 个位置数据求和
         // stream.keyBy(_._1).max(1).print() // 对元组的索引 1 位置求最大值
         // stream.keyBy(_._1).max("_2").print()   // 对元组的第 2 个位置数据求最大值

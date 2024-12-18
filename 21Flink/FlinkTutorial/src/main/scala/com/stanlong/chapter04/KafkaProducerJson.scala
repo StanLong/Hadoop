@@ -12,7 +12,8 @@ import scala.util.Random.shuffle
 // 参考地址： https://blog.csdn.net/lbship/article/details/109517017
 object KafkaProducerJson {
     def main(args: Array[String]): Unit = {
-        SendtoKafka("test")
+        val topic = "test"
+        SendtoKafka(topic)
     }
 
     private def SendtoKafka(topic: String): Unit = {

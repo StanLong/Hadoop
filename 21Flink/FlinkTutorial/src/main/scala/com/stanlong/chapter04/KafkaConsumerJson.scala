@@ -20,7 +20,8 @@ object KafkaConsumerJson {
         properties.setProperty("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer")
         properties.setProperty("auto.offset.reset", "latest")
         //创建一个 FlinkKafkaConsumer 对象，传入必要参数，从 Kafka 中读取数据
-        val kafkaStream = env.addSource(new FlinkKafkaConsumer[String]("test", new SimpleStringSchema(), properties))
+        val topic = "test"
+        val kafkaStream = env.addSource(new FlinkKafkaConsumer[String](topic, new SimpleStringSchema(), properties))
 
         kafkaStream.print()
 

@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1c1294ed-1860-4b57-8a9f-a52709c7377f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter04/KafkaConsumerJson.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter04/KafkaConsumerJson.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter04/KafkaProducerJson.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter04/KafkaProducerJson.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter05/TransTupleAggregation.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter05/TransTupleAggregation.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +88,7 @@
       <recent name="com.stanlong.chapter02" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.BatchWordCount">
+  <component name="RunManager" selected="Application.TransTupleAggregation">
     <configuration name="BatchWordCount" type="Application" factoryName="Application" temporary="true">
       <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter02.BatchWordCount" />
       <module name="FlinkTutorial" />
@@ -102,19 +104,6 @@
     </configuration>
     <configuration name="BroadcastTest" type="Application" factoryName="Application" temporary="true">
       <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter05.BroadcastTest" />
-      <module name="FlinkTutorial" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.stanlong.chapter05.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="RebalanceTest" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter05.RebalanceTest" />
       <module name="FlinkTutorial" />
       <extension name="coverage">
         <pattern>
@@ -152,13 +141,26 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="TransTupleAggregation" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter05.TransTupleAggregation" />
+      <module name="FlinkTutorial" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.stanlong.chapter05.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.TransTupleAggregation" />
         <item itemvalue="Application.BatchWordCount" />
         <item itemvalue="Application.SinkToFileTest" />
         <item itemvalue="Application.TransCustomPartitioner" />
         <item itemvalue="Application.BroadcastTest" />
-        <item itemvalue="Application.RebalanceTest" />
       </list>
     </recent_temporary>
   </component>
@@ -196,6 +198,8 @@
       <workItem from="1734156151952" duration="610000" />
       <workItem from="1734193359016" duration="21000" />
       <workItem from="1734353785027" duration="2687000" />
+      <workItem from="1734439973245" duration="600000" />
+      <workItem from="1734499409636" duration="2500000" />
     </task>
     <servers />
   </component>
