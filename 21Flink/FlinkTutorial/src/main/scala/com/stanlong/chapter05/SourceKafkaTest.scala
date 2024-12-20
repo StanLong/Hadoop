@@ -18,6 +18,7 @@ object SourceKafkaTest {
         properties.setProperty("value.deserializer",  "org.apache.kafka.common.serialization.StringDeserializer")
         properties.setProperty("auto.offset.reset", "latest")
         //创建一个 FlinkKafkaConsumer 对象，传入必要参数，从 Kafka 中读取数据
+        // ‌SimpleStringSchema是Apache Flink中用于字符串序列化和反序列化的一个简单模式, 它可以将Kafka中的字符串数据直接转换为Flink可以处理的格式
         val kafkaStream = env.addSource(new FlinkKafkaConsumer[String]( "test", new SimpleStringSchema(), properties ))
 
         kafkaStream.print()
