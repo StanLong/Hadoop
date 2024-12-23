@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1c1294ed-1860-4b57-8a9f-a52709c7377f" name="Changes" comment="" />
+    <list default="true" id="1c1294ed-1860-4b57-8a9f-a52709c7377f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter05/TransKeyBy.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter05/TransformKeyBy.scala" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -63,6 +65,9 @@
     "Application.TransKeyBy.executor": "Run",
     "Application.TransReduce.executor": "Run",
     "Application.TransTupleAggregation.executor": "Run",
+    "Application.TransformFilterTest.executor": "Run",
+    "Application.TransformFlatmapTest.executor": "Run",
+    "Application.TransformKeyBy.executor": "Run",
     "Application.TransformMapTest.executor": "Run",
     "Maven.FlinkTutorial [package].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -85,48 +90,48 @@
       <recent name="com.stanlong.chapter02" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.TransformMapTest">
-    <configuration name="BatchWordCount" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter02.BatchWordCount" />
-      <module name="FlinkTutorial" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.stanlong.chapter02.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="SinkToFileTest" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter05.SinkToFileTest" />
-      <module name="FlinkTutorial" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.stanlong.chapter05.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TransCustomPartitioner" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter05.TransCustomPartitioner" />
-      <module name="FlinkTutorial" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.stanlong.chapter05.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="Application.TransformKeyBy">
     <configuration name="TransTupleAggregation" type="Application" factoryName="Application" temporary="true">
       <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter05.TransTupleAggregation" />
+      <module name="FlinkTutorial" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.stanlong.chapter05.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TransformFilterTest" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter05.TransformFilterTest" />
+      <module name="FlinkTutorial" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.stanlong.chapter05.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TransformFlatmapTest" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter05.TransformFlatmapTest" />
+      <module name="FlinkTutorial" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.stanlong.chapter05.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TransformKeyBy" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter05.TransformKeyBy" />
       <module name="FlinkTutorial" />
       <extension name="coverage">
         <pattern>
@@ -153,11 +158,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.TransformKeyBy" />
+        <item itemvalue="Application.TransformFlatmapTest" />
+        <item itemvalue="Application.TransformFilterTest" />
         <item itemvalue="Application.TransformMapTest" />
         <item itemvalue="Application.TransTupleAggregation" />
-        <item itemvalue="Application.BatchWordCount" />
-        <item itemvalue="Application.SinkToFileTest" />
-        <item itemvalue="Application.TransCustomPartitioner" />
       </list>
     </recent_temporary>
   </component>
@@ -198,6 +203,7 @@
       <workItem from="1734439973245" duration="600000" />
       <workItem from="1734499409636" duration="2500000" />
       <workItem from="1734878347805" duration="501000" />
+      <workItem from="1734963991019" duration="935000" />
     </task>
     <servers />
   </component>
