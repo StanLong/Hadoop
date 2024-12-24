@@ -11,11 +11,12 @@ object TransformKeyBy {
         val stream = env.fromElements(
             Event("Mary", "./home", 1000L),
             Event("Bob", "./cart", 2000L),
-            Event("Bob", "./home", 2000L)
+            Event("Bob", "./home", 3000L),
+            Event("Bob", "./home", 300L)
         )  //指定 Event 的 user 属性作为 key
 
         // val keyedStream1 = stream.keyBy(_.user)
-        val keyedStream2 = stream.keyBy(new UserKeySelector)
+        val keyedStream2 = stream.keyBy(new UserKeySelector).max("timestamp")
         // keyedStream1.print()
         keyedStream2.print()
         env.execute()
