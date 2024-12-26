@@ -9,6 +9,9 @@ import scala.collection.JavaConverters
 import scala.util.Random.shuffle
 
 
+/**
+ * 自定义json数据并发到kafka
+ */
 // 参考地址： https://blog.csdn.net/lbship/article/details/109517017
 object KafkaProducerJson {
     def main(args: Array[String]): Unit = {

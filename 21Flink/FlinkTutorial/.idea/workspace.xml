@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1c1294ed-1860-4b57-8a9f-a52709c7377f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter05/TransKeyBy.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter05/TransformKeyBy.scala" afterDir="false" />
+    <list default="true" id="1c1294ed-1860-4b57-8a9f-a52709c7377f" name="Changes" comment="聚合">
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter04/KafkaConsumerJson.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter04/KafkaConsumerJson.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter04/KafkaProducerJson.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter04/KafkaProducerJson.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,6 +55,7 @@
     "Application.BroadcastTest.executor": "Run",
     "Application.KafkaConsumerJson.executor": "Run",
     "Application.KafkaProducerJson.executor": "Run",
+    "Application.OutOfOrdernessTest.executor": "Run",
     "Application.RebalanceTest.executor": "Run",
     "Application.RescaleExample.executor": "Run",
     "Application.ShuffleTest.executor": "Run",
@@ -69,6 +71,7 @@
     "Application.TransformFlatmapTest.executor": "Run",
     "Application.TransformKeyBy.executor": "Run",
     "Application.TransformMapTest.executor": "Run",
+    "Application.WarningKafkaProducer.executor": "Run",
     "Maven.FlinkTutorial [package].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
@@ -90,13 +93,13 @@
       <recent name="com.stanlong.chapter02" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.TransformKeyBy">
-    <configuration name="TransTupleAggregation" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter05.TransTupleAggregation" />
+  <component name="RunManager" selected="Application.WarningKafkaProducer">
+    <configuration name="KafkaConsumerJson" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter04.KafkaConsumerJson" />
       <module name="FlinkTutorial" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.stanlong.chapter05.*" />
+          <option name="PATTERN" value="com.stanlong.chapter04.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -104,12 +107,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TransformFilterTest" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter05.TransformFilterTest" />
+    <configuration name="KafkaProducerJson" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter04.KafkaProducerJson" />
       <module name="FlinkTutorial" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.stanlong.chapter05.*" />
+          <option name="PATTERN" value="com.stanlong.chapter04.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -117,12 +120,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TransformFlatmapTest" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter05.TransformFlatmapTest" />
+    <configuration name="OutOfOrdernessTest" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter06.OutOfOrdernessTest" />
       <module name="FlinkTutorial" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.stanlong.chapter05.*" />
+          <option name="PATTERN" value="com.stanlong.chapter06.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -143,12 +146,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TransformMapTest" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter05.TransformMapTest" />
+    <configuration name="WarningKafkaProducer" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter04.WarningKafkaProducer" />
       <module name="FlinkTutorial" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.stanlong.chapter05.*" />
+          <option name="PATTERN" value="com.stanlong.chapter04.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -158,11 +161,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.WarningKafkaProducer" />
+        <item itemvalue="Application.KafkaConsumerJson" />
+        <item itemvalue="Application.KafkaProducerJson" />
         <item itemvalue="Application.TransformKeyBy" />
-        <item itemvalue="Application.TransformFlatmapTest" />
-        <item itemvalue="Application.TransformFilterTest" />
-        <item itemvalue="Application.TransformMapTest" />
-        <item itemvalue="Application.TransTupleAggregation" />
+        <item itemvalue="Application.OutOfOrdernessTest" />
       </list>
     </recent_temporary>
   </component>
@@ -204,11 +207,53 @@
       <workItem from="1734499409636" duration="2500000" />
       <workItem from="1734878347805" duration="501000" />
       <workItem from="1734963991019" duration="935000" />
+      <workItem from="1735025362381" duration="4249000" />
+      <workItem from="1735107098507" duration="29000" />
+      <workItem from="1735107430370" duration="12000" />
+      <workItem from="1735107494579" duration="12000" />
+      <workItem from="1735107695714" duration="27000" />
+      <workItem from="1735107759244" duration="114000" />
+      <workItem from="1735108020180" duration="5000" />
+      <workItem from="1735108306584" duration="41000" />
+      <workItem from="1735108485349" duration="19000" />
+      <workItem from="1735108854810" duration="32000" />
+      <workItem from="1735108941078" duration="18000" />
+      <workItem from="1735109787702" duration="154000" />
+      <workItem from="1735109971734" duration="13000" />
+      <workItem from="1735110012464" duration="13000" />
+      <workItem from="1735110491821" duration="78000" />
+      <workItem from="1735111163151" duration="185000" />
+      <workItem from="1735111527812" duration="47000" />
+      <workItem from="1735112252045" duration="740000" />
+      <workItem from="1735115143684" duration="17000" />
+      <workItem from="1735130797771" duration="1071000" />
+      <workItem from="1735178708044" duration="3135000" />
     </task>
+    <task id="LOCAL-00001" summary="聚合">
+      <option name="closed" value="true" />
+      <created>1735051969022</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1735051969022</updated>
+    </task>
+    <task id="LOCAL-00002" summary="聚合">
+      <option name="closed" value="true" />
+      <created>1735052006397</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1735052006397</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="聚合" />
+    <option name="LAST_COMMIT_MESSAGE" value="聚合" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
