@@ -5,8 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1c1294ed-1860-4b57-8a9f-a52709c7377f" name="Changes" comment="聚合">
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter04/KafkaConsumerJson.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter04/KafkaConsumerJson.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter04/KafkaProducerJson.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter04/KafkaProducerJson.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter05/BroadcastTest.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter05/PartitionBroadcastTest.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter05/RebalanceTest.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter05/PartitionRebalanceTest.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter05/RescaleExample.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter05/PartitionRescaleExample.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter05/ShuffleTest.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter05/PartitionShuffleTest.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,6 +58,10 @@
     "Application.KafkaConsumerJson.executor": "Run",
     "Application.KafkaProducerJson.executor": "Run",
     "Application.OutOfOrdernessTest.executor": "Run",
+    "Application.PartitionBroadcastTest.executor": "Run",
+    "Application.PartitionRebalanceTest.executor": "Run",
+    "Application.PartitionRescaleExample.executor": "Run",
+    "Application.PartitionShuffleTest.executor": "Run",
     "Application.RebalanceTest.executor": "Run",
     "Application.RescaleExample.executor": "Run",
     "Application.ShuffleTest.executor": "Run",
@@ -71,6 +77,7 @@
     "Application.TransformFlatmapTest.executor": "Run",
     "Application.TransformKeyBy.executor": "Run",
     "Application.TransformMapTest.executor": "Run",
+    "Application.TransformRichMapFunctionTest.executor": "Run",
     "Application.WarningKafkaProducer.executor": "Run",
     "Maven.FlinkTutorial [package].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -93,48 +100,9 @@
       <recent name="com.stanlong.chapter02" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.WarningKafkaProducer">
-    <configuration name="KafkaConsumerJson" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter04.KafkaConsumerJson" />
-      <module name="FlinkTutorial" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.stanlong.chapter04.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="KafkaProducerJson" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter04.KafkaProducerJson" />
-      <module name="FlinkTutorial" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.stanlong.chapter04.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="OutOfOrdernessTest" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter06.OutOfOrdernessTest" />
-      <module name="FlinkTutorial" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.stanlong.chapter06.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TransformKeyBy" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter05.TransformKeyBy" />
+  <component name="RunManager" selected="Application.PartitionBroadcastTest">
+    <configuration name="PartitionBroadcastTest" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter05.PartitionBroadcastTest" />
       <module name="FlinkTutorial" />
       <extension name="coverage">
         <pattern>
@@ -146,12 +114,51 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="WarningKafkaProducer" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter04.WarningKafkaProducer" />
+    <configuration name="PartitionRebalanceTest" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter05.PartitionRebalanceTest" />
       <module name="FlinkTutorial" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.stanlong.chapter04.*" />
+          <option name="PATTERN" value="com.stanlong.chapter05.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PartitionRescaleExample" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter05.PartitionRescaleExample" />
+      <module name="FlinkTutorial" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.stanlong.chapter05.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PartitionShuffleTest" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter05.PartitionShuffleTest" />
+      <module name="FlinkTutorial" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.stanlong.chapter05.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TransformRichMapFunctionTest" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter05.TransformRichMapFunctionTest" />
+      <module name="FlinkTutorial" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.stanlong.chapter05.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -161,11 +168,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.WarningKafkaProducer" />
-        <item itemvalue="Application.KafkaConsumerJson" />
-        <item itemvalue="Application.KafkaProducerJson" />
-        <item itemvalue="Application.TransformKeyBy" />
-        <item itemvalue="Application.OutOfOrdernessTest" />
+        <item itemvalue="Application.PartitionBroadcastTest" />
+        <item itemvalue="Application.PartitionRescaleExample" />
+        <item itemvalue="Application.PartitionRebalanceTest" />
+        <item itemvalue="Application.PartitionShuffleTest" />
+        <item itemvalue="Application.TransformRichMapFunctionTest" />
       </list>
     </recent_temporary>
   </component>
@@ -227,7 +234,7 @@
       <workItem from="1735112252045" duration="740000" />
       <workItem from="1735115143684" duration="17000" />
       <workItem from="1735130797771" duration="1071000" />
-      <workItem from="1735178708044" duration="3135000" />
+      <workItem from="1735178708044" duration="10733000" />
     </task>
     <task id="LOCAL-00001" summary="聚合">
       <option name="closed" value="true" />

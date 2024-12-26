@@ -3,7 +3,7 @@ package com.stanlong.chapter05
 import org.apache.flink.streaming.api.functions.source.{RichParallelSourceFunction, SourceFunction}
 import org.apache.flink.streaming.api.scala._
 
-object RescaleExample {
+object PartitionRescaleExample {
     def main(args: Array[String]): Unit = {
         val env = StreamExecutionEnvironment.getExecutionEnvironment
         env.setParallelism(1)
@@ -25,5 +25,28 @@ object RescaleExample {
                 .print()
                 .setParallelism(4)
         env.execute()
+
+        /**
+         * rescale 分区观察结果可知， 1、3、5、7都在3、4分区上， 2、4、6、8都在1,2分区上
+         * 3> 1
+         * 1> 2
+         * 4> 3
+         * 2> 4
+         * 4> 7
+         * 1> 6
+         * 3> 5
+         * 2> 8
+         */
+
+        /** rebalance 分区结果如下。
+         * 3> 8
+         * 2> 6
+         * 4> 2
+         * 1> 4
+         * 3> 3
+         * 4> 5
+         * 2> 1
+         * 1> 7
+         */
     }
 }
