@@ -2,7 +2,7 @@ package com.stanlong.chapter05
 
 import org.apache.flink.streaming.api.scala._
 
-object PartitionBroadcastTest {
+object PartitionBroadcast {
     def main(args: Array[String]): Unit = {
         val env = StreamExecutionEnvironment.getExecutionEnvironment
         env.setParallelism(1)

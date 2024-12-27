@@ -2,7 +2,7 @@ package com.stanlong.chapter05
 
 import org.apache.flink.streaming.api.scala._
 
-object PartitionRebalanceTest {
+object PartitionRebalance {
     def main(args: Array[String]): Unit = {
         val env = StreamExecutionEnvironment.getExecutionEnvironment
         env.setParallelism(1)
