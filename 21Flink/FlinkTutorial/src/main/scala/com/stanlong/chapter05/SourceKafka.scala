@@ -1,6 +1,5 @@
 package com.stanlong.chapter05
 
-import com.alibaba.fastjson.JSON
 import java.util.Properties
 import org.apache.flink.api.common.serialization.SimpleStringSchema
 import org.apache.flink.streaming.api.scala._
