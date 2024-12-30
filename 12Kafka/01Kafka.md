@@ -93,7 +93,7 @@ log.dirs=/var/data/kafka
 # server. e.g. "127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002".
 # You can also append an optional chroot string to the urls to specify the
 # root directory for all kafka znodes.
-zookeeper.connect=node01:9092,node02:9092,node03:9092
+zookeeper.connect=node01:2181,node02:2181,node03:2181
 ```
 
 ### 3、分发kafka
