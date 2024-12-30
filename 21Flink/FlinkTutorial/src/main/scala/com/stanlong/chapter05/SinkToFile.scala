@@ -26,9 +26,9 @@ object SinkToFile {
             new SimpleStringEncoder[String]("UTF-8")
         ).withRollingPolicy(
             DefaultRollingPolicy.builder()
-              .withRolloverInterval(TimeUnit.MINUTES.toMillis(15))
-              .withInactivityInterval(TimeUnit.MINUTES.toMillis(5))
-              .withMaxPartSize(1024 * 1024 * 1024)
+              .withRolloverInterval(TimeUnit.MINUTES.toMillis(15)) // 至少包含15分钟的数据
+              .withInactivityInterval(TimeUnit.MINUTES.toMillis(5)) // 最近5分钟没有收到新的数据
+              .withMaxPartSize(1024 * 1024 * 1024) // 文件大小已达到1 GB
               .build()
         ).build()
 
