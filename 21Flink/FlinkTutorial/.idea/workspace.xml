@@ -5,10 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1c1294ed-1860-4b57-8a9f-a52709c7377f" name="Changes" comment="聚合">
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter05/BroadcastTest.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter05/PartitionBroadcastTest.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter05/RebalanceTest.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter05/PartitionRebalanceTest.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter05/RescaleExample.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter05/PartitionRescaleExample.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter05/ShuffleTest.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter05/PartitionShuffleTest.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter05/ClickSource.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter05/ClickSource.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter05/SinkToFile.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter05/SinkToFile.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter05/SourceCustom.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter05/SourceCustom.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter06/OutOfOrdernessTest.scala" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,6 +80,8 @@
     "Application.TransformMapTest.executor": "Run",
     "Application.TransformRichMapFunctionTest.executor": "Run",
     "Application.WarningKafkaProducer.executor": "Run",
+    "Application.Window.executor": "Run",
+    "Maven.FlinkTutorial [clean].executor": "Run",
     "Maven.FlinkTutorial [package].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
@@ -91,7 +94,7 @@
     "project.structure.last.edited": "Global Libraries",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.29770115",
-    "settings.editor.selected.configurable": "MavenSettings",
+    "settings.editor.selected.configurable": "configurable.group.build",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -100,7 +103,7 @@
       <recent name="com.stanlong.chapter02" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.PartitionBroadcastTest">
+  <component name="RunManager" selected="Application.Window">
     <configuration name="PartitionBroadcastTest" type="Application" factoryName="Application" temporary="true">
       <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter05.PartitionBroadcastTest" />
       <module name="FlinkTutorial" />
@@ -140,8 +143,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PartitionShuffleTest" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter05.PartitionShuffleTest" />
+    <configuration name="SourceCustom" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter05.SourceCustom" />
       <module name="FlinkTutorial" />
       <extension name="coverage">
         <pattern>
@@ -153,12 +156,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TransformRichMapFunctionTest" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter05.TransformRichMapFunctionTest" />
+    <configuration name="Window" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter06.Window" />
       <module name="FlinkTutorial" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.stanlong.chapter05.*" />
+          <option name="PATTERN" value="com.stanlong.chapter06.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -168,11 +171,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Window" />
+        <item itemvalue="Application.SourceCustom" />
         <item itemvalue="Application.PartitionBroadcastTest" />
         <item itemvalue="Application.PartitionRescaleExample" />
         <item itemvalue="Application.PartitionRebalanceTest" />
-        <item itemvalue="Application.PartitionShuffleTest" />
-        <item itemvalue="Application.TransformRichMapFunctionTest" />
       </list>
     </recent_temporary>
   </component>
@@ -235,6 +238,9 @@
       <workItem from="1735115143684" duration="17000" />
       <workItem from="1735130797771" duration="1071000" />
       <workItem from="1735178708044" duration="10733000" />
+      <workItem from="1735917391705" duration="651000" />
+      <workItem from="1735921496850" duration="134000" />
+      <workItem from="1735990708232" duration="6686000" />
     </task>
     <task id="LOCAL-00001" summary="聚合">
       <option name="closed" value="true" />

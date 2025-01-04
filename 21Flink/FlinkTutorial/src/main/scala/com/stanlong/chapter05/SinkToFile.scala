@@ -35,6 +35,4 @@ object SinkToFile {
         stream.map(_.toString).addSink(fileSink)
         env.execute()
     }
-
-
 }
