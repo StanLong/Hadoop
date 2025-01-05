@@ -5,11 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1c1294ed-1860-4b57-8a9f-a52709c7377f" name="Changes" comment="聚合">
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter05/ClickSource.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter05/ClickSource.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter05/SinkToFile.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter05/SinkToFile.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter05/SourceCustom.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter05/SourceCustom.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter06/OutOfOrdernessTest.scala" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter06/Window.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter06/WindowReduce.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,6 +52,7 @@
     "Application.BoundedStreamWordCount.executor": "Run",
     "Application.BoundedStreamWordCount02.executor": "Run",
     "Application.BroadcastTest.executor": "Run",
+    "Application.FullWindowFunction.executor": "Run",
     "Application.KafkaConsumerJson.executor": "Run",
     "Application.KafkaProducerJson.executor": "Run",
     "Application.OutOfOrdernessTest.executor": "Run",
@@ -81,6 +78,7 @@
     "Application.TransformRichMapFunctionTest.executor": "Run",
     "Application.WarningKafkaProducer.executor": "Run",
     "Application.Window.executor": "Run",
+    "Application.WindowAggregation.executor": "Run",
     "Maven.FlinkTutorial [clean].executor": "Run",
     "Maven.FlinkTutorial [package].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -103,35 +101,22 @@
       <recent name="com.stanlong.chapter02" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Window">
+  <component name="RunManager" selected="Application.FullWindowFunction">
+    <configuration name="FullWindowFunction" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter06.FullWindowFunction" />
+      <module name="FlinkTutorial" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.stanlong.chapter06.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="PartitionBroadcastTest" type="Application" factoryName="Application" temporary="true">
       <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter05.PartitionBroadcastTest" />
-      <module name="FlinkTutorial" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.stanlong.chapter05.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="PartitionRebalanceTest" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter05.PartitionRebalanceTest" />
-      <module name="FlinkTutorial" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.stanlong.chapter05.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="PartitionRescaleExample" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter05.PartitionRescaleExample" />
       <module name="FlinkTutorial" />
       <extension name="coverage">
         <pattern>
@@ -169,13 +154,26 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="WindowAggregation" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter06.WindowAggregation" />
+      <module name="FlinkTutorial" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.stanlong.chapter06.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.FullWindowFunction" />
+        <item itemvalue="Application.WindowAggregation" />
         <item itemvalue="Application.Window" />
         <item itemvalue="Application.SourceCustom" />
         <item itemvalue="Application.PartitionBroadcastTest" />
-        <item itemvalue="Application.PartitionRescaleExample" />
-        <item itemvalue="Application.PartitionRebalanceTest" />
       </list>
     </recent_temporary>
   </component>
@@ -241,6 +239,7 @@
       <workItem from="1735917391705" duration="651000" />
       <workItem from="1735921496850" duration="134000" />
       <workItem from="1735990708232" duration="6686000" />
+      <workItem from="1736077457767" duration="4938000" />
     </task>
     <task id="LOCAL-00001" summary="聚合">
       <option name="closed" value="true" />
