@@ -49,5 +49,3 @@ object UrlViewCount {
     }
 
 }
-
-case class UrlView(url : String, count : Long, windowStart: Long, windowEnd : Long)

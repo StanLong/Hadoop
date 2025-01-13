@@ -29,7 +29,8 @@ object WindowReduce {
         // .window(SlidingProcessingTimeWindows.of(Time.days(1), Time.hours(-8))) // 基于处理时间的滑动容器，
         // .window(EventTimeSessionWindows.withGap(Time.seconds(10))) // 基于事件时间的会话窗口，窗口时间长度为10s
         // .countWindow(10) // 计数窗口
-        // .countWindow(10, 2) // 滑动窗口，滑动步长为2
+        // .countWindow(10, 2) // 滑动窗口，滑
+        // 动步长为2
 
         stream.map(data => (data.user, 1))
           .keyBy(_._1)
