@@ -2,7 +2,6 @@ package com.stanlong.chapter06
 
 import com.stanlong.chapter05.{ClickSource, Event}
 import org.apache.flink.api.common.functions.AggregateFunction
-import org.apache.flink.api.java.aggregation.AggregationFunction
 import org.apache.flink.streaming.api.scala._
 import org.apache.flink.streaming.api.scala.function.ProcessWindowFunction
 import org.apache.flink.streaming.api.windowing.assigners.SlidingEventTimeWindows
@@ -27,7 +26,7 @@ object UrlViewCount {
 
     }
 
-    private class UrlViewCountAgg extends AggregateFunction[Event, Long, Long] {
+    class UrlViewCountAgg extends AggregateFunction[Event, Long, Long] {
 
         override def createAccumulator(): Long = 0L
 
@@ -38,7 +37,7 @@ object UrlViewCount {
         override def merge(acc: Long, acc1: Long): Long = ???
     }
 
-    private class UrlViewCountResult extends ProcessWindowFunction[Long, UrlView, String, TimeWindow] {
+    class UrlViewCountResult extends ProcessWindowFunction[Long, UrlView, String, TimeWindow] {
         override def process(key: String, context: Context, elements: Iterable[Long], out: Collector[UrlView]): Unit = {
             val count = elements.iterator.next()
             val start = context.window.getStart

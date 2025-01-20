@@ -63,12 +63,12 @@ object ProcessLateData {
 
     private class UrlViewCountResult extends ProcessWindowFunction[Long, UrlView, String, TimeWindow] {
         override def process(key: String, context: Context, elements: Iterable[Long], out: Collector[UrlView]): Unit = {
-            val start = context.window.getStart
-            val end = context.window.getEnd
+            val windowStart = context.window.getStart
+            val windowEnd = context.window.getEnd
             val count = elements.iterator.next()
-            out.collect(UrlView(key, start, end, count))
+            out.collect(UrlView(key, windowStart, windowEnd, count))
         }
     }
 }
 
-case class UrlView(key:String, start : Long, end : Long, count : Long)
+case class UrlView(url:String, windowStart : Long, windowEnd : Long, count : Long)
