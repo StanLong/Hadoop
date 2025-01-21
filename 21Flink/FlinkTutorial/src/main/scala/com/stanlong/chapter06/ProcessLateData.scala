@@ -1,6 +1,7 @@
 package com.stanlong.chapter06
 
 import com.stanlong.chapter05.{ClickSource, Event}
+import com.stanlong.chapter06.UrlViewCount.{UrlViewCountAgg, UrlViewCountResult}
 import java.lang
 import java.time.Duration
 import org.apache.flink.api.common.eventtime.{SerializableTimestampAssigner, WatermarkStrategy}
@@ -50,25 +51,6 @@ object ProcessLateData {
 
         env.execute()
     }
-
-    private class UrlViewCountAgg extends AggregateFunction[Event, Long, Long] {
-        override def createAccumulator(): Long = 0L
-
-        override def add(in: Event, acc: Long): Long = acc + 1
-
-        override def getResult(acc: Long): Long = acc
-
-        override def merge(acc: Long, acc1: Long): Long = ???
-    }
-
-    private class UrlViewCountResult extends ProcessWindowFunction[Long, UrlView, String, TimeWindow] {
-        override def process(key: String, context: Context, elements: Iterable[Long], out: Collector[UrlView]): Unit = {
-            val windowStart = context.window.getStart
-            val windowEnd = context.window.getEnd
-            val count = elements.iterator.next()
-            out.collect(UrlView(key, windowStart, windowEnd, count))
-        }
-    }
 }
 
-case class UrlView(url:String, windowStart : Long, windowEnd : Long, count : Long)
+case class UrlView(url:String, count : Long, windowStart : Long, windowEnd : Long)

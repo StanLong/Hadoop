@@ -1,6 +1,8 @@
 package com.stanlong.chapter07
 
 import com.stanlong.chapter05.ClickSource
+import java.sql.Timestamp
+import org.apache.commons.net.ntp.TimeStamp
 import org.apache.flink.streaming.api.scala._
 import org.apache.flink.streaming.api.scala.function.ProcessAllWindowFunction
 import org.apache.flink.streaming.api.windowing.assigners.SlidingEventTimeWindows
@@ -33,7 +35,7 @@ object TopNProcessAllWindow {
                   val urlCountList = urlCountMap.toList.sortBy(-_._2).take(2)
 
                   val result = new StringBuilder()
-                  result.append(s"=======================窗口：${context.window.getStart} - ${context.window.getEnd}=======================\n")
+                  result.append(s"=======================窗口：${new Timestamp(context.window.getStart)} - ${new Timestamp(context.window.getEnd)}=======================\n")
                   for( i <- urlCountList.indices){
                       val tuple = urlCountList(i)
                       result.append(s"浏览量Top ${i+1}, ")
