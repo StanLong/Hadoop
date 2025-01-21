@@ -19,15 +19,12 @@ object TopNKeyedProcessFunction {
 
         val stream = env.addSource(new ClickSource)
           .assignAscendingTimestamps(_.timestamp)
-
-        val urlCountStream = stream.keyBy(_.url)
+          .keyBy(_.url)
           .window(SlidingEventTimeWindows.of(Time.seconds(10), Time.seconds(5)))
           .aggregate(new UrlViewCountAgg, new UrlViewCountResult)
-
-        val resultStream = urlCountStream.keyBy(_.windowEnd)
+          .keyBy(_.windowEnd)
           .process(new TopN(2))
-
-        resultStream.print()
+          .print()
         env.execute()
     }
 
