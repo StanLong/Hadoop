@@ -55,7 +55,7 @@ object BillCheck {
 
               override def onTimer(timestamp: Long, ctx: CoProcessFunction[(String, String, Long), (String, String, String, Long), String]#OnTimerContext, out: Collector[String]): Unit = {
                   if(appEvent.value() != null){
-                      out.collect(s"${appEvent.value()._1}对账失败， 第三方支付事件未到")
+                      out.collect(s"${appEvent.value()._1} 对账失败， 第三方支付事件未到")
                   }
 
                   if(thirdEvent.value() != null){
