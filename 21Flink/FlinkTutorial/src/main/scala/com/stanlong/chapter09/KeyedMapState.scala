@@ -27,7 +27,7 @@ object KeyedMapState {
         )
 
         override def processElement(i: Event, context: KeyedProcessFunction[String, Event, String]#Context, collector: Collector[String]): Unit = {
-            val start = i.timestamp / size * size // 时间戳取整
+            val start = i.timestamp / size * size // 时间戳后四位取0
             val end = start + size
 
             context.timerService().registerEventTimeTimer(end -1)
