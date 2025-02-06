@@ -26,36 +26,30 @@ object CheckPoint {
         private var checkpointState : ListState[Event] = _
         private var bufferedElements = ListBuffer[Event]()
 
-        override def invoke(value: Event): Unit = super.invoke(value)
-
         override def invoke(value: Event, context: SinkFunction.Context): Unit = {
             bufferedElements += value
 
             if(bufferedElements.size == threshold){
-                for(element <- bufferedElements){
-                    println(element)
-                }
+                bufferedElements.foreach(data => println(data))
+                println("=========== 输出完毕 ===========")
+                bufferedElements.clear()
             }
-
-            println("=========== 输出完毕 ===========")
-            bufferedElements.clear()
         }
 
         override def snapshotState(functionSnapshotContext: FunctionSnapshotContext): Unit = {
-            checkpointState.clear()
+            // checkpointState.clear()
             for(element <- bufferedElements){
                 checkpointState.add(element)
             }
         }
 
         override def initializeState(functionInitializationContext: FunctionInitializationContext): Unit = {
-            val descriptor = new ListStateDescriptor[Event]("buffered-elements", classOf[Event])
 
             checkpointState = functionInitializationContext.getOperatorStateStore
-              .getListState(descriptor)
+              .getListState(new ListStateDescriptor[Event]("buffered-elements", classOf[Event]))
 
             if(functionInitializationContext.isRestored){
-                import scala.collection.JavaConversions._
+                import scala.collection.convert.ImplicitConversions._
                 for(element <- checkpointState.get()){
                     bufferedElements += element
                 }
