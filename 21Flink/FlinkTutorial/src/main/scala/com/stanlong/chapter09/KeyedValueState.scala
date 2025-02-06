@@ -4,7 +4,7 @@ import com.stanlong.chapter05.{ClickSource, Event}
 import org.apache.flink.api.common.state.{ValueState, ValueStateDescriptor}
 import org.apache.flink.streaming.api.functions.KeyedProcessFunction
 import org.apache.flink.streaming.api.scala._
-import org.apache.flink.streaming.api.windowing.time.Time
+
 import org.apache.flink.util.Collector
 
 object KeyedValueState {
@@ -38,7 +38,7 @@ object KeyedValueState {
         }
 
         override def onTimer(timestamp: Long, ctx: KeyedProcessFunction[String, Event, String]#OnTimerContext, out: Collector[String]): Unit = {
-            out.collect(s"用户 ${ctx.getCurrentKey} 的pv值为 ${countState.value()}")
+            out.collect(s"用户 ${ctx.getCurrentKey} 在10s内的pv值为 ${countState.value()}")
             timestampState.clear()
         }
     }
