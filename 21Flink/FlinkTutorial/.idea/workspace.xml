@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1c1294ed-1860-4b57-8a9f-a52709c7377f" name="Changes" comment="聚合">
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter06/Window.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/stanlong/chapter06/WindowReduce.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,24 +49,41 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.BatchWordCount.executor": "Run",
+    "Application.BillCheck.executor": "Run",
     "Application.BoundedStreamWordCount.executor": "Run",
     "Application.BoundedStreamWordCount02.executor": "Run",
     "Application.BroadcastTest.executor": "Run",
+    "Application.CheckPoint.executor": "Run",
+    "Application.CoGroup.executor": "Run",
+    "Application.ConnectStream.executor": "Run",
+    "Application.EventTimeTimer.executor": "Run",
     "Application.FullWindowFunction.executor": "Run",
+    "Application.IntervalJoin.executor": "Run",
     "Application.KafkaConsumerJson.executor": "Run",
     "Application.KafkaProducerJson.executor": "Run",
+    "Application.KeyedListState.executor": "Run",
+    "Application.KeyedMapState.executor": "Run",
+    "Application.KeyedStatus.executor": "Run",
+    "Application.KeyedValueState.executor": "Run",
     "Application.OutOfOrdernessTest.executor": "Run",
     "Application.PartitionBroadcastTest.executor": "Run",
     "Application.PartitionRebalanceTest.executor": "Run",
     "Application.PartitionRescaleExample.executor": "Run",
     "Application.PartitionShuffleTest.executor": "Run",
+    "Application.ProcessFunction.executor": "Run",
+    "Application.ProcessLateData.executor": "Run",
+    "Application.ProcessingTimeTimer.executor": "Run",
     "Application.RebalanceTest.executor": "Run",
     "Application.RescaleExample.executor": "Run",
     "Application.ShuffleTest.executor": "Run",
+    "Application.SideOutputStream.executor": "Run",
     "Application.SinkToFileTest.executor": "Run",
     "Application.SourceCustom.executor": "Run",
     "Application.SourceKafkaTest.executor": "Run",
+    "Application.SplitStream.executor": "Run",
     "Application.Test.executor": "Run",
+    "Application.TopNKeyedProcessFunction.executor": "Run",
+    "Application.TopNProcessAllWindow.executor": "Run",
     "Application.TransCustomPartitioner.executor": "Run",
     "Application.TransKeyBy.executor": "Run",
     "Application.TransReduce.executor": "Run",
@@ -76,9 +93,14 @@
     "Application.TransformKeyBy.executor": "Run",
     "Application.TransformMapTest.executor": "Run",
     "Application.TransformRichMapFunctionTest.executor": "Run",
+    "Application.UnionStream.executor": "Run",
+    "Application.UrlViewCount.executor": "Run",
     "Application.WarningKafkaProducer.executor": "Run",
+    "Application.WatermarkOutOfOrderness.executor": "Run",
     "Application.Window.executor": "Run",
     "Application.WindowAggregation.executor": "Run",
+    "Application.WindowJoin.executor": "Run",
+    "Application.keyedAggregateState.executor": "Run",
     "Maven.FlinkTutorial [clean].executor": "Run",
     "Maven.FlinkTutorial [package].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -101,13 +123,13 @@
       <recent name="com.stanlong.chapter02" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.FullWindowFunction">
-    <configuration name="FullWindowFunction" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter06.FullWindowFunction" />
+  <component name="RunManager" selected="Application.TableAPI">
+    <configuration name="CheckPoint" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter09.CheckPoint" />
       <module name="FlinkTutorial" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.stanlong.chapter06.*" />
+          <option name="PATTERN" value="com.stanlong.chapter09.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -115,12 +137,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PartitionBroadcastTest" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter05.PartitionBroadcastTest" />
+    <configuration name="KeyedMapState" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter09.KeyedMapState" />
       <module name="FlinkTutorial" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.stanlong.chapter05.*" />
+          <option name="PATTERN" value="com.stanlong.chapter09.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -128,12 +150,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SourceCustom" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter05.SourceCustom" />
+    <configuration name="KeyedValueState" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter09.KeyedValueState" />
       <module name="FlinkTutorial" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.stanlong.chapter05.*" />
+          <option name="PATTERN" value="com.stanlong.chapter09.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -141,12 +163,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Window" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter06.Window" />
+    <configuration name="TableAPI" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter11.TableAPI" />
       <module name="FlinkTutorial" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.stanlong.chapter06.*" />
+          <option name="PATTERN" value="com.stanlong.chapter11.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -154,12 +176,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="WindowAggregation" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter06.WindowAggregation" />
+    <configuration name="keyedAggregateState" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.stanlong.chapter09.keyedAggregateState" />
       <module name="FlinkTutorial" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.stanlong.chapter06.*" />
+          <option name="PATTERN" value="com.stanlong.chapter09.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -169,11 +191,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.FullWindowFunction" />
-        <item itemvalue="Application.WindowAggregation" />
-        <item itemvalue="Application.Window" />
-        <item itemvalue="Application.SourceCustom" />
-        <item itemvalue="Application.PartitionBroadcastTest" />
+        <item itemvalue="Application.TableAPI" />
+        <item itemvalue="Application.CheckPoint" />
+        <item itemvalue="Application.KeyedValueState" />
+        <item itemvalue="Application.KeyedMapState" />
+        <item itemvalue="Application.keyedAggregateState" />
       </list>
     </recent_temporary>
   </component>
@@ -240,6 +262,21 @@
       <workItem from="1735921496850" duration="134000" />
       <workItem from="1735990708232" duration="6686000" />
       <workItem from="1736077457767" duration="4938000" />
+      <workItem from="1736130961062" duration="26000" />
+      <workItem from="1736133349447" duration="3000" />
+      <workItem from="1736169027158" duration="5582000" />
+      <workItem from="1736686743459" duration="5005000" />
+      <workItem from="1736771942505" duration="4493000" />
+      <workItem from="1736856812043" duration="6121000" />
+      <workItem from="1737375277868" duration="7424000" />
+      <workItem from="1737425843796" duration="9647000" />
+      <workItem from="1737527935341" duration="20439000" />
+      <workItem from="1738132536262" duration="3880000" />
+      <workItem from="1738157838187" duration="2724000" />
+      <workItem from="1738203976991" duration="3726000" />
+      <workItem from="1738295303738" duration="648000" />
+      <workItem from="1738333605639" duration="1462000" />
+      <workItem from="1738834400555" duration="5596000" />
     </task>
     <task id="LOCAL-00001" summary="聚合">
       <option name="closed" value="true" />
