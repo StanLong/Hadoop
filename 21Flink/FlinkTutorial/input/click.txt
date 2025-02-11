@@ -1,0 +1,7 @@
+Mary, ./fav, 1000L
+Alice, ./cart, 2000L
+Cary, ./fav, 3000L
+Mary, ./cart, 4000L
+Bob, ./home, 5000L
+Alice, ./prod?id=2, 6000L
+Mary, ./cart, 7000L
