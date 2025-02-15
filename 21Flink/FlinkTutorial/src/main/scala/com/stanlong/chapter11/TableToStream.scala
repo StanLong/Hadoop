@@ -23,6 +23,7 @@ object TableToStream {
 
         tabEnv.createTemporaryView("EventTable", eventStream)
 
+
         val aliceViewUrl = tabEnv.sqlQuery(s"select user, url from EventTable where user='Alice' ")
         val urlCountTable = tabEnv.sqlQuery(s"select user,count(url) from EventTable group by user ")
 
