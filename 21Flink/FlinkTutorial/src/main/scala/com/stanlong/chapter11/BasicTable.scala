@@ -29,7 +29,7 @@ object BasicTable {
         // 3.1 使用sql
         val resultTable = tableEnv.sqlQuery("select uid, url ,ts from eventTable where uid= 'Alice' ")
 
-        // 3.2 使用 Table API
+        // 3.2 或者使用 Table API
         val resultTable2 = tableEnv.from("eventTable")
           .where($("url").isEqual("./home"))
           .select($("url"), $("uid"), $("ts"))
