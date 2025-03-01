@@ -204,7 +204,7 @@ Hello
 --from-beginning: 会把topic里以往的数据都读出来
 ```
 
-### 6、topic新增分区
+### 6、修改topic分区
 
 注意，topic分区只能新增，不能减少
 
