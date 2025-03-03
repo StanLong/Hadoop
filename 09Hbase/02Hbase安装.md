@@ -72,21 +72,6 @@ total 44
 # 配置Java环境变量
 export JAVA_HOME=/usr/java/jdk1.8.0_221-amd64
 
-# Extra Java runtime options.
-# Below are what we set by default.  May only work with SUN JVM.
-# For more on why as well as other possible settings,
-# see http://wiki.apache.org/hadoop/PerformanceTuning
-export HBASE_OPTS="-XX:+UseConcMarkSweepGC"
-
-# 注释掉 Configure PermSize 下面的两行，这两行在jdk1.7的版本才需要配置
-# export HBASE_MASTER_OPTS="$HBASE_MASTER_OPTS -XX:PermSize=128m -XX:MaxPermSize=128m -XX:ReservedCodeCacheSize=256m"
-# export HBASE_REGIONSERVER_OPTS="$HBASE_REGIONSERVER_OPTS -XX:PermSize=128m -XX:MaxPermSize=128m -XX:ReservedCodeCacheSize=256m"
-
-
-# Where log files are stored.  $HBASE_HOME/logs by default.
-# 配置Hbase日志路径
-export HBASE_LOG_DIR=${HBASE_HOME}/logs
-
 # Tell HBase whether it should manage it's own instance of Zookeeper or not.
 # 不使用Hbase自带的zk
 export HBASE_MANAGES_ZK=false
@@ -109,7 +94,11 @@ export HBASE_MANAGES_ZK=false
     <!-- zookeeper集群 -->
     <property>
         <name>hbase.zookeeper.quorum</name>
-        <value>node01,node02,node03</value>
+        <value>node02,node03,node04</value>
+    </property>
+    <property>
+        <name>hbase.zookeeper.property.clientPort</name>
+        <value>2181</value>
     </property>
 
     <!-- Hbase 在zookeeper 上数据的根目录znode节点 -->
@@ -159,13 +148,22 @@ vim backup-masters
 node02
 ```
 
-#### 4、软连接hadoop的配置文件
+### 4、软连接hadoop的配置文件
 
 ```shell
 [root@node01 conf]# pwd
 /opt/stanlong/hbase/hbase-2.4.11/conf
-[root@node01 conf]# ln -s /opt/stanlong/hadoop-2.10.2/etc/hadoop/core-site.xml /opt/stanlong/hbase-2.4.11/conf/core-site.xml
-[root@node01 conf]# ln -s /opt/stanlong/hadoop-2.10.2/etc/hadoop/hdfs-site.xml /opt/stanlong/hbase-2.4.11/conf/hdfs-site.xml
+[root@node01 conf]# ln -s /opt/stanlong/hadoop-3.4.0/etc/hadoop/core-site.xml /opt/stanlong/hbase-2.4.11/conf/core-site.xml
+[root@node01 conf]# ln -s /opt/stanlong/hadoop-3.4.0/etc/hadoop/hdfs-site.xml /opt/stanlong/hbase-2.4.11/conf/hdfs-site.xml
+```
+
+### 5、替换冲突的jar包
+
+```shell
+mv /opt/hbase-2.4.11/lib/client-facing-thirdparty/slf4j-api-1.7.33.jar  .. slf4j-api-1.7.33.jar_bak
+mv /opt/hbase-2.4.11/lib/client-facing-thirdparty/slf4j-reload4j-1.7.36.jar  .. slf4j-reload4j-1.7.36.jar_bak
+cp /opt/hadoop-3.4.0/share/hadoop/common/lib/slf4j-api-1.7.36.jar /opt/hbase-2.4.11/lib/client-facing-thirdparty/
+cp /opt/hadoop-3.4.0/share/hadoop/common/lib/slf4j-reload4j-1.7.36.jar  /opt/hbase-2.4.11/lib/client-facing-thirdparty/
 ```
 
 ## 三、分发Hbase
