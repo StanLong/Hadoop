@@ -128,6 +128,13 @@ export HBASE_MANAGES_ZK=false
         <name>hbase.zookeeper.property.dataDir</name>
         <value>/var/data/zk</value>
     </property>
+    
+    <!-- 配置预写日志文件格式 -->
+    <property>
+        <name>hbase.wal.provider</name>
+        <value>filesystem</value>
+    </property>
+
 </configuration>
 ```
 
