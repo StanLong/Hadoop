@@ -7,6 +7,7 @@ object Driver {
 
     def main(args: Array[String]): Unit = {
         val client1 = new Socket("localhost", 9999)
+        val client2 = new Socket("localhost", 8888)
 
         val task = new Task
 
@@ -23,7 +24,7 @@ object Driver {
         objOut1.close()
         client1.close()
 
-        val client2 = new Socket("localhost", 8888)
+
         val out2 = client2.getOutputStream
         val objOut2 = new ObjectOutputStream(out2)
 

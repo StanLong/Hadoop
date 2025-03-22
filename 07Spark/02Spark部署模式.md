@@ -1,8 +1,12 @@
 # Sprk部署模式
 
-存盘地址 http://archive.apache.org/dist/spark/
+spark下载地址 http://archive.apache.org/dist/spark/
 
-Spark 作为一个数据处理框架和计算引擎，被设计在所有常见的集群环境中运行, 在国内工作中主流的环境为
+Spark 作为一个数据处理框架和计算引擎，
+
+
+
+被设计在所有常见的集群环境中运行, 在国内工作中主流的环境为
 
 Yarn，不过逐渐容器式环境也慢慢流行起来。接下来，我们就分别看看不同环境下Spark 的运行
 
