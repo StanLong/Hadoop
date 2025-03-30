@@ -118,7 +118,12 @@ object Spark03_WordCount {
                 map2.foreach{
                     case(word, count) =>{
                         val newCount = map1.getOrElse(word, 0L) + count
-                        map1.update(word, newCount)
+                        // update方法的作用是为map更新或添加一对新的键值对，这个添加是在原map上进行的，原map会改变
+                        map1.update(word, newCount) // Map(Hello -> 2, Scala -> 1, World -> 1)
+
+                        // updated方法也是更新或添加一对新的键值对，但是不改变原map，而是返回一个包含更新的新map
+                        // map1.updated(word, newCount) // Map(Hello -> 1)
+                        // update 和 updated 这两个方法极容易打错
                     }
                 }
                 map1
