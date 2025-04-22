@@ -1095,4 +1095,7 @@ https://zaixianwangyebianji.bmcx.com/
 </table>
 
 Hive 课程地址： https://www.bilibili.com/video/BV1g84y147sX/?spm_id_from=333.337.search-card.all.click&vd_source=165a812497dd3d7dfba718ae4ef14867
+
 datax部署使用： https://blog.csdn.net/wt334502157/article/details/129081137
+
+ambari 配置Hadoop HA:  https://blog.csdn.net/cz124560/article/details/123545217
