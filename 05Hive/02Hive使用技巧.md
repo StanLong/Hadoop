@@ -129,6 +129,13 @@ mapreduce.job.reduce=5
 -rw-r--r-- 1 root root 383198 Jan 25 06:06 hive.log
 ```
 
+```shell
+-- hive调试，在命令行打印hive日志
+hive > hive --hiveconf hive.root.logger=INFO,console
+```
+
+
+
 ## 四、Hive的JVM堆内存设置
 
 新版本的Hive启动的时候，默认申请的JVM堆内存大小为256M，JVM堆内存申请的太小，导致后期开启本地模式，执行复杂的SQL时经常会报错：java.lang.OutOfMemoryError: Java heap space，因此最好提前调整一下HADOOP_HEAPSIZE这个参数。
