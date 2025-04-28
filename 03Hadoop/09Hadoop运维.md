@@ -58,3 +58,9 @@ hdfs haadmin -transitionToActive nn2
 yarn logs -applicationId application_1666001095165_0287
 ```
 
+# 五、查看集群总的存储容量
+
+```shell
+hdfs dfsadmin -report
+```
+
