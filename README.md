@@ -20,3 +20,5 @@ Hive 课程地址： https://www.bilibili.com/video/BV1g84y147sX/?spm_id_from=33
 datax部署使用： https://blog.csdn.net/wt334502157/article/details/129081137
 
 ambari 配置Hadoop HA:  https://blog.csdn.net/cz124560/article/details/123545217
+
+datax-web 安装配置： https://blog.csdn.net/AnameJL/article/details/119760642
