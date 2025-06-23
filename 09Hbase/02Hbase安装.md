@@ -43,7 +43,7 @@ tar -zxf hbase-2.4.11-bin.tar.gz
 
 ```shell
 vi /etc/profile
-export HBASE_HOME=/opt/hbase-2.4.11-bin.tar.gz # Hbase 环境变量
+export HBASE_HOME=/opt/hbase-2.4.11 # Hbase 环境变量
 export PATH=$PATH:$JAVA_HOME/bin:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$HIVE_HOME/bin:$HBASE_HOME/bin
 
 source /etc/profile # 使环境变量生效
@@ -134,7 +134,6 @@ export HBASE_MANAGES_ZK=false
         <name>hbase.wal.provider</name>
         <value>filesystem</value>
     </property>
-
 </configuration>
 ```
 
@@ -151,8 +150,7 @@ node04
 如果需要配置HMaster主备，需要在conf目录下创建  back-masters 文件，输入备节点的主机名
 
 ```shell
-vim backup-masters
-node02
+echo "node02" > backup-masters
 ```
 
 ### 4、软连接hadoop的配置文件

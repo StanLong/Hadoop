@@ -36,6 +36,8 @@ http://node02:8088/cluster
 | ---------- | ------------------------------------ | ------------------------------------------------------------ |
 | 节点层     | yarn.nodemanager.resource.memory-mb  | 设定单节点可使用的物理内存上限                               |
 | 节点层     | yarn.nodemanager.resource.cpu-vcores | 设定单节点可使用的CPU核数资源上限                            |
+| 节点层     | yarn.nodemanager.pmem-check-enabled  | yarn对单节点物理内存的检查                                   |
+| 节点层     | yarn.nodemanager.vmem-check-enabled  | yarn对单节点虚拟内存的检查                                   |
 | 调度器     | yarn.scheduler.minimum-allocation-mb | 定义单容器最小内存分配值（需≤节点总内存）                    |
 | 调度器     | yarn.scheduler.maximum-allocation-mb | 限制单个容器最大可分配内存（需≤节点内存上限）                |
 | 节点管控   | yarn.nodemanager.vmem-pmem-ratio     | 虚拟内存与物理内存比值（避免内存超分导致任务失败）, 2.1（默认） |

@@ -8,60 +8,132 @@ Tez是一个Hive的运行引擎，性能优于MR。看下图
 
 Tez可以将多个有依赖的作业转换为一个作业，这样只需写一次HDFS，且中间节点较少，从而大大提升作业的计算性能。
 
-## 节点规划
+官网安装说明：  https://tez.apache.org/install.html
 
-| node01, node02   |
-| ---------------- |
-| apache-tez-0.9.2 |
+## 实验环境
 
-## 安装
+- hadoop-3.4.0
+- hive-3.1.3
+- tez-0.10.1
+
+tez-0.10.1 自带的 hadoop jar包版本是hadoop-3.1.3, 需要将这些jar包替换掉
 
 ```shell
-[root@node01 ~]# tar -zxf apache-tez-0.9.2-bin.tar.gz -C /opt/stanlong/hive/
+cp $HADOOP_HOME/share/hadoop/hdfs/hadoop-hdfs-client-3.4.0.jar /opt/tez-0.10.1/lib
+cp $HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-client-common-3.4.0.jar /opt/tez-0.10.1/lib
+cp $HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-client-core-3.4.0.jar /opt/tez-0.10.1/lib
+cp $HADOOP_HOME//share/hadoop/yarn/hadoop-yarn-server-timeline-pluginstorage-3.4.0.jar /opt/tez-0.10.1/lib
+
+# 删除 tez-0.10.1 自带的 hadoop-3.1.3
+rm -rf /opt/tez-0.10.1/lib/hadoop-*-3.1.3.jar
 ```
 
-## 一、配置tez-site.xml
+## 节点规划
+
+| node01            |
+| ----------------- |
+| apache-tez-0.10.1 |
+
+## 解压安装
+
+```shell
+[root@node01 ~]# tar -zxf apache-tez-0.10.1-bin.tar.gz -C /opt/
+```
+
+## 一、在hive中配置Tez
+
+### 1、hive-env.sh
+
+```shell
+vim /opt/hive-3.1.3/conf/hive-env.sh
+
+# Folder containing extra libraries required for hive compilation/execution can be controlled by:
+export TEZ_HOME=/opt/tez-0.10.1  
+export TEZ_JARS=""
+for jar in `ls $TEZ_HOME |grep jar`; do
+    export TEZ_JARS=$TEZ_JARS:$TEZ_HOME/$jar
+done
+for jar in `ls $TEZ_HOME/lib`; do
+    export TEZ_JARS=$TEZ_JARS:$TEZ_HOME/lib/$jar
+done
+export HIVE_AUX_JARS_PATH=/opt/hadoop-3.4.0/share/hadoop/common$TEZ_JARS
+```
+
+### 2、hive-site.xml
+
+在hive-site.xml文件中添加如下配置，更改hive计算引擎
+
+```xml
+<property>
+    <name>hive.execution.engine</name>
+    <value>tez</value>
+</property>
+```
+
+## 二、hadoop中配置tez
+
+### 1、上传依赖包到hdfs
+
+```shell
+hdfs dfs -mkdir /user/tez
+hdfs dfs -put /opt/tez-0.10.1/share/tez.tar.gz /user/tez
+```
+
+#### 2、tez-site.xml
+
+在 hadoop 的目录下面创建一个 tez-site.xml 文件 （不要放在hive/conf/目录下）
 
 ```shell
 vi $HADOOP_HOME/etc/hadoop/tez-site.xml
 ```
 
+添加如下内容
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
 <configuration>
-  <property>
-	    <name>tez.lib.uris</name>
-	    <value>${fs.defaultFS}/tez/tez-0.9.2.tar.gz</value>
-  </property>
-  <property>
-         <name>tez.use.cluster.hadoop-libs</name>
-         <value>true</value>
-  </property>
-  <property>
-         <name>tez.am.resource.memory.mb</name>
-         <value>2048</value>
-  </property>
-  <property> 
-         <name>tez.am.resource.cpu.vcores</name>
-         <value>2</value>
-  </property>
-  <property>
-         <name>tez.container.max.java.heap.fraction</name>
-         <value>0.5</value>
-  </property>
-  <property>
-         <name>tez.task.resource.memory.mb</name>
-         <value>2048</value>
-  </property>
-  <property>
-         <name>tez.task.resource.cpu.vcores</name>
-         <value>2</value>
-  </property>
+    <property>
+        <name>tez.lib.uris</name>
+        <value>hdfs://hacluster/user/tez/tez.tar.gz</value>
+    </property>
+    <property>
+        <name>tez.use.cluster.hadoop-libs</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>tez.history.logging.service.class</name>        
+        <value>org.apache.tez.dag.history.logging.ats.ATSHistoryLoggingService</value>
+    </property>
+    <!--AM 容器大小（MB），建议大于等于yarn.scheduler.minimum-allocation-mb值-->
+    <property>
+        <name>tez.am.resource.memory.mb</name>
+        <value>1024</value>
+    </property>
+    <!--每个AM 容器的虚拟核数-->
+    <property>
+        <name>tez.am.resource.cpu.vcores</name>
+        <value>1</value>
+    </property>
+    <!--Tez容器占用Java堆空间最大的比例-->
+    <property>
+        <name>tez.container.max.java.heap.fraction</name>
+        <value>0.8</value>
+    </property>
+    <!-- 为Tez 任务容器分配的内存大小（MB），如果太小可能导致Tez任务运行不起来-->
+    <property>
+        <name>tez.task.resource.memory.mb</name>
+        <value>1024</value>
+    </property>
+    <!-- 为Tez 任务容器分配的虚拟核数-->
+    <property>
+        <name>tez.task.resource.cpu.vcores</name>
+        <value>1</value>
+    </property>
 </configuration>
 ```
 
-## 二、修改Hadoop环境变量
+#### 2、修改Hadoop环境变量
 
 ```shell
 vi $HADOOP_HOME/etc/hadoop/shellprofile.d/tez.sh
@@ -72,40 +144,15 @@ hadoop_add_profile tez
 function _tez_hadoop_classpath
 {
     hadoop_add_classpath "$HADOOP_HOME/etc/hadoop" after
-    hadoop_add_classpath "/opt/stanlong/hive/apache-tez-0.9.2-bin/*" after
-    hadoop_add_classpath "/opt/stanlong/hive/apache-tez-0.9.2-bin/lib/*" after
+    hadoop_add_classpath "/opt/tez-0.10.1/*" after
+    hadoop_add_classpath "/opt/tez-0.10.1/lib/*" after
 }
-```
-
-## 三、配置hive-site.xml
-
-```shell
- vi $HIVE_HOME/conf/hive-site.xml
-```
-
-```xml
-<property>
-    <name>hive.execution.engine</name>
-    <value>tez</value>
-</property>
-<property>
-    <name>hive.tez.container.size</name>
-    <value>1024</value>
-</property>
 ```
 
 ## 四、解决日志Jar包冲突
 
 ```shell
 rm /opt/stanlong/hive/apache-tez-0.9.2-bin/lib/slf4j-log4j12-1.7.10.jar
-```
-
-## 五、上传Tez到集群
-
-```shell
-[root@node01 ~]# hdfs dfs -mkdir /tez
-[root@node01 ~]# hdfs dfs -put /opt/stanlong/hive/apache-tez-0.9.2-bin/ /tez
-[root@node01 ~]# hdfs dfs -mv /tez/apache-tez-0.9.2-bin /tez/tez-0.9.2
 ```
 
 ## 测试
@@ -145,10 +192,6 @@ INFO  : Loading data to table default.stu_tez from hdfs://hacluster/user/hivedb/
 INFO  : Table default.stu_tez stats: [numFiles=1, numRows=1, totalSize=11, rawDataSize=10]
 No rows affected (83.419 seconds)
 ```
-
-## 分发
-
-将 apache-hive-2.3.9-bin 分发到node02上去
 
 ## 小结
 

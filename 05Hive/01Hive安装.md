@@ -133,6 +133,12 @@ Hive 默认自带一个嵌入式 derby 数据库，这个数据库是用java编�
            <name>hive.cli.print.current.db</name>
            <value>true</value>
        </property>
+       
+       <!-- 关闭hive的操作日志信息 -->
+       <property>
+            <name>hive.server2.logging.operation.enabled</name>
+            <value>false</value>
+   	</property>
    </configuration>
    ```
 
