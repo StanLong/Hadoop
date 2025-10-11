@@ -1,0 +1,22 @@
+```sql
+-- 修改字段注释表
+ALTER TABLE COLUMNS_V2 MODIFY COLUMN COMMENT varchar(256) CHARACTER SET utf8;
+
+-- 修改表注释表
+ALTER TABLE TABLE_PARAMS MODIFY COLUMN PARAM_VALUE varchar(4000) CHARACTER SET utf8;
+
+-- 修改分区参数表
+ALTER TABLE PARTITION_PARAMS MODIFY COLUMN PARAM_VALUE varchar(4000) CHARACTER SET utf8;
+
+-- 修改分区键注释表
+ALTER TABLE PARTITION_KEYS MODIFY COLUMN PKEY_COMMENT varchar(4000) CHARACTER SET utf8;
+
+-- 修改索引参数表
+ALTER TABLE INDEX_PARAMS MODIFY COLUMN PARAM_VALUE varchar(4000) CHARACTER SET utf8;
+
+
+-- 修改连接串，指定编码
+jdbc:mysql://ip:3306/hive?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&characterEncoding=UTF-8
+
+```
+
