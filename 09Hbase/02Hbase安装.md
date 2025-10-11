@@ -75,6 +75,9 @@ export JAVA_HOME=/usr/java/jdk1.8.0_221-amd64
 # Tell HBase whether it should manage it's own instance of Zookeeper or not.
 # 不使用Hbase自带的zk
 export HBASE_MANAGES_ZK=false
+
+# 修改hbase默认日志路径
+export HBASE_LOG_DIR=/var/log/hbase
 ```
 
 #### 3.2 hbase-site.xml
