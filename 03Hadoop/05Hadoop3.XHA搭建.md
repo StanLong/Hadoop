@@ -200,7 +200,7 @@ export HDFS_ZKFC_USER=root
     <!-- 规划了namenode在哪启动 -->
     <property>
         <name>fs.defaultFS</name>
-        <value>hdfs://hacluster</value>
+        <value>hdfs://hacluster/</value>
     </property>
     <!-- 配置NN数据存放路径,目录必须为空 -->
     <property>

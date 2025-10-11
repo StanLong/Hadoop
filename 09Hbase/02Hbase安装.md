@@ -87,7 +87,7 @@ export HBASE_LOG_DIR=/var/log/hbase
     <!--配置为core-site.xml 中的fs.defaultFS -->
     <property>
       <name>hbase.rootdir</name>
-      <value>hdfs://hacluster/hbase</value>
+      <value>hdfs://hacluster/</value>
     </property>
     <!-- 分布式集群 -->
     <property>
