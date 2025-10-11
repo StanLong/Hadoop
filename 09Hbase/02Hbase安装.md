@@ -78,6 +78,10 @@ export HBASE_MANAGES_ZK=false
 
 # 修改hbase默认日志路径
 export HBASE_LOG_DIR=/var/log/hbase
+
+# 把这行的注释打开
+# https://www.cnblogs.com/yeyuzhuanjia/p/17717381.html
+export HBASE_DISABLE_HADOOP_CLASSPATH_LOOKUP="true" 
 ```
 
 #### 3.2 hbase-site.xml
