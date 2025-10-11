@@ -183,6 +183,9 @@ hadoop             hadoop.cmd         hadoop-daemon.sh   hadoop-daemons.sh  halt
 # 配置JAVA_HOME
 export JAVA_HOME=/usr/lib/jvm/jdk-1.8.0_421-oracle-x64
 
+# 配置日志默认存储路径
+export HADOOP_LOG_DIR=/var/log/hadoop
+
 # 在  # export HDFS_NAMENODE_USER=hdfs 添加如下几行， 通过使用export HDFS_NAMENODE_USER=hdfs来限制哪个用户可以执行namenode命令
 export HDFS_NAMENODE_USER=root
 export HDFS_DATANODE_USER=root
