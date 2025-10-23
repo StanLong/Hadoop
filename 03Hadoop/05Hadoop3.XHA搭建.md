@@ -550,6 +550,47 @@ EOF
     
     <!-- ################################### 以上配置可以完整的跑一个hadoop3.X 自带的 wordcount 程序 ################################### -->
 
+    
+    <!-- ################################### yarn 资源配置 ###################################-->
+    <!-- yarn单节点使用4G物理内存 -->
+    <property>
+        <name>yarn.nodemanager.resource.memory-mb</name>
+        <value>4096</value>
+    </property>
+    
+    <!-- yarn单节点使用2个CPU核 -->
+    <property>
+        <name>yarn.nodemanager.resource.cpu-vcores</name>
+        <value>2</value>
+    </property>
+    
+    <!-- 在yarn上分配给容器的内存，最少占用1G内存 -->
+    <property>
+        <name>yarn.scheduler.minimum-allocation-mb</name>
+        <value>1024</value>
+    </property>
+    
+    <!-- 在yarn上分配给容器的内存，最多占用4G内存, 因为yarn的物理内存只有4G -->
+    <property>
+        <name>yarn.scheduler.maximum-allocation-mb</name>
+        <value>4096</value>
+    </property>
+    
+    <!-- 在yarn上分配给容器的内存，最少占用1个CPU核心 -->
+    <proerty>
+        <name>yarn.scheduler.minimum-allocation-vcores</name>
+        <value>1</value>
+    </proerty>
+    
+    <!-- 在yarn上分配给容器的内存，最多占用2个CPU核心 -->
+    <proerty>
+        <name>yarn.scheduler.maximum-allocation-vcores</name>
+        <value>2</value>
+    </proerty>
+    
+    
+    
+    
     <!-- 关闭yarn对物理内存和虚拟内存的限制检查 -->
     <property>
         <name>yarn.nodemanager.pmem-check-enabled</name>
