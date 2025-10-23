@@ -6,7 +6,7 @@ https://www.zabbix.com/download
 
 ## 1.1 Zabbix概述
 
-Zabbix是一款能够监控各种网络参数以及服务器健康性和完整性的软件。Zabbix使用灵活的通知机制，允许用户为几乎任何事件配置基于邮件的告警。这样可以快速反馈服务器的问题。基于已存储的数据，Zabbix提供了出色的报告和数据可视化功能。
+Zabbix是一款能够监控各种网络参数以及服务器健康性和完整性的软件【**监控**】。Zabbix使用灵活的通知机制，允许用户为几乎任何事件配置基于邮件的告警【**告警**】。这样可以快速反馈服务器的问题。基于已存储的数据【**存储**】，Zabbix提供了出色的报告和数据可视化功能【**展示**】。
 
 ## 1.2 Zabbix 基础架构
 
@@ -16,49 +16,39 @@ Zabbix是一款能够监控各种网络参数以及服务器健康性和完整�
 
 ## 2.1 集群规划
 
-| 进程          | node01节点 | node02节点 | node03节点 |
-| ------------- | ---------- | ---------- | ---------- |
-| zabbix-agent  | √          | √          | √          |
-| zabbix-server | √          |            |            |
-| MySQL         | √          |            |            |
-| zabbix-web    | √          |            |            |
+| 节点   | zabbix-agent | zabbix-server | mysql | zabbix-web |
+| ------ | ------------ | ------------- | ----- | ---------- |
+| node01 | √            | √             | √     |            |
+| node02 | √            |               |       |            |
+| node03 | √            |               |       |            |
+| node04 | √            |               |       |            |
 ## 2.2 准备工作
 
-### 2.2.1 关闭集群
+### 2.2.1 关闭hadoop集群
 
 如果集群开启，先关闭集群。因为安装Zabbix前，需要重启虚拟机。
 
-### 2.2.2 关闭防火墙（3台节点，已关闭）
+### 2.2.2 关闭防火墙
 
 ### 2.2.3 关闭SELinux
 
-## 2.3 配置Zabbix yum源（3台节点）
+## 2.3 配置Zabbix yum源
 
 ### 2.3.1 安装yum仓库
 
-1）安装zabbix的yum仓库
+在四台机器上都执行如下操作
 
 ```shell
-[root@node01 ~]# sudo rpm -Uvh https://mirrors.aliyun.com/zabbix/zabbix/5.0/rhel/7/x86_64/zabbix-release-5.0-1.el7.noarch.rpm
+# 安装zabbix的yum仓库
+sudo rpm -Uvh https://mirrors.aliyun.com/zabbix/zabbix/5.0/rhel/7/x86_64/zabbix-release-5.0-1.el7.noarch.rpm
 
-[root@node02 ~]# sudo rpm -Uvh https://mirrors.aliyun.com/zabbix/zabbix/5.0/rhel/7/x86_64/zabbix-release-5.0-1.el7.noarch.rpm
-
-[root@node03 ~]# sudo rpm -Uvh https://mirrors.aliyun.com/zabbix/zabbix/5.0/rhel/7/x86_64/zabbix-release-5.0-1.el7.noarch.rpm
-```
-
-2）安装Software Collections仓库
-
-```shell
-[root@node01 ~]# sudo yum install -y centos-release-scl
-
-[root@node02 ~]# sudo yum install -y centos-release-scl
-
-[root@node03 ~]# sudo yum install -y centos-release-scl
+# 安装Software Collections仓库 
+sudo yum install -y centos-release-scl
 ```
 
 ### 2.3.2 修改zabbix仓库配置文件
 
-node1、node02、node03三台节点，依次执行如下步骤。
+node1、node02、node03、node04四台节点，依次执行如下步骤。
 
 **1）修改为阿里云镜像**
 
