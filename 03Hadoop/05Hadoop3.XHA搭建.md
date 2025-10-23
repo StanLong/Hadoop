@@ -588,19 +588,21 @@ EOF
         <value>2</value>
     </proerty>
     
-    
-    
-    
-    <!-- 关闭yarn对物理内存和虚拟内存的限制检查 -->
+    <!-- 对物理内存的检查，一旦超过物理资源的限制，即kill掉任务 -->
     <property>
         <name>yarn.nodemanager.pmem-check-enabled</name>
         <value>true</value>
     </property>
+    
+    <!-- 关闭对虚拟内存的检查 -->
     <property>
         <name>yarn.nodemanager.vmem-check-enabled</name>
         <value>false</value>
     </property>
     
+
+    
+    <!-- ################################### yarn 日志配置 ###################################-->
     <!-- 开启日志聚集功能 -->
     <property>
         <name>yarn.log-aggregation-enable</name>
