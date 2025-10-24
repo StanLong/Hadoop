@@ -4,6 +4,8 @@ https://www.zabbix.com/download
 
 离线安装文档： https://blog.csdn.net/a648642694/article/details/107332363
 
+本文档使用的zabbix为 zabbix5.0
+
 ## 1.1 Zabbix概述
 
 Zabbix是一款能够监控各种网络参数以及服务器健康性和完整性的软件【**监控**】。Zabbix使用灵活的通知机制，允许用户为几乎任何事件配置基于邮件的告警【**告警**】。这样可以快速反馈服务器的问题。基于已存储的数据【**存储**】，Zabbix提供了出色的报告和数据可视化功能【**展示**】。
@@ -57,11 +59,15 @@ gpgcheck=1
 enabled=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-SCLo
 
+# 如果报错缺失GPG密钥，需下载并导入密钥
+cd /etc/pki/rpm-gpg/
+wget https://www.centos.org/keys/RPM-GPG-KEY-CentOS-SIG-SCLo
+
 ```
 
 ### 2.3.2 修改zabbix仓库配置文件
 
-node1、node02、node03、node04四台节点，依次执行如下步骤。
+四台节点，依次执行如下步骤。
 
 **1）修改为阿里云镜像**
 
@@ -234,7 +240,7 @@ Server=node01
 #Hostname=Zabbix server
 ```
 
-修改完成后分发到另外两台节点上去
+修改完成后分发到另外三台节点上去
 
 ### 2.5.5 配置Zabbix_Web时区
 
@@ -280,14 +286,11 @@ php_value[date.timezone] = Asia/Shanghai # 修改时区
 ### 2.6.1 启动Zabbix
 
 ```shell
-[root@node01 ~]# sudo systemctl start zabbix-server zabbix-agent httpd rh-php72-php-fpm
+[root@node01 ~]# sudo systemctl start zabbix-agent zabbix-server httpd rh-php72-php-fpm
 [root@node01 ~]# sudo systemctl enable zabbix-server zabbix-agent httpd rh-php72-php-fpm
 
-[root@node02 ~]# sudo systemctl start zabbix-agent
-[root@node02 ~]# sudo systemctl enable zabbix-agent
-
-[root@node03 ~]# sudo systemctl start zabbix-agent
-[root@node03 ~]# sudo systemctl enable zabbix-agent
+[root@node01 ~]# for ip in node{02..04};do echo $ip;ssh $ip "systemctl start zabbix-agent" ;done
+[root@node01 ~]# for ip in node{02..04};do echo $ip;ssh $ip "systemctl enable zabbix-agent" ;done
 ```
 
 ### 2.6.2 停止Zabbix
@@ -296,11 +299,8 @@ php_value[date.timezone] = Asia/Shanghai # 修改时区
 [root@node01 ~]# sudo systemctl stop zabbix-server zabbix-agent httpd rh-php72-php-fpm
 [root@node01 ~]# sudo systemctl disable zabbix-server zabbix-agent httpd rh-php72-php-fpm
 
-[root@node02 ~]# sudo systemctl stop zabbix-agent
-[root@node02 ~]# sudo systemctl disable zabbix-agent
-
-[root@node03 ~]# sudo systemctl stop zabbix-agent
-[root@node03 ~]# sudo systemctl disable zabbix-agent
+[root@node01 ~]# for ip in node{02..04};do echo $ip;ssh $ip "systemctl stop zabbix-agent" ;done
+[root@node01 ~]# for ip in node{02..04};do echo $ip;ssh $ip "systemctl disable zabbix-agent" ;done
 ```
 
 ### 2.6.3 连接Zabbix_Web数据库
