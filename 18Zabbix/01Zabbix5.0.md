@@ -18,7 +18,7 @@ Zabbix是一款能够监控各种网络参数以及服务器健康性和完整�
 
 | 节点   | zabbix-agent | zabbix-server | mysql | zabbix-web |
 | ------ | ------------ | ------------- | ----- | ---------- |
-| node01 | √            | √             | √     |            |
+| node01 | √            | √             | √     | √          |
 | node02 | √            |               |       |            |
 | node03 | √            |               |       |            |
 | node04 | √            |               |       |            |
@@ -43,7 +43,20 @@ Zabbix是一款能够监控各种网络参数以及服务器健康性和完整�
 sudo rpm -Uvh https://mirrors.aliyun.com/zabbix/zabbix/5.0/rhel/7/x86_64/zabbix-release-5.0-1.el7.noarch.rpm
 
 # 安装Software Collections仓库 
-sudo yum install -y centos-release-scl
+# sudo yum install -y centos-release-scl
+# 这里有个问题，CentOS7的SCL源在2024年6月30日停止维护了。 当scl源里面默认使用了centos官方的地址，无法连接，需要替换为阿里云。
+# 参考 https://blog.csdn.net/buzhi______/article/details/142643395
+
+# 编辑新的源文件
+vim CentOS-SCLo-scl-rh.repo
+# 替换成阿里云的源
+[centos-sclo-rh]
+name=CentOS-7 - SCLo rh
+baseurl=https://mirrors.aliyun.com/centos/7/sclo/x86_64/rh/
+gpgcheck=1
+enabled=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-SCLo
+
 ```
 
 ### 2.3.2 修改zabbix仓库配置文件
@@ -90,7 +103,7 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-ZABBIX
 gpgcheck=1
 ```
 
-**（ 2 ）执行以下命令完成全局替换 **
+**（ 2 ）执行以下命令完成全局替换**
 
 ```shell
 [root@node01 ~]# sed -i 's/http:\/\/repo.zabbix.com/https:\/\/mirrors.aliyun.com\/zabbix/g' /etc/yum.repos.d/zabbix.repo
@@ -171,7 +184,7 @@ gpgcheck=1
 
 ## 2.4 安装Zabbix
 
-**在三台节点分别执行以下安装命令**
+**在四台节点分别执行以下安装命令**
 
 ```shell
 # 按照规划 node01 上安装四个组件
@@ -179,9 +192,7 @@ gpgcheck=1
 # 两个 前端组件      zabbix-web-mysql-scl zabbix-apache-conf-scl
 [root@node01 ~]#  yum install -y zabbix-server-mysql zabbix-agent zabbix-web-mysql-scl zabbix-apache-conf-scl
 
-[root@node02 ~]#  sudo yum install -y zabbix-agent
-
-[root@node03 ~]#  sudo yum install -y zabbix-agent
+[root@node01 ~]# for ip in node{02..04};do echo $ip;ssh $ip "yum install -y zabbix-agent";done
 ```
 
 ## 2.5 配置Zabbix
