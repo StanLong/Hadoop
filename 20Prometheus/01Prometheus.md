@@ -130,3 +130,191 @@ Prometheus 既然设计为一个维度存储模型，可以把它理解为一个
   - Grafana
   - 其他基于API 开发的客户端
 
+# 四、安装
+
+官网：https://prometheus.io/
+
+下载地址：https://prometheus.io/download
+
+安装包介绍：
+
+- prometheus-*.tar.gz 主包
+- pushgateway-*.tar.gz 数据采集
+- alertmanager-*.tar.gz 告警 （选装）
+- node_exporter-*.tar.gz  数据采集（选装）
+
+Prometheus 基于 Golang 编写，编译后的软件包，不依赖于任何的第三方依赖。只需要下载对应平台的二进制包，解压并且添加基本的配置即可正常启动 Prometheus Server。
+
+```shell
+[root@node01 prometheus]# pwd
+/opt/prometheus
+[root@node01 prometheus]# ll
+total 172860
+-rw-rw-rw- 1 root root 25115445 Sep 17  2021 alertmanager-0.23.0.linux-amd64.tar.gz
+-rw-rw-rw- 1 root root    71283 Sep 17  2021 flink-dashboard_rev3.json
+-rw-rw-rw- 1 root root 60454974 Sep 17  2021 grafana-enterprise-8.1.2.linux-amd64.tar.gz
+-rw-rw-rw- 1 root root  8898481 Sep 17  2021 node_exporter-1.2.2.linux-amd64.tar.gz
+-rw-rw-rw- 1 root root   105600 Sep 17  2021 node-exporter-for-prometheus-dashboard-cn-v20201010_rev24.json
+-rw-rw-rw- 1 root root 73156341 Sep 17  2021 prometheus-2.29.1.linux-amd64.tar.gz
+-rw-rw-rw- 1 root root  9193207 Sep 17  2021 pushgateway-1.4.1.linux-amd64.tar.gz
+```
+
+## 4.1、prometheus
+
+```shell
+[root@node01 prometheus]# tar -zxvf prometheus-2.29.1.linux-amd64.tar.gz 
+[root@node01 prometheus]# mv prometheus-2.29.1.linux-amd64 prometheus-2.29.1
+```
+
+修改配置
+
+```yaml
+[root@node01 prometheus-2.29.1]# cat /opt/prometheus/prometheus-2.29.1/prometheus.yml 
+# my global config
+global:
+  scrape_interval: 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  # scrape_timeout is set to the global default (10s).
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          # - alertmanager:9093
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: "prometheus"
+
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
+
+  # 
+    static_configs:
+      - targets: ["node01:9090"]
+  # 添加 PushGateway 监控配置
+  - job_name: 'pushgateway'
+    static_configs:
+  - targets: ['node01:9091']
+    labels:instance: pushgateway
+
+  # 添加 Node Exporter 监控配置
+  - job_name: 'node exporter'
+    static_configs:
+  - targets: ['node01:9100', 'node02:9100', 'node03:9100', 'node04:9100']
+```
+
+配置说明： 
+
+**1、global配置块**：控制Prometheus服务器的全局配置 
+
+- ➢ scrape_interval：配置拉取数据的时间间隔，默认为1分钟。 
+- ➢ evaluation_interval：规则验证（生成alert）的时间间隔，默认为1分钟。 
+
+**2、rule_files配置块**：规则配置文件 
+
+**3、scrape_configs配置块**：配置采集目标相关， prometheus监视的目标。Prometheus自身的运行信息可以通过HTTP访问，所以Prometheus可以监控自己的运行数据。 
+
+- ➢ job_name：监控作业的名称 
+- ➢ static_configs：表示静态目标配置，就是固定从某个target拉取数据 
+- ➢ targets：指定监控的目标，其实就是从哪儿拉取数据。Prometheus 会从http://hadoop202:9090/metrics上拉取数据。 Prometheus 是可以在运行时自动加载配置的。启动时需要添加： -- web.enable - lifecycle 
+
+## 4.2、pushgateway
+
+Prometheus在正常情况下是采用拉模式从产生metric的作业或者exporter（比如专门监控主机的NodeExporter）拉取监控数据。但是我们要监控的是Flink on YARN作业，想要让Prometheus自动发现作业的提交、结束以及自动拉取数据显然是比较困难的。PushGateway就是一个中转组件，通过配置Flink on YARN作业将metric推到PushGateway，Prometheus再从PushGateway拉取就可以了
+
+```shell
+[root@node01 prometheus]# tar -zxvf pushgateway-1.4.1.linux-amd64.tar.gz 
+[root@node01 prometheus]# mv pushgateway-1.4.1.linux-amd64 pushgateway-1.4.1
+```
+
+## 4.3、alertmanager
+
+```shell
+[root@node01 prometheus]# tar -zxvf alertmanager-0.23.0.linux-amd64.tar.gz 
+[root@node01 prometheus]# mv alertmanager-0.23.0.linux-amd64 alertmanager-0.23.0
+```
+
+## 4.4、node_exporter
+
+```简言之就是在每个node启动之后就通过了每个node的查询接口，promethus就能收集到了```
+
+在 Prometheus 的架构设计中，Prometheus Server 主要负责数据的收集，存储并且对外提供数据查询支持，而实际的监控样本数据的收集则是由 Exporter 完成。
+
+因此为了能够监控到某些东西，如主机的CPU 使用率，我们需要使用到 Exporter。Prometheus 周期性的从 Exporter 暴露的HTTP 服务地址（通常是/metrics）拉取监控样本数据。
+
+Exporter 可以是一个相对开放的概念，其可以是一个独立运行的程序独立于监控目标以外，也可以是直接内置在监控目标中。只要能够向 Prometheus 提供标准格式的监控样本数据即可。
+
+为了能够采集到主机的运行指标如CPU, 内存，磁盘等信息。我们可以使用Node Exporter。Node Exporter 同样采用 Golang 编写，并且不存在任何的第三方依赖，只需要下载，解压即可运行。可以从 https://prometheus.io/download/ 获取最新的 node exporter 版本的二进制包。
+
+- 安装
+
+  ```shell
+  [root@node01 prometheus]# tar -zxvf node_exporter-1.2.2.linux-amd64.tar.gz 
+  [root@node01 prometheus]# mv node_exporter-1.2.2.linux-amd64 node_exporter-1.2.2
+  [root@node01 prometheus]# cd node_exporter-1.2.2
+  [root@node01 node_exporter-1.2.2]# ll
+  total 18080
+  -rw-r--r-- 1 3434 3434    11357 Aug  6  2021 LICENSE
+  -rwxr-xr-x 1 3434 3434 18494215 Aug  6  2021 node_exporter
+  -rw-r--r-- 1 3434 3434      463 Aug  6  2021 NOTICE
+  ```
+
+- 启动
+
+  启动并通过页面查看是否成功 
+
+  执行 ./node_exporter 
+
+  浏览器输入：http://node01:9100/metrics，可以看到当前node exporter获取到的当前主机的所有监控数据。 
+
+- 分发
+
+  分发 node_exporter-1.2.2 到 node02、node03、node04 上去
+
+  ```shell
+  [root@node01 prometheus]# for ip in node{02..04};do echo $ip;scp -r node_exporter-1.2.2 $ip:/opt/prometheus/;done
+  ```
+
+- 配置开机启动
+
+  ```shell
+  # 创建service 文件
+  # 注意脚本里的 User， 是设备的账户名
+  [root@node01 ~]# sudo vim /usr/lib/systemd/system/node_exporter.service
+  [Unit]
+  Description=node_export
+  Documentation=https://github.com/prometheus/node_exporter
+  After=network.target
+  [Service]
+  Type=simple
+  User=root
+  ExecStart= /opt/prometheus/node_exporter-1.2.2/node_exporter
+  Restart=on-failure
+  [Install]
+  WantedBy=multi-user.target
+  
+  #  分发文件
+  [root@node01 ~]# cd /usr/lib/systemd/system/
+  [root@node01 system]# for ip in node{02..04};do echo $ip;scp node_exporter.service $ip:/usr/lib/systemd/system/;done
+  
+  #  设为开机自启动（所有机器都执行）
+  [root@node01 ~]# for ip in node{01..04};do echo $ip;ssh $ip "systemctl enable node_exporter.service";done
+  #  启动服务（所有机器都执行）
+  [root@node01 ~]# for ip in node{01..04};do echo $ip;ssh $ip "systemctl start node_exporter.service";done
+  ```
+
+  
+
+
+
+
+
