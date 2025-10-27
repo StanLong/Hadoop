@@ -330,42 +330,6 @@ Exporter 可以是一个相对开放的概念，其可以是一个独立运行�
   [root@node01 ~]# for ip in node{01..04};do echo $ip;ssh $ip "systemctl start node_exporter.service";done
   ```
 
-## 4.5、启动脚本
-
-```shell
-#!/bin/bash
-
-PROMETHEUS_PATH=/opt/prometheus/prometheus-2.29.1
-PUSHGATEWAY_PATH=/opt/prometheus/pushgateway-1.4.1
-ALERTMANAGER_PATH=/opt/prometheus/alertmanager-0.23.0
-LOG_PATH=/var/log/prometheus
-start(){
-    nohup $PROMETHEUS_PATH/prometheus --config.file=$PROMETHEUS_PATH/prometheus.yml > $LOG_PATH/prometheus.log 2>&1 &
-    echo "prometheus 启动成功，运行于 9090 端口"
-    
-    nohup $PUSHGATEWAY_PATH/pushgateway --web.listen-address :9091 > $LOG_PATH/pushgateway.log 2>&1 &
-    echo "pushgateway 启动成功，运行于 9091 端口"
-    
-    nohup $ALERTMANAGER_PATH/alertmanager --config.file=$ALERTMANAGER_PATH/alertmanager.yml > $LOG_PATH/alertmanager.log 2>&1 &
-    echo "alertmanager 启动成功，运行于 9100 端口"
-}
-
-stop(){
-    ps -ef | grep prometheus.yml | grep -v grep |awk  '{print $2}' | xargs -n1 kill -9
-    ps -ef | grep pushgateway | grep -v grep |awk  '{print $2}' | xargs -n1 kill -9
-    ps -ef | grep alertmanager.yml | grep -v grep |awk  '{print $2}' | xargs -n1 kill -9
-}
-
-case $1 in
-    "start")
-        $1
-        ;;
-    "stop")
-        $1
-        ;;
-esac
-```
-
 ## 4.6、打开 **web** **页面查看**
 
 ➢ 浏览器输入：http://node01:9090/
@@ -718,3 +682,64 @@ topk 和 bottomk 则用于对样本值进行排序，返回当前样本值前 n 
 quantile 用于计算当前样本数据值的分布情况 quantile(φ, express)其中 0 ≤ φ ≤ 1。
 
 例如，当φ 为 0.5 时，即表示找到当前样本数据中的中位数：quantile(0.5, prometheus_http_requests_total)
+
+# 六、Prometheus 和 Grafana 集成
+
+grafana 是一款采用 Go 语言编写的开源应用，主要用于大规模指标数据的可视化展现，是网络架构和应用分析中最流行的时序数据展示工具，目前已经支持绝大部分常用的时序数据库。下载地址：https://grafana.com/grafana/download
+
+安装启动
+
+```shell
+[root@node01 prometheus]# tar -zxvf grafana-enterprise-8.1.2.linux-amd64.tar.gz 
+[root@node01 prometheus]# cd grafana-8.1.2/
+[root@node01 grafana-8.1.2]# nohup ./bin/grafana-server web > /var/log/prometheus/grafana.log 2>&1 &
+```
+
+打开web：http://hadoop202:3000 , 默认用户名和密码：admin
+
+# 七、启动脚本
+
+所有组件启动脚本
+
+```shell
+#!/bin/bash
+
+PROMETHEUS_PATH=/opt/prometheus/prometheus-2.29.1
+PUSHGATEWAY_PATH=/opt/prometheus/pushgateway-1.4.1
+ALERTMANAGER_PATH=/opt/prometheus/alertmanager-0.23.0
+GRAFANA_PATH=/opt/prometheus/grafana-8.1.2
+LOG_PATH=/var/log/prometheus
+start(){
+    nohup $PROMETHEUS_PATH/prometheus --config.file=$PROMETHEUS_PATH/prometheus.yml > $LOG_PATH/prometheus.log 2>&1 &
+    echo "prometheus 启动成功，运行于 9090 端口"
+    
+    nohup $PUSHGATEWAY_PATH/pushgateway --web.listen-address :9091 > $LOG_PATH/pushgateway.log 2>&1 &
+    echo "pushgateway 启动成功，运行于 9091 端口"
+    
+    nohup $ALERTMANAGER_PATH/alertmanager --config.file=$ALERTMANAGER_PATH/alertmanager.yml > $LOG_PATH/alertmanager.log 2>&1 &
+    echo "alertmanager 启动成功，运行于 9100 端口"
+    
+    nohup $GRAFANA_PATH/bin/grafana-server web > $LOG_PATH/grafana.log 2>&1 &
+    echo "grafana 启动成功，运行于 3000 端口"
+
+}
+
+stop(){
+    ps -ef | grep prometheus.yml | grep -v grep |awk  '{print $2}' | xargs -n1 kill -9
+    ps -ef | grep pushgateway | grep -v grep |awk  '{print $2}' | xargs -n1 kill -9
+    ps -ef | grep alertmanager.yml | grep -v grep |awk  '{print $2}' | xargs -n1 kill -9
+    ps -ef | grep grafana-server | grep -v grep |awk  '{print $2}' | xargs -n1 kill -9
+}
+
+case $1 in
+    "start")
+        $1
+        ;;
+    "stop")
+        $1
+        ;;
+esac
+```
+
+
+
