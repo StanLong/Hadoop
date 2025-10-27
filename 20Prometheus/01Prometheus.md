@@ -169,7 +169,6 @@ total 172860
 修改配置
 
 ```yaml
-[root@node01 prometheus-2.29.1]# cat /opt/prometheus/prometheus-2.29.1/prometheus.yml 
 # my global config
 global:
   scrape_interval: 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
@@ -197,19 +196,20 @@ scrape_configs:
     # metrics_path defaults to '/metrics'
     # scheme defaults to 'http'.
 
-  # 
     static_configs:
       - targets: ["node01:9090"]
+
   # 添加 PushGateway 监控配置
-  - job_name: 'pushgateway'
+  - job_name: "pushgateway"
     static_configs:
-  - targets: ['node01:9091']
-    labels:instance: pushgateway
+    - targets: ["node01:9091"]
+      labels:
+        instance: pushgateway
 
   # 添加 Node Exporter 监控配置
-  - job_name: 'node exporter'
+  - job_name: "node exporter"
     static_configs:
-  - targets: ['node01:9100', 'node02:9100', 'node03:9100', 'node04:9100']
+    - targets: ["node01:9100", "node02:9100", "node03:9100", "node04:9100"]
 ```
 
 配置说明： 
