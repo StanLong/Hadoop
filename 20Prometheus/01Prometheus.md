@@ -227,6 +227,12 @@ scrape_configs:
 - ➢ static_configs：表示静态目标配置，就是固定从某个target拉取数据 
 - ➢ targets：指定监控的目标，其实就是从哪儿拉取数据。Prometheus 会从http://hadoop202:9090/metrics上拉取数据。 Prometheus 是可以在运行时自动加载配置的。启动时需要添加： -- web.enable - lifecycle 
 
+启动：
+
+```shell
+[root@node01 prometheus-2.29.1]# nohup ./prometheus --config.file=prometheus.yml > /var/log/prometheus/prometheus.log 2>&1 & 
+```
+
 ## 4.2、pushgateway
 
 Prometheus在正常情况下是采用拉模式从产生metric的作业或者exporter（比如专门监控主机的NodeExporter）拉取监控数据。但是我们要监控的是Flink on YARN作业，想要让Prometheus自动发现作业的提交、结束以及自动拉取数据显然是比较困难的。PushGateway就是一个中转组件，通过配置Flink on YARN作业将metric推到PushGateway，Prometheus再从PushGateway拉取就可以了
@@ -236,11 +242,23 @@ Prometheus在正常情况下是采用拉模式从产生metric的作业或者expo
 [root@node01 prometheus]# mv pushgateway-1.4.1.linux-amd64 pushgateway-1.4.1
 ```
 
+启动
+
+```shell
+[root@node01 pushgateway-1.4.1]# nohup ./pushgateway --web.listen-address :9091 > /var/log/prometheus/pushgateway.log 2>&1 & 
+```
+
 ## 4.3、alertmanager
 
 ```shell
 [root@node01 prometheus]# tar -zxvf alertmanager-0.23.0.linux-amd64.tar.gz 
 [root@node01 prometheus]# mv alertmanager-0.23.0.linux-amd64 alertmanager-0.23.0
+```
+
+启动
+
+```shell
+[root@node01 alertmanager-0.23.0]# nohup  ./alertmanager --config.file=alertmanager.yml > /var/log/prometheus/alertmanager.log 2>&1 & 
 ```
 
 ## 4.4、node_exporter
@@ -311,6 +329,54 @@ Exporter 可以是一个相对开放的概念，其可以是一个独立运行�
   #  启动服务（所有机器都执行）
   [root@node01 ~]# for ip in node{01..04};do echo $ip;ssh $ip "systemctl start node_exporter.service";done
   ```
+
+## 4.5、启动脚本
+
+```shell
+#!/bin/bash
+
+PROMETHEUS_PATH=/opt/prometheus/prometheus-2.29.1
+PUSHGATEWAY_PATH=/opt/prometheus/pushgateway-1.4.1
+ALERTMANAGER_PATH=/opt/prometheus/alertmanager-0.23.0
+LOG_PATH=/var/log/prometheus
+start(){
+    nohup $PROMETHEUS_PATH/prometheus --config.file=$PROMETHEUS_PATH/prometheus.yml > $LOG_PATH/prometheus.log 2>&1 &
+    echo "prometheus 启动成功，运行于 9090 端口"
+    
+    nohup $PUSHGATEWAY_PATH/pushgateway --web.listen-address :9091 > $LOG_PATH/pushgateway.log 2>&1 &
+    echo "pushgateway 启动成功，运行于 9091 端口"
+    
+    nohup $ALERTMANAGER_PATH/alertmanager --config.file=$ALERTMANAGER_PATH/alertmanager.yml > $LOG_PATH/alertmanager.log 2>&1 &
+    echo "alertmanager 启动成功，运行于 9100 端口"
+}
+
+stop(){
+    ps -ef | grep prometheus.yml | grep -v grep |awk  '{print $2}' | xargs -n1 kill -9
+    ps -ef | grep pushgateway | grep -v grep |awk  '{print $2}' | xargs -n1 kill -9
+    ps -ef | grep alertmanager.yml | grep -v grep |awk  '{print $2}' | xargs -n1 kill -9
+}
+
+case $1 in
+    "start")
+        $1
+        ;;
+    "stop")
+        $1
+        ;;
+esac
+```
+
+## 4.6、打开 **web** **页面查看**
+
+➢ 浏览器输入：http://node01:9090/
+
+➢ 点击 Status，选中 Targets：
+
+![](./img/03.png)
+
+![](./img/02.png)
+
+➢ prometheus、pushgateway 和 node exporter 都是 up 状态，表示安装启动成功。
 
 # 五、PromQL
 
