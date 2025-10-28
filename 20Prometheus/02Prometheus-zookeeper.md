@@ -41,7 +41,7 @@ curl ha-node1:7000/metrics
 ```shell
   - job_name: 'zk_cluster'
     static_configs:
-    - targets: ['ha-node1:9505','ha-node2:9505','ha-node3:9505','ha-node4:9505','ha-node5:9505']
+    - targets: ['ha-node1:7000','ha-node2:7000','ha-node3:7000','ha-node4:7000','ha-node5:7000']
 ```
 
 启动prometheus：

@@ -725,8 +725,9 @@ start(){
 }
 
 stop(){
-    curl -X POST http://node01:9090/-/quit
-    # curl -XPOST http://node01:9090/-/reload
+    ps -ef | grep prometheus.yml | grep -v grep |awk  '{print $2}' | xargs -n1 kill -9
+    # curl -X POST http://node01:9090/-/quit
+    # curl -X POST http://node01:9090/-/reload
     ps -ef | grep pushgateway | grep -v grep |awk  '{print $2}' | xargs -n1 kill -9
     ps -ef | grep alertmanager.yml | grep -v grep |awk  '{print $2}' | xargs -n1 kill -9
     ps -ef | grep grafana-server | grep -v grep |awk  '{print $2}' | xargs -n1 kill -9
