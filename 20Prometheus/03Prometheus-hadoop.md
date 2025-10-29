@@ -1,6 +1,6 @@
 # Prometheus 监控 Hadoop
 
-**一、规划路径**
+**一、规划文件路径**
 
 ```shell
 [root@node01 monitoring]# pwd

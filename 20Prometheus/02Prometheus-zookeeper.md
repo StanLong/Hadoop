@@ -1,10 +1,10 @@
-# Prometheus 监控Zookeeper
+# Prometheus 监控 Zookeeper
 
 ### 监控ZooKeeper指标
 
 #### 修改zkServer.sh
 
-vim /opt/apache-zookeeper-3.6.1-bin/conf/zoo.cfg
+vim /opt/zookeeper-3.8.4/conf/zoo.cfg
 
 ```properties
 ## Metrics Providers
@@ -18,10 +18,8 @@ metricsProvider.exportJvmInfo=true
 #### 将ZK分发到每个节点
 
 ```shell
-scp /opt/apache-zookeeper-3.6.1-bin/conf/zoo.cfg ha-node2:/opt/apache-zookeeper-3.6.1-bin/conf; \
-scp /opt/apache-zookeeper-3.6.1-bin/conf/zoo.cfg ha-node3:/opt/apache-zookeeper-3.6.1-bin/conf; \
-scp /opt/apache-zookeeper-3.6.1-bin/conf/zoo.cfg ha-node4:/opt/apache-zookeeper-3.6.1-bin/conf; \
-scp /opt/apache-zookeeper-3.6.1-bin/conf/zoo.cfg ha-node5:/opt/apache-zookeeper-3.6.1-bin/conf
+[root@node02 conf]# scp zoo.cfg node03:/opt/zookeeper-3.8.4/conf/
+[root@node02 conf]# scp zoo.cfg node04:/opt/zookeeper-3.8.4/conf/
 ```
 
 #### 启动ZooKeeper集群
@@ -29,7 +27,7 @@ scp /opt/apache-zookeeper-3.6.1-bin/conf/zoo.cfg ha-node5:/opt/apache-zookeeper-
 #### 测试获取ZooKeeper metrics
 
 ```shell
-curl ha-node1:7000/metrics
+curl node01:7000/metrics
 ```
 
 马上就能看到大量的指标了。
@@ -39,13 +37,14 @@ curl ha-node1:7000/metrics
 编辑prometheus.yaml文件：
 
 ```shell
-  - job_name: 'zk_cluster'
+  # 监控zookeeper
+  - job_name: 'zookeeper'
     static_configs:
-    - targets: ['ha-node1:7000','ha-node2:7000','ha-node3:7000','ha-node4:7000','ha-node5:7000']
+    - targets: ["node02:7000","node03:7000","node04:7000"]
 ```
 
 启动prometheus：
 
 ```shell
-./prometheus --config.file=prometheus.yml
+ nohup ./prometheus --config.file=prometheus.yml > /var/log/prometheus/prometheus.log 2>&1 & 
 ```
