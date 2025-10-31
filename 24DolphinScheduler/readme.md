@@ -1,8 +1,10 @@
 下载地址： https://dolphinscheduler.apache.org/zh-cn/download/   
 
-master节点： node04
+安装包在node01，各服务分配节点如下
 
-worker节点： node02、node03
+node04：master-server, api-serve, alert-server
+
+node02、node03：worker-server
 
 
 
