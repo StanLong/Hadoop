@@ -1,5 +1,7 @@
 # 运行引擎Spark
 
+参考： https://developer.aliyun.com/article/1351821
+
 ## 简介
 
 ​    Hive引擎包括：默认MR、tez、spark
