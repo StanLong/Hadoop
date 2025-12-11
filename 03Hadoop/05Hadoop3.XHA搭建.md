@@ -609,16 +609,22 @@ EOF
         <value>true</value>
     </property>
     
-    <!-- 设置日志聚集服务器地址 -->
+    <!-- 设置日志聚集服务器地址  YARN 会自动推导 JobHistoryServer 的地址（从 mapreduce.jobhistory.webapp.address 配置中获取）
     <property>  
         <name>yarn.log.server.url</name>  
         <value>http://node01:19888/jobhistory/logs</value>
-    </property>
+    </property> -->
     
     <!-- 设置日志保留时间为7天 -->
     <property>
         <name>yarn.log-aggregation.retain-seconds</name>
         <value>604800</value>
+    </property>
+    
+    <!-- 日志聚合目录, 默认这个保存hdfs目录是 /tmp/logs  -->
+    <property>
+        <name>yarn.nodemanager.remote-app-log-dir</name>
+        <value>/yarn/app-logs</value>
     </property>
 
 </configuration>
@@ -722,7 +728,7 @@ EOF
     <!-- 日志聚合目录, 默认这个保存hdfs目录是 /tmp/logs  -->
     <property>
         <name>yarn.nodemanager.remote-app-log-dir</name>
-        <value>/tmp/app-logs</value>
+        <value>/yarn/app-logs</value>
     </property>
 ```
 
