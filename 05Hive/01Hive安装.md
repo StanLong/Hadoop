@@ -108,7 +108,7 @@ Hive 默认自带一个嵌入式 derby 数据库，这个数据库是用java编�
        <!-- 元数据库的链接地址 mysql -->
        <property>
            <name>javax.jdo.option.ConnectionURL</name>
-           <value>jdbc:mysql://192.168.235.11:3306/hivedb?createDatabaseIfNotExist=true&amp;useSSL=false&amp;characterEncoding=UTF-8</value>
+           <value>jdbc:mysql://node01:3306/hivedb?createDatabaseIfNotExist=true&amp;useSSL=false&amp;characterEncoding=UTF-8&amp;allowPublicKeyRetrieval=true</value>
        </property>
        <!-- 指定mysql连接信息 -->
        <property>
@@ -206,7 +206,11 @@ Hive 的 hiveserver2 服务提供了 jdbc/odbc接口，为用户提供了远程�
 hivesever2的模拟用户功能，依赖于Hadoop提供的proxy user（代理用户功能），只有Hadoop中的代理用户才能模拟其他用户的身份访问Hadoop集群。因此，需要将hiveserver2的启动用户设置成hadoop的代理用户，配置方式如下， 在 $HADOOP_HOME/etc/hadoop/core-site.xml 文件中追加如下配置并分发到集群中的其他节点
 
 ```xml
-    <!--配置root(超级用户)允许通过代理访问的主机节点-->
+	<!-- hadoop.proxyuser：固定前缀，标识这是 Hadoop 代理用户的配置项。
+         root：代理用户主体（即谁作为代理者），这里指root用户可以充当代理，替其他用户执行操作
+		 user：被代理的用户范围，用于指定root可以代理哪些用户 -->
+
+	<!--配置root(超级用户)允许通过代理访问的主机节点-->
     <property>
         <name>hadoop.proxyuser.root.hosts</name>
         <value>*</value>
