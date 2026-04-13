@@ -1,0 +1,17 @@
+drop table if exists hadoop_monitor;
+create table hadoop_monitor
+(
+	id                            int(11) AUTO_INCREMENT PRIMARY KEY    comment '自增主键'
+   ,nn_heap_memory_used           double      comment 'NameNode已用堆内存'
+   ,nn_heap_memory_max            double      comment 'NameNode最大堆内存'
+   ,dn_decom                      int         comment 'DataNode离线数'
+   ,dn_dead                       int         comment 'DataNode宕机数'
+   ,dn_live                       int         comment 'DataNode在线数'
+   ,user_cpu                      double      comment '用户程序CPU使用率'
+   ,use_mem                       double      comment '集群已用内存'
+   ,total_mem                     double      comment '集群总内存'
+   ,hdfs_capacity_total           double      comment '集群总容量'
+   ,hdfs_capacity_used            double      comment '集群已用容量'
+   ,hdfs_capacity_remaining       double      comment '集群剩余容量' 
+   ,collect_time                  varchar(50) comment '采集时间'
+)comment 'hadoop集群资源监控表';
