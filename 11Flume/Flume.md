@@ -12,7 +12,7 @@ Flume是Cloudera提供的一个高可用的，高可靠的，分布式的海量�
 
 - Agent
 
-  Agent是一个JVM进程，它以事件的形式将数据从源头送至目的，是Flume数据传输的基本单元。
+  Agent是一个JVM进程，它以事件（Event）的形式将数据从源头送至目的，是Flume数据传输的基本单元。
 
   Agent主要有3个部分组成，Source、Channel、Sink。
 
@@ -31,9 +31,9 @@ Flume是Cloudera提供的一个高可用的，高可靠的，分布式的海量�
 
 - Sink
 
-  Sink不断地轮询Channel中的事件且批量地移除它们，并将这些事件批量写入到存储或索引系统、或者被发送到另一个Flume Agent。
+  Sink不断地轮询Channel中的事件且批量地挪走它们，将这些事件批量写入到存储或索引系统、或者被发送到另一个Flume Agent。
 
-  Sink是完全事务性的。在从Channel批量删除数据之前，每个Sink用Channel启动一个事务。批量事件一旦成功写出到存储系统或下一个Flume Agent，Sink就利用Channel提交事务。事务一旦被提交，该Channel从自己的内部缓冲区删除事件。
+  Sink是完全事务性的。在从Channel批量挪走数据之前，每个Sink用Channel启动一个事务。批量事件一旦成功写出到存储系统或下一个Flume Agent，Sink就利用Channel提交事务。事务一旦被提交，该Channel从自己的内部缓冲区删除事件。
 
   Sink组件目的地包括hdfs、logger、avro、thrift、ipc、file、null、HBase、solr、自定义。
 
@@ -146,7 +146,7 @@ export JAVA_HOME=/usr/java/jdk1.8.0_65
 
   ```shell
   # Name the components on this agent
-  a1.sources = r1          a1:表示agent的名称, r1:表示a1的输入源
+  a1.sources = r1          a1:表示agent的名称, r1:表示a1的输入源， 多agent时，a1 不能重复
   a1.sinks = k1            k1:表示a1的输出目的地
   a1.channels = c1         c1:表示a1的缓冲区
   
