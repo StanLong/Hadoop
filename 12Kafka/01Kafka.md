@@ -158,6 +158,10 @@ esac
 6075 Kafka
 ```
 
+### 5、kafka 日志相关配置
+
+https://blog.csdn.net/fenglepeng/article/details/114532420
+
 ## 六、常用命令
 
 ### 1、创建topic
