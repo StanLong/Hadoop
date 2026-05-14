@@ -11,7 +11,7 @@
 
 **角色说明**
 
-- JNN : 当客户端发送请求给主NameNode时，元数据写到一个共享的磁盘中（两个Namenode都可以访问），这样元数据就可以保持一致了. JNN 保证了NameNode的高可用性, NN依赖JNN同步edits.log
+- JNN : 当客户端发送请求给主NameNode时，元数据写到一个共享的磁盘中（两个Namenode都可以访问），这样元数据就可以保持一致了. JNN 保证了NameNode的高可用性, NN依赖JNN同步edits.log。JournalNode 集群通常由奇数个节点组成（至少 3 个），并采用“多数派协议”来保证日志写入的可靠性
 - ZKFC：作为一个ZK集群的客户端，用来监控NN的状态信息， 每个运行NN的节点必须要运行一个ZKFC。ZKFC跟着NN启动，不是人为规划的
 - RS:ResourceManager把NameNode和ZKFC糅合成一个进程，开启HA后会自动到ZK争抢锁。争抢到的为Active， 没争抢到的为Standby
 - NM: NodeManager与DataNode做一比一配置，实现计算向数据移动
@@ -208,7 +208,7 @@ export HDFS_ZKFC_USER=root
     <!-- 配置NN数据存放路径,目录必须为空 -->
     <property>
         <name>hadoop.tmp.dir</name>
-        <value>/var/data/hadoop/ha/data</value>
+        <value>/data/hadoop/nn</value>
     </property>
     <!-- zookeeper集群信息 -->
     <property>
@@ -238,10 +238,10 @@ export HDFS_ZKFC_USER=root
 
 ```xml
 <configuration>
-    <!-- 设置了三个节点，副本数设为2 -->
+    <!-- 设置了三个节点，副本数设为3，hadoop默认副本数也是3 -->
     <property>
         <name>dfs.replication</name>
-        <value>2</value>
+        <value>3</value>
     </property>
     <!-- HA模式不需要规划secondaryName -->
     <!-- <property>
