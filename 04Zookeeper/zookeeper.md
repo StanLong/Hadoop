@@ -91,13 +91,13 @@ server.3=node03:2888:3888
 ### 4、配置myid文件
 
 ```shell
-[root@node01 ~]# mkdir -p /var/data/zk
-[root@node02 ~]# mkdir -p /var/data/zk
-[root@node03 ~]# mkdir -p /var/data/zk
+[root@node01 ~]# mkdir -p /data/zookeeper
+[root@node02 ~]# mkdir -p /data/zookeeper
+[root@node03 ~]# mkdir -p /data/zookeeper
 
-[root@node01 ~]# echo 1 > /var/data/zk/myid # 把配置的server数字覆盖到数据目录myid这个文件
-[root@node02 ~]# echo 2 > /var/data/zk/myid # 把配置的server数字覆盖到数据目录myid这个文件
-[root@node03 ~]# echo 3 > /var/data/zk/myid # 把配置的server数字覆盖到数据目录myid这个文件
+[root@node01 ~]# echo 1 > /data/zookeeper/myid # 把配置的server数字覆盖到数据目录myid这个文件
+[root@node02 ~]# echo 2 > /data/zookeeper/myid # 把配置的server数字覆盖到数据目录myid这个文件
+[root@node03 ~]# echo 3 > /data/zookeeper/myid # 把配置的server数字覆盖到数据目录myid这个文件
 ```
 
 ### 5、配置日志路径
@@ -151,9 +151,71 @@ server.3=node03:2888:3888
    fi
    ```
 
-2. 3.8.4 日志配置
+2. 3.8.4 版本日志配置
 
    3.8.4 的日志文件改成了lockbak.xml 
+   
+   这里要改两个地方
+   
+   - bin/zkEnv.sh
+   
+     文件顶部添加：
+   
+     ```shell
+     # 自定义日志根目录
+     export ZOO_LOG_DIR="/var/log/zookeeper"
+     # 关键：启用文件滚动输出
+     ZOO_LOG4J_PROP="INFO,CONSOLE,ROLLINGFILE"
+     ```
+   
+   - 修改 conf/logback.xml（取消 ROLLINGFILE 注释，绑定 root）
+   
+     ```xml
+     <?xml version="1.0" encoding="UTF-8"?>
+     <configuration scan="true" scanPeriod="30 seconds" debug="false">
+         <property name="zookeeper.log.dir" value="/data/zookeeper/logs" />
+         <property name="zookeeper.log.file" value="zookeeper.log" />
+         <property name="zookeeper.log.threshold" value="INFO" />
+         <property name="zookeeper.log.maxfilesize" value="100MB" />
+         <property name="zookeeper.log.maxbackupindex" value="10" />
+         <property name="zookeeper.console.threshold" value="INFO" />
+     
+         <!-- 控制台输出 -->
+         <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+             <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                 <level>${zookeeper.console.threshold}</level>
+             </filter>
+             <encoder>
+                 <pattern>%d{ISO8601} [myid:%X{myid}] - %-5p [%t:%C{1}@%L] - %m%n</pattern>
+             </encoder>
+         </appender>
+     
+         <!-- 取消全部注释，开启滚动文件日志 -->
+         <appender name="ROLLINGFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+             <file>${zookeeper.log.dir}/${zookeeper.log.file}</file>
+             <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+                 <fileNamePattern>${zookeeper.log.dir}/${zookeeper.log.file}.%i</fileNamePattern>
+                 <minIndex>1</minIndex>
+                 <maxIndex>${zookeeper.log.maxbackupindex}</maxIndex>
+             </rollingPolicy>
+             <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+                 <maxFileSize>${zookeeper.log.maxfilesize}</maxFileSize>
+             </triggeringPolicy>
+             <encoder>
+                 <pattern>%d{ISO8601} [myid:%X{myid}] - %-5p [%t:%C{1}@%L] - %m%n</pattern>
+             </encoder>
+             <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                 <level>${zookeeper.log.threshold}</level>
+             </filter>
+         </appender>
+     
+         <!-- root 同时绑定控制台+文件，缺一不可 -->
+         <root level="${zookeeper.log.threshold}">
+             <appender-ref ref="CONSOLE" />
+             <appender-ref ref="ROLLINGFILE" />
+         </root>
+     </configuration>
+     ```
 
 ### 6、分发zookeeper
 
