@@ -287,7 +287,7 @@ export HDFS_ZKFC_USER=root
     <!-- journalNode 存放edit.log文件的路径 -->
     <property>
         <name>dfs.journalnode.edits.dir</name>
-        <value>/var/data/hadoop/ha/jnn</value>
+        <value>/data/hadoop/ha/jnn</value>
     </property>
     
        
@@ -321,9 +321,9 @@ export HDFS_ZKFC_USER=root
 sed -i '/localhost/d' $HADOOP_HOME/etc/hadoop/workers
 
 cat > $HADOOP_HOME/etc/hadoop/workers << EOF
+node01
 node02
 node03
-node04
 EOF
 ```
 
@@ -466,7 +466,7 @@ EOF
     <!-- yarn.resourcemanager.zk-address is deprecated. Instead, use hadoop.zk.address -->
     <property>
        <name>hadoop.zk.address</name>
-       <value>node02:2181,node03:2181,node04:2181</value>
+       <value>node01:2181,node02:2181,node03:2181</value>
     </property>
 
    <!-- 配置RS集群标识 -->

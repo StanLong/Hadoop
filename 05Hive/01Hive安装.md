@@ -27,16 +27,16 @@ Hive的安装部署分为三种方式内嵌模式 、本地模式、 远程模�
 ### 1、解压
 
 ```shell
-[root@node01 ~]# tar -zxf apache-hive-1.2.1-bin.tar.gz -C /opt/stanlong/hive
+[root@node01 ~]# tar -zxf apache-hive-3.1.3-bin.tar.gz -C /opt/stanlong/hive
 ```
 
 ### 2、配置hive环境变量
 
 ```shell
 [root@node01 bin]# pwd
-/opt/stanlong/hive/apache-hive-1.2.1-bin
+/opt/stanlong/hive/apache-hive-3.1.3-bin
 [root@node01 bin]# vi /etc/profile # 在文件最后添加
-export HIVE_HOME=/opt/stanlong/hive/apache-hive-1.2.1-bin  # HIVE环境变量
+export HIVE_HOME=/opt/stanlong/hive/apache-hive-3.1.3-bin  # HIVE环境变量
 export PATH=$PATH:$JAVA_HOME/bin:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$HIVE_HOME/bin
 [root@node01 bin]# source /etc/profile # 使配置文件生效
 [root@node01 bin]# hi # 命令提示
@@ -59,13 +59,13 @@ Hive 默认自带一个嵌入式 derby 数据库，这个数据库是用java编�
    -- 创建 metastore 
    mysql> CREATE DATABASE IF NOT EXISTS hivedb default charset utf8 COLLATE utf8_general_ci;
    
-   -- 上传mysql驱动包到 /opt/stanlong/hive/apache-hive-1.2.2-bin/lib 
+   -- 上传mysql驱动包到 /opt/stanlong/hive/apache-hive-3.1.3-bin/lib 
    ```
 
 2. 配置hive-env.sh
 
    ```shell
-   [root@node01 conf]# cd /opt/stanlong/hive/apache-hive-1.2.2-bin/conf
+   [root@node01 conf]# cd /opt/stanlong/hive/apache-hive-3.1.3-bin/conf
    [root@node01 conf]# cp hive-env.sh.template hive-env.sh
    [root@node01 conf]# vi hive-env.sh
    ```
@@ -83,7 +83,7 @@ Hive 默认自带一个嵌入式 derby 数据库，这个数据库是用java编�
    export HADOOP_HOME=/opt/stanlong/hadoop/hadoop-2.10.2
    
    # 配置Hive配置文件的路径
-   export HIVE_CONF_DIR=/opt/stanlong/hive/apache-hive-1.2.2-bin/conf
+   export HIVE_CONF_DIR=/opt/stanlong/hive/apache-hive-3.1.3-bin/conf
    ```
 
 3. 配置 hive-site.xml
@@ -93,7 +93,7 @@ Hive 默认自带一个嵌入式 derby 数据库，这个数据库是用java编�
    https://cwiki.apache.org/confluence/display/Hive/AdminManual+Metastore+Administration
 
    ```shell
-   [root@node01 ~]# touch /opt/stanlong/hive/apache-hive-1.2.1-bin/conf/hive-site.xml
+   [root@node01 ~]# touch /opt/stanlong/hive/apache-hive-3.1.3-bin/conf/hive-site.xml
    ```
 
    ```xml
@@ -138,7 +138,7 @@ Hive 默认自带一个嵌入式 derby 数据库，这个数据库是用java编�
        <property>
             <name>hive.server2.logging.operation.enabled</name>
             <value>false</value>
-   	</property>
+       </property>
    </configuration>
    ```
 
@@ -169,7 +169,7 @@ Hive 默认自带一个嵌入式 derby 数据库，这个数据库是用java编�
      [root@node01 ~]# hive
      21/01/23 18:36:46 WARN conf.HiveConf: HiveConf of name hive.metastore.local does not exist
      
-     Logging initialized using configuration in jar:file:/opt/stanlong/hive/apache-hive-1.2.1-bin/lib/hive-common-1.2.1.jar!/hive-log4j.properties
+     Logging initialized using configuration in jar:file:/opt/stanlong/hive/apache-hive-3.1.3-bin/lib/hive-common-3.1.3.jar!/hive-log4j.properties
      hive (default)> 
      ```
 
@@ -180,6 +180,8 @@ Hive 默认自带一个嵌入式 derby 数据库，这个数据库是用java编�
      hive (default)> insert into stu values(1, "ss");
      hive (default)> select * from stu;
      ```
+     
+   - 客户端日志目录： /tmp/${用户名}/hive.log
 
 ### 3、远程模式
 
@@ -206,11 +208,11 @@ Hive 的 hiveserver2 服务提供了 jdbc/odbc接口，为用户提供了远程�
 hivesever2的模拟用户功能，依赖于Hadoop提供的proxy user（代理用户功能），只有Hadoop中的代理用户才能模拟其他用户的身份访问Hadoop集群。因此，需要将hiveserver2的启动用户设置成hadoop的代理用户，配置方式如下， 在 $HADOOP_HOME/etc/hadoop/core-site.xml 文件中追加如下配置并分发到集群中的其他节点
 
 ```xml
-	<!-- hadoop.proxyuser：固定前缀，标识这是 Hadoop 代理用户的配置项。
+    <!-- hadoop.proxyuser：固定前缀，标识这是 Hadoop 代理用户的配置项。
          root：代理用户主体（即谁作为代理者），这里指root用户可以充当代理，替其他用户执行操作
-		 user：被代理的用户范围，用于指定root可以代理哪些用户 -->
+         user：被代理的用户范围，用于指定root可以代理哪些用户 -->
 
-	<!--配置root(超级用户)允许通过代理访问的主机节点-->
+    <!--配置root(超级用户)允许通过代理访问的主机节点-->
     <property>
         <name>hadoop.proxyuser.root.hosts</name>
         <value>*</value>
