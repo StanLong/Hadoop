@@ -32,6 +32,14 @@ CDH（Cloudera Distribution Including [Apache Hadoop](https://zhida.zhihu.com/se
 
 ![](./doc/08.png)
 
+在启动CM Server 、Agent 之前，每台机器上都执行
+
+```shell
+echo 0 > /proc/sys/vm/swappiness
+```
+
+
+
 修改文件 /opt/cloudera-manager/cm-5.4.3/etc/cloudera-scm-agent/config.ini 中 server_host 为主节点的ip
 
 ![](./doc/09.png)
